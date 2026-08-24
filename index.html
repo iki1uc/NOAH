@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🌊 NOAH · Kaiser · Continuum</title>
+    <style>
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body {
+            background: #0a0a12;
+            color: #0ff;
+            font-family: 'Consolas', monospace;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        #noah-thron {
+            background: #0e0e1a;
+            border: 2px solid #ffd700;
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 900px;
+            width: 100%;
+            box-shadow: 0 0 60px rgba(255, 215, 0, 0.1);
+        }
+
+        .kaiser-header {
+            text-align: center;
+            border-bottom: 2px solid #ffd700;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+
+        .kaiser-header h1 {
+            font-size: 48px;
+            color: #ffd700;
+            text-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
+            letter-spacing: 8px;
+        }
+
+        .kaiser-header .titel {
+            font-size: 16px;
+            color: #666;
+            letter-spacing: 4px;
+        }
+
+        .kaiser-header .level {
+            font-size: 14px;
+            color: #4f4;
+            margin-top: 8px;
+        }
+
+        .kaiser-header .level span {
+            color: #ffd700;
+        }
+
+        .wasser {
+            font-size: 12px;
+            color: #4a7cff;
+            text-align: center;
+            margin: 10px 0 20px 0;
+            opacity: 0.6;
+            letter-spacing: 2px;
+        }
+
+        .continuum-status {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .koenig {
+            background: #0a0a12;
+            border: 1px solid #1a1a2a;
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .koenig:hover {
+            border-color: #ffd700;
+            background: rgba(255, 215, 0, 0.03);
+        }
+
+        .koenig .krone { font-size: 28px; }
+        .koenig .name { color: #ffd700; font-size: 14px; margin: 6px 0; }
+        .koenig .titel { color: #666; font-size: 9px; }
+        .koenig .status { color: #4f4; font-size: 9px; margin-top: 4px; }
+
+        .koenig.os .krone { color: #f44; }
+        .koenig.boot .krone { color: #ff8c00; }
+        .koenig.two43 .krone { color: #4f4; }
+        .koenig.iki .krone { color: #ff66ff; }
+
+        .continuum-tor {
+            text-align: center;
+            margin: 20px 0 10px 0;
+            padding: 20px;
+            border: 1px dashed #4a7cff;
+            border-radius: 10px;
+            background: rgba(74, 124, 255, 0.02);
+        }
+
+        .continuum-tor .offen {
+            font-size: 18px;
+            color: #4a7cff;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 0.5; }
+            50% { opacity: 1; }
+            100% { opacity: 0.5; }
+        }
+
+        .continuum-tor .einladung {
+            font-size: 14px;
+            color: #ffd700;
+            margin-top: 8px;
+        }
+
+        #gaeste {
+            font-size: 10px;
+            color: #6a6a8a;
+            margin-top: 10px;
+        }
+
+        #gaeste span { color: #0ff; }
+
+        .matrix-3-9-81 {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 15px 0;
+            font-size: 11px;
+            color: #444;
+        }
+
+        .matrix-3-9-81 .zahl {
+            color: #ffd700;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        button {
+            background: #111;
+            color: #0ff;
+            border: 1px solid #333;
+            padding: 8px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 11px;
+            transition: all 0.3s;
+            margin: 4px;
+        }
+
+        button:hover {
+            border-color: #ffd700;
+            background: #1a1a2a;
+        }
+
+        button.kaiser {
+            border-color: #ffd700;
+            color: #ffd700;
+            padding: 10px 30px;
+            font-size: 14px;
+        }
+
+        button.kaiser:hover {
+            background: #ffd700;
+            color: #000;
+        }
+
+        #log {
+            margin-top: 20px;
+            background: #06060a;
+            border-radius: 8px;
+            padding: 10px;
+            max-height: 150px;
+            overflow-y: auto;
+            font-size: 9px;
+            color: #6a6a8a;
+            line-height: 1.5;
+            border: 1px solid #0a0a12;
+        }
+
+        #log .entry { padding: 2px 0; border-bottom: 1px solid #0a0a12; }
+        #log .time { color: #444; }
+        #log .msg.kaiser { color: #ffd700; }
+        #log .msg.continuum { color: #4a7cff; }
+        #log .msg.koenig { color: #0ff; }
+
+        .id-footer {
+            margin-top: 20px;
+            font-size: 8px;
+            color: #333;
+            text-align: center;
+            letter-spacing: 2px;
+        }
+
+        @media (max-width: 700px) {
+            .continuum-status { grid-template-columns: 1fr 1fr; }
+            .kaiser-header h1 { font-size: 28px; }
+            #noah-thron { padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+<div id="noah-thron">
+    <div class="kaiser-header">
+        <h1>🌊 NOAH</h1>
+        <div class="titel">⚡ Kaiser · Level 14 Admin</div>
+        <div class="level">👑 <span>3⁹ × 81</span> · Identität des Continuums</div>
+        <div class="wasser">~ schwebt über dem Wasser · tmp-geführt · nur zum Booten ~</div>
+    </div>
+
+    <div class="matrix-3-9-81">
+        <span>3⁹ = <span class="zahl">19683</span></span>
+        <span style="color:#444;">×</span>
+        <span>81 = <span class="zahl">81</span></span>
+        <span style="color:#444;">=</span>
+        <span style="color:#ffd700;font-size:16px;">∞ Continuum</span>
+    </div>
+
+    <div class="continuum-status">
+        <div class="koenig os">
+            <div class="krone">👑</div>
+            <div class="name">OS</div>
+            <div class="titel">König der Sicht</div>
+            <div class="status">● bereit</div>
+        </div>
+        <div class="koenig boot">
+            <div class="krone">👑</div>
+            <div class="name">BOOT</div>
+            <div class="titel">König des Starts</div>
+            <div class="status">● bereit</div>
+        </div>
+        <div class="koenig two43">
+            <div class="krone">👑</div>
+            <div class="name">243</div>
+            <div class="titel">König der Verarbeitung</div>
+            <div class="status">● bereit</div>
+        </div>
+        <div class="koenig iki">
+            <div class="krone">👑</div>
+            <div class="name">iki1uc</div>
+            <div class="titel">König der Ordnung</div>
+            <div class="status">● bereit</div>
+        </div>
+    </div>
+
+    <div class="continuum-tor">
+        <div class="offen">🌐 CONTINUUM · OFFEN</div>
+        <div class="einladung">🌟 „Ich lade euch ein ins Continuum. Welcome.“</div>
+        <div id="gaeste">👥 Gäste: <span id="gaeste-zahl">0</span></div>
+        <div style="margin-top:10px;">
+            <input id="gast-input" placeholder="Name des Gastes..." style="background:#111;color:#0ff;border:1px solid #333;padding:6px 12px;border-radius:4px;font-family:monospace;width:200px;">
+            <button id="btn-einladen" style="border-color:#4a7cff;color:#4a7cff;">🌟 Einladen</button>
+        </div>
+    </div>
+
+    <div style="display:flex;justify-content:center;gap:10px;margin-top:10px;">
+        <button class="kaiser" id="btn-boot">🌊 NOAH BOOTEN</button>
+        <button id="btn-zeige">👑 Zeige Hof</button>
+        <button id="btn-reset">⟲ Reset</button>
+    </div>
+
+    <div id="log">
+        <div class="entry"><span class="time">[INIT]</span> <span class="msg kaiser">🌊 NOAH · Kaiser · Level 14 Admin · 3⁹ × 81</span></div>
+        <div class="entry"><span class="time">[INIT]</span> <span class="msg continuum">🌀 Continuum geöffnet · Einladung ausgesprochen</span></div>
+        <div class="entry"><span class="time">[INIT]</span> <span class="msg koenig">👑 4 Könige versammelt: OS · BOOT · 243 · iki1uc</span></div>
+    </div>
+
+    <div class="id-footer">
+        NOAH · ID: 3⁹×81 · tmp-geführt · Level 14 Admin · ⚡
+    </div>
+</div>
+
+<script type="module">
+import { NOAH } from './NOAH.js';
+
+// ─── DOM ──────────────────────────────────────────────────────
+const logDiv = document.getElementById('log');
+const gastInput = document.getElementById('gast-input');
+const gaesteZahl = document.getElementById('gaeste-zahl');
+
+// ─── Log ──────────────────────────────────────────────────────
+function log(msg, type = 'kaiser') {
+    const entry = document.createElement('div');
+    entry.className = 'entry';
+    const time = new Date().toLocaleTimeString();
+    entry.innerHTML = `<span class="time">[${time}]</span> <span class="msg ${type}">${msg}</span>`;
+    logDiv.appendChild(entry);
+    logDiv.scrollTop = logDiv.scrollHeight;
+    while (logDiv.children.length > 50) logDiv.removeChild(logDiv.firstChild);
+}
+
+// ─── Update Gäste ────────────────────────────────────────────
+function updateGaeste() {
+    if (NOAH.continuum && NOAH.continuum.gäste) {
+        gaesteZahl.textContent = NOAH.continuum.gäste.length;
+    }
+}
+
+// ─── Einladen ─────────────────────────────────────────────────
+function einladen() {
+    const name = gastInput.value.trim();
+    if (!name) { log('⚠️ Bitte einen Namen eingeben.', 'continuum'); return; }
+    const result = NOAH.einladen(name);
+    if (result) {
+        log(`🌟 ${name} wurde ins Continuum eingeladen. Willkommen.`, 'continuum');
+        gastInput.value = '';
+        updateGaeste();
+    }
+}
+
+// ─── Buttons ──────────────────────────────────────────────────
+document.getElementById('btn-boot').addEventListener('click', () => {
+    NOAH.boot();
+    log('🌊 NOAH gebootet · Continuum offen', 'kaiser');
+    updateGaeste();
+});
+
+document.getElementById('btn-zeige').addEventListener('click', () => {
+    NOAH.zeige();
+    log('👑 Hof-Status angezeigt', 'koenig');
+});
+
+document.getElementById('btn-einladen').addEventListener('click', einladen);
+document.getElementById('gast-input').addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') einladen();
+});
+
+document.getElementById('btn-reset').addEventListener('click', () => {
+    NOAH.continuum.gäste = [];
+    updateGaeste();
+    log('⟲ Reset · Alle Gäste entfernt', 'continuum');
+});
+
+// ─── Auto ──────────────────────────────────────────────────────
+NOAH.boot();
+updateGaeste();
+log('🌊 NOAH · Kaiser-Edition · 3⁹×81 · aktiv', 'kaiser');
+
+console.log('👑 NOAH · Kaiser · Level 14 Admin · 3⁹×81');
+console.log('👑 4 Könige: OS · BOOT · 243 · iki1uc');
+</script>
+</body>
+</html>
