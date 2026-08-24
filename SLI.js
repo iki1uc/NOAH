@@ -1,32 +1,50 @@
-// SLI.js — Sync-Link-Interface
-// trägt OS, MXU, NC-Link, JB, RAW, Score, Slide
+// ============================================================
+// SLI.js · Wette + Slide · Synchronisation
+// ============================================================
 
+// SLI = Synchronisation Layer Interface
 export const SLI = {
-
-  attach(mod){
-    mod.sli = true;
-    mod.sli_state = "SYNCED";
-    mod.sli_score = 0;
-    mod.sli_slide = 0;
-
-    mod.sli_addScore = v => {
-      mod.sli_score += v;
-      return mod.sli_score;
-    };
-
-    mod.sli_slideTo = v => {
-      mod.sli_slide = v;
-      return mod.sli_slide;
-    };
-
-    mod.sli_raw = (p,z) => p * z;
-
-    mod.sli_check = () => ({
-      status: mod.sli ? "OK" : "FAIL",
-      score: mod.sli_score,
-      slide: mod.sli_slide
-    });
-
-    return mod;
-  }
+    wette: null,
+    slide: null,
+    status: 'bereit',
+    history: []
 };
+
+// Wette: Eine Entscheidung unter Unsicherheit
+SLI.setzeWette = function(name, einsatz, ziel) {
+    const wette = {
+        name,
+        einsatz,
+        ziel,
+        status: 'aktiv',
+        zeit: new Date().toISOString()
+    };
+    this.wette = wette;
+    this.history.push({ typ: 'wette', ...wette });
+    console.log(`🎲 SLI: Wette gesetzt → ${name} (Einsatz: ${einsatz})`);
+    return wette;
+};
+
+// Slide: Ein Übergang von Zustand A nach B
+SLI.slide = function(von, nach, payload) {
+    const slide = {
+        von,
+        nach,
+        payload,
+        status: 'übergang',
+        zeit: new Date().toISOString()
+    };
+    this.slide = slide;
+    this.history.push({ typ: 'slide', ...slide });
+    console.log(`🌊 SLI: Slide von ${von} → ${nach}`);
+    return slide;
+};
+
+// SLI: Führt eine Aktion aus (Wette + Slide kombiniert)
+SLI.aktion = function(wetteName, slideVon, slideNach, payload) {
+    const w = this.setzeWette(wetteName, 1, slideNach);
+    const s = this.slide(slideVon, slideNach, payload);
+    return { wette: w, slide: s, status: 'kombiniert' };
+};
+
+export { SLI };
