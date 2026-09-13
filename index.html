@@ -1,582 +1,1444 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="de">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>🌀 NOAH · evoMIND · MIRROR · KONSEQUENT</title>
- 
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>◈ NOAH · SURVIVAL RUNTIME · ATEM · ATOM · WONDER · iki1uc</title>
 <style>
-* { margin:0; padding:0; box-sizing:border-box; }
-body {
-  background: #0a0a12;
-  color: #d0d9e6;
-  font-family: 'Consolas', monospace;
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 16px;
-  background: radial-gradient(ellipse at 50% 0%, #0a0a20, #000000);
-}
-.container {
-  max-width: 1400px;
-  width: 100%;
-  background: rgba(10,14,20,0.4);
-  border: 1px solid rgba(0,200,255,0.03);
-  border-radius: 24px;
-  padding: 24px;
-  backdrop-filter: blur(6px);
-}
+  :root{
+    --ink:#04060c; --deep:#080d18; --panel:#0c1622;
+    --line:#1e3a4a; --line2:#122230;
+    --text:#d8f0e8; --muted:#6a8e94;
+    --mint:#68f6c0; --amber:#ffbd5c; --pink:#ff6d9d;
+    --blue:#6cc9ff; --violet:#b388ff; --gold:#ffcc66;
+    --red:#ff5577; --orange:#ff8844;
+    --o2:#7ce0a8; --co2:#ffcc44; --h2o:#5fc8ff; --atom:#b388ff;
+    --mana:#ff66c8; --aura:#ffd93d; --zen:#8cf0d0;
+    --noah:#ff8844; --ark:#ffd93d; --survive:#68f6c0;
+    --shadow:0 0 0 1px rgba(104,246,192,.14),0 14px 48px rgba(0,0,0,.55);
+  }
+  *{box-sizing:border-box;}
+  html,body{height:100%;}
+  body{
+    margin:0;color:var(--text);
+    background:
+      radial-gradient(circle at 25% 10%,rgba(255,136,68,.05),transparent 30rem),
+      radial-gradient(circle at 78% 85%,rgba(179,136,255,.05),transparent 34rem),
+      linear-gradient(145deg,#04060c,#080f1a 54%,#04080e);
+    font-family:"Courier New",monospace;
+    letter-spacing:.03em;
+    overflow-x:hidden;
+  }
+  button,input,select{font:inherit;}
+  button{
+    color:var(--text);background:#0d202a;
+    border:1px solid #2c5560;padding:.55rem .85rem;
+    cursor:pointer;text-transform:uppercase;
+    letter-spacing:.08em;transition:.15s;font-size:11px;
+    font-family:inherit;
+  }
+  button:hover,button:focus-visible{
+    color:#04110f;background:var(--mint);border-color:var(--mint);outline:none;
+  }
+  button.active{color:#04110f;background:var(--mint);border-color:var(--mint);}
+  button.noah-btn{border-color:rgba(255,136,68,.5);color:var(--noah);}
+  button.noah-btn:hover{background:var(--noah);color:#04110f;border-color:var(--noah);}
+  button.ark-btn{border-color:rgba(255,217,61,.5);color:var(--ark);}
+  button.ark-btn:hover{background:var(--ark);color:#04110f;border-color:var(--ark);}
+  button.survive-btn{border-color:rgba(104,246,192,.6);color:var(--survive);}
+  button.survive-btn:hover{background:var(--survive);color:#04110f;border-color:var(--survive);}
+  button.red-btn{border-color:rgba(255,85,119,.5);color:var(--red);}
+  button.red-btn:hover{background:var(--red);color:#fff;border-color:var(--red);}
 
-.header {
-  text-align: center;
-  border-bottom: 2px solid rgba(0,200,255,0.08);
-  padding-bottom: 12px;
-  margin-bottom: 16px;
-}
-.header h1 {
-  font-size: 28px;
-  font-weight: 300;
-  letter-spacing: 6px;
-  background: linear-gradient(90deg, #ffd700, #00ccff, #ff66ff, #00ff88);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-.header .sub {
-  color: #3d5a70;
-  font-size: 10px;
-  letter-spacing: 4px;
-}
-.header .sub .noah { color: #ffd700; }
-.header .sub .evo { color: #00ccff; }
-.header .sub .mirror { color: #ff66ff; }
+  .app-shell{min-height:100%;padding:14px;}
+  .topbar{
+    max-width:1660px;margin:0 auto 10px;
+    display:flex;gap:16px;align-items:center;justify-content:space-between;
+    padding:11px 18px;border:1px solid var(--line);
+    background:rgba(6,14,22,.95);box-shadow:var(--shadow);
+    flex-wrap:wrap;
+  }
+  .brand{display:flex;align-items:center;gap:12px;min-width:0;}
+  .brand-mark{
+    width:42px;height:42px;flex:0 0 auto;
+    display:grid;place-items:center;
+    color:#04110f;background:var(--noah);
+    font-weight:900;font-size:14px;
+    box-shadow:4px 4px 0 #7a3a10;
+    animation:markPulse 3s ease-in-out infinite;
+    font-family:"Yu Mincho",serif;
+  }
+  @keyframes markPulse{
+    0%,100%{box-shadow:4px 4px 0 #7a3a10;}
+    50%{box-shadow:4px 4px 0 #7a3a10,0 0 26px rgba(255,136,68,.7);}
+  }
+  .brand h1{margin:0;font-size:clamp(13px,1.7vw,19px);line-height:1.15;
+    background:linear-gradient(90deg,var(--noah),var(--ark),var(--mint),var(--violet));
+    -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+    letter-spacing:.12em;
+  }
+  .brand p{margin:4px 0 0;color:var(--muted);font-size:10px;}
+  .top-status{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:10px;font-size:10px;color:var(--muted);align-items:center;}
+  .led{display:inline-flex;align-items:center;gap:6px;}
+  .led::before{content:"";width:7px;height:7px;background:var(--pink);border-radius:50%;box-shadow:0 0 9px var(--pink);}
+  .led.online::before{background:var(--mint);box-shadow:0 0 9px var(--mint);animation:ledBreath 4s ease-in-out infinite;}
+  .led.noah::before{background:var(--noah);box-shadow:0 0 9px var(--noah);animation:ledBreath 3s ease-in-out infinite;}
+  .led.ark::before{background:var(--ark);box-shadow:0 0 9px var(--ark);animation:ledBreath 3.5s ease-in-out infinite;}
+  @keyframes ledBreath{0%,100%{transform:scale(.85);}50%{transform:scale(1.35);}}
+  .status-chip{
+    padding:3px 8px;border:1px solid var(--line);
+    background:rgba(2,8,12,.6);border-radius:3px;
+    letter-spacing:.1em;
+  }
 
-.status-bar {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px 16px;
-  justify-content: center;
-  background: rgba(0,0,0,0.2);
-  border-radius: 12px;
-  padding: 8px 16px;
-  margin-bottom: 12px;
-  font-size: 9px;
-  border: 1px solid rgba(0,200,255,0.02);
-}
-.status-bar .item { display: flex; align-items: center; gap: 4px; }
-.status-bar .dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; }
-.status-bar .dot.on { background: #00ff88; box-shadow: 0 0 8px #00ff8844; }
-.status-bar .dot.pulse { background: #ffd700; animation: dotPulse 1.5s infinite; }
-@keyframes dotPulse { 0%,100%{opacity:0.4;transform:scale(0.9)} 50%{opacity:1;transform:scale(1.2)} }
+  /* MODULE STATUS BAR */
+  .module-strip{
+    max-width:1660px;margin:0 auto 10px;
+    display:grid;grid-template-columns:repeat(9,1fr);gap:5px;
+    padding:8px 10px;background:rgba(6,14,22,.92);
+    border:1px solid var(--line);box-shadow:var(--shadow);
+  }
+  @media(max-width:1200px){.module-strip{grid-template-columns:repeat(5,1fr);}}
+  @media(max-width:700px){.module-strip{grid-template-columns:repeat(3,1fr);}}
+  .mod-chip{
+    padding:5px 8px;background:rgba(2,8,12,.65);
+    border:1px solid var(--line);border-left:3px solid var(--line);
+    border-radius:3px;font-size:9.5px;
+    display:flex;justify-content:space-between;align-items:center;
+    transition:.3s;
+  }
+  .mod-chip.on{border-left-color:var(--mint);}
+  .mod-chip.on .mod-status{color:var(--mint);}
+  .mod-chip.off{border-left-color:var(--red);opacity:.6;}
+  .mod-chip.off .mod-status{color:var(--red);}
+  .mod-chip.noah{border-left-color:var(--noah);}
+  .mod-chip.noah .mod-status{color:var(--noah);}
+  .mod-chip .mod-name{color:var(--muted);letter-spacing:1px;font-weight:bold;font-size:9px;}
+  .mod-chip .mod-status{font-weight:bold;font-size:10px;}
 
-.canvas-wrap {
-  position: relative;
-  width: 100%;
-  max-width: 1000px;
-  margin: 0 auto;
-  aspect-ratio: 16/9;
-  background: rgba(0,0,0,0.3);
-  border-radius: 16px;
-  border: 1px solid rgba(0,200,255,0.03);
-  overflow: hidden;
-}
-#mainCanvas {
-  width: 100%;
-  height: 100%;
-  display: block;
-}
+  /* ATEM STRIP */
+  .elem-strip{
+    max-width:1660px;margin:0 auto 10px;
+    display:grid;grid-template-columns:repeat(7,1fr);gap:5px;
+    padding:8px 10px;background:rgba(6,14,22,.92);
+    border:1px solid var(--line);box-shadow:var(--shadow);
+  }
+  @media(max-width:1000px){.elem-strip{grid-template-columns:repeat(4,1fr);}}
+  @media(max-width:600px){.elem-strip{grid-template-columns:repeat(3,1fr);}}
+  .elem-chip{
+    padding:5px 8px;background:rgba(2,8,12,.65);
+    border:1px solid var(--line);border-left:3px solid #2a3644;
+    border-radius:3px;font-size:10px;
+    display:flex;justify-content:space-between;align-items:center;
+  }
+  .elem-chip.o2{border-left-color:var(--o2);}
+  .elem-chip.co2{border-left-color:var(--co2);}
+  .elem-chip.h2o{border-left-color:var(--h2o);}
+  .elem-chip.atom{border-left-color:var(--atom);}
+  .elem-chip.mana{border-left-color:var(--mana);}
+  .elem-chip.aura{border-left-color:var(--aura);}
+  .elem-chip.zen{border-left-color:var(--zen);}
+  .elem-chip .k{color:var(--muted);letter-spacing:1.5px;font-size:9px;font-weight:bold;}
+  .elem-chip .v{font-weight:bold;font-size:12px;}
+  .elem-chip.o2 .v{color:var(--o2);}
+  .elem-chip.co2 .v{color:var(--co2);}
+  .elem-chip.h2o .v{color:var(--h2o);}
+  .elem-chip.atom .v{color:var(--atom);}
+  .elem-chip.mana .v{color:var(--mana);}
+  .elem-chip.aura .v{color:var(--aura);}
+  .elem-chip.zen .v{color:var(--zen);}
 
-.axis-grid {
-  display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  gap: 6px;
-  margin: 12px 0;
-}
-@media (max-width:700px){ .axis-grid { grid-template-columns: repeat(3,1fr); } }
-.axis-card {
-  background: rgba(0,0,0,0.15);
-  border: 1px solid rgba(0,200,255,0.03);
-  border-radius: 10px;
-  padding: 8px 6px;
-  text-align: center;
-  transition: all 0.3s;
-  cursor: pointer;
-}
-.axis-card:hover { border-color: rgba(0,200,255,0.12); }
-.axis-card .label { font-size: 7px; color: #445555; text-transform: uppercase; letter-spacing: 1px; }
-.axis-card .value { font-size: 18px; font-weight: bold; }
-.axis-card .status { font-size: 8px; margin-top: 2px; }
-.axis-card .status.live { color: #00ff88; }
-.axis-card .status.float { color: #ffaa00; }
+  /* MAIN LAYOUT */
+  .workspace{
+    max-width:1660px;margin:0 auto;
+    display:grid;grid-template-columns:minmax(0,1.5fr) minmax(320px,.5fr);
+    gap:10px;
+  }
+  @media(max-width:1100px){
+    .workspace{grid-template-columns:1fr;}
+    .side-stack{grid-template-columns:repeat(2,minmax(0,1fr));}
+  }
+  @media(max-width:700px){
+    .app-shell{padding:8px;}
+    .side-stack{grid-template-columns:1fr;}
+  }
 
-.info-panel {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-  gap: 8px;
-  margin: 10px 0;
-}
-.info-card {
-  background: rgba(0,0,0,0.12);
-  border: 1px solid rgba(0,200,255,0.02);
-  border-radius: 8px;
-  padding: 8px 6px;
-  text-align: center;
-}
-.info-card .label { font-size: 7px; color: #445555; text-transform: uppercase; letter-spacing: 1px; }
-.info-card .value { font-size: 16px; font-weight: bold; }
+  .panel{
+    border:1px solid var(--line);
+    background:rgba(8,18,26,.92);
+    box-shadow:var(--shadow);
+    margin-bottom:10px;
+  }
+  .panel.noah-panel{
+    border-color:rgba(255,136,68,.3);
+    background:linear-gradient(135deg,rgba(30,12,4,.9),rgba(8,18,26,.92));
+    box-shadow:0 0 0 1px rgba(255,136,68,.2),0 0 30px rgba(255,136,68,.12),0 14px 48px rgba(0,0,0,.55);
+  }
+  .panel.noah-panel.active{
+    animation:noahGlow 2.5s ease-in-out infinite;
+  }
+  @keyframes noahGlow{
+    0%,100%{box-shadow:0 0 0 1px rgba(255,136,68,.3),0 0 30px rgba(255,136,68,.15);}
+    50%{box-shadow:0 0 0 1px rgba(255,217,61,.5),0 0 50px rgba(255,217,61,.3);}
+  }
+  .panel-title{
+    display:flex;align-items:center;justify-content:space-between;gap:12px;
+    padding:9px 12px;border-bottom:1px solid var(--line);
+    color:var(--muted);font-size:10px;text-transform:uppercase;letter-spacing:.12em;
+  }
+  .panel-title strong{color:var(--mint);font-weight:700;}
+  .panel.noah-panel .panel-title strong{color:var(--noah);}
 
-.controls {
-  display: flex;
-  gap: 6px;
-  flex-wrap: wrap;
-  justify-content: center;
-  margin: 10px 0;
-}
-.controls button {
-  background: rgba(20,35,45,0.2);
-  color: #668888;
-  border: 1px solid rgba(0,200,255,0.04);
-  padding: 6px 16px;
-  border-radius: 18px;
-  cursor: pointer;
-  font-family: inherit;
-  font-size: 9px;
-  transition: all 0.3s;
-}
-.controls button:hover {
-  background: rgba(40,80,100,0.08);
-  color: #aaeedd;
-}
-.controls button.primary { border-color: rgba(255,215,0,0.1); color: #ffd700; }
-.controls button.evo { border-color: rgba(0,200,255,0.1); color: #00ccff; }
-.controls button.mirror { border-color: rgba(255,102,255,0.1); color: #ff66ff; }
-.controls button.noah { border-color: rgba(255,215,0,0.1); color: #ffd700; }
+  .monitor-wrap{position:relative;padding:10px;background:#040b12;}
+  canvas{
+    width:100%;display:block;aspect-ratio:16/9;background:#040b12;
+    border:1px solid #2e5666;image-rendering:pixelated;
+    box-shadow:inset 0 0 0 5px rgba(2,8,12,.6),0 0 24px rgba(104,246,192,.1);
+  }
+  .monitor-overlay{
+    position:absolute;inset:18px;pointer-events:none;
+    display:flex;justify-content:space-between;align-items:flex-start;
+    color:rgba(216,240,232,.75);font-size:9px;
+    text-shadow:0 0 6px #35dca7;letter-spacing:.15em;
+  }
+  .monitor-overlay span:last-child{text-align:right;}
 
-.log {
-  background: rgba(0,0,0,0.2);
-  border-radius: 10px;
-  padding: 8px 12px;
-  font-size: 8px;
-  color: #3d5a70;
-  max-height: 80px;
-  overflow-y: auto;
-  border: 1px solid rgba(0,200,255,0.02);
-  margin-top: 8px;
-  line-height: 1.6;
-}
-.log .hl { color: #7fc9ff; }
-.log .ok { color: #00ff88; }
-.log .flow { color: #00ccff; }
-.log .whirl { color: #ff66ff; }
-.log .noah { color: #ffd700; }
+  /* NOAH ARK PANEL */
+  .ark-wrap{
+    padding:14px;
+    display:grid;grid-template-columns:1fr 1fr;gap:14px;
+    align-items:center;
+  }
+  @media(max-width:700px){.ark-wrap{grid-template-columns:1fr;}}
+  #arkCanvas{
+    width:100%;aspect-ratio:1;
+    background:#02060a;
+    border:1px solid rgba(255,136,68,.3);
+    border-radius:6px;
+    display:block;
+    box-shadow:inset 0 0 30px rgba(255,136,68,.08);
+  }
+  .ark-info{display:flex;flex-direction:column;gap:8px;}
+  .ark-title{
+    font-family:"Yu Mincho","Hiragino Mincho ProN",serif;
+    font-size:24px;color:var(--noah);
+    letter-spacing:4px;font-weight:bold;
+    text-shadow:0 0 16px rgba(255,136,68,.5);
+    display:flex;align-items:center;gap:10px;
+  }
+  .ark-title .glyph{
+    font-size:34px;
+    animation:arkGlyph 4s ease-in-out infinite;
+  }
+  @keyframes arkGlyph{
+    0%,100%{transform:rotate(0deg);}
+    50%{transform:rotate(15deg) scale(1.08);}
+  }
+  .ark-subtitle{
+    color:var(--muted);font-size:10px;letter-spacing:2px;
+    text-transform:uppercase;
+  }
+  .ark-desc{
+    color:#a8c0b0;font-size:10.5px;line-height:1.55;
+    padding:8px 10px;background:rgba(0,0,0,.35);
+    border-left:3px solid var(--noah);border-radius:3px;
+  }
+  .ark-stats{
+    display:grid;grid-template-columns:1fr 1fr;gap:5px;
+  }
+  .ark-stat{
+    padding:6px 9px;background:rgba(0,0,0,.35);
+    border-radius:3px;border-left:2px solid var(--line);
+    font-size:9.5px;
+    display:flex;justify-content:space-between;align-items:center;
+  }
+  .ark-stat.survive{border-left-color:var(--survive);}
+  .ark-stat.ark{border-left-color:var(--ark);}
+  .ark-stat.noah{border-left-color:var(--noah);}
+  .ark-stat .k{color:var(--muted);letter-spacing:1px;}
+  .ark-stat .v{font-weight:bold;}
+  .ark-stat.survive .v{color:var(--survive);}
+  .ark-stat.ark .v{color:var(--ark);}
+  .ark-stat.noah .v{color:var(--noah);}
 
-.footer {
-  text-align: center;
-  font-size: 7px;
-  color: #1f2a36;
-  margin-top: 12px;
-  letter-spacing: 2px;
-}
-.footer span { color: #ffd700; }
+  .ark-actions{
+    display:flex;gap:5px;flex-wrap:wrap;
+  }
+  .ark-actions button{flex:1;min-width:80px;}
+
+  /* SURVIVAL LOG */
+  .survive-log{
+    padding:8px 12px;
+    font-family:var(--serif);
+    font-style:italic;
+    font-size:11px;line-height:1.55;
+    color:#b8d8c8;
+    max-height:180px;overflow-y:auto;
+    background:#02060a;
+    border-top:1px solid var(--line);
+  }
+  .survive-log::-webkit-scrollbar{width:5px;}
+  .survive-log::-webkit-scrollbar-thumb{background:var(--line);}
+  .survive-log .sl{
+    padding:3px 0;display:flex;gap:8px;
+    animation:logIn .3s ease-out;
+  }
+  @keyframes logIn{from{opacity:0;transform:translateX(-6px);}to{opacity:1;transform:none;}}
+  .survive-log .ts{color:var(--line2);font-family:var(--mono);font-style:normal;font-size:9px;flex-shrink:0;padding-top:2px;}
+  .survive-log .msg{flex:1;}
+  .survive-log .msg.noah{color:var(--noah);}
+  .survive-log .msg.survive{color:var(--survive);}
+  .survive-log .msg.ark{color:var(--ark);}
+  .survive-log .msg.warn{color:var(--amber);}
+  .survive-log .msg.err{color:var(--red);}
+
+  /* SIDE COL */
+  .side-stack{display:grid;align-content:start;}
+  .side-content{padding:11px;}
+
+  .readout{min-height:60px;color:#a9d9ca;font-size:11px;line-height:1.55;white-space:pre-wrap;}
+  .readout-title{margin:0 0 6px;color:var(--mint);font-size:10px;letter-spacing:.1em;}
+
+  /* AXIS BARS */
+  .axis-row{
+    display:grid;grid-template-columns:64px 1fr 46px;
+    gap:6px;align-items:center;padding:3px 0;
+    border-bottom:1px dashed rgba(104,246,192,.06);
+    font-size:10px;
+  }
+  .axis-row:last-child{border-bottom:none;}
+  .axis-row .k{color:var(--muted);font-size:9px;letter-spacing:1px;font-weight:bold;}
+  .axis-row .bar{height:6px;background:#0a1c24;border-radius:2px;overflow:hidden;}
+  .axis-row .bar .f{height:100%;transition:width .35s;}
+  .axis-row .v{text-align:right;font-weight:bold;font-size:10px;}
+
+  /* LOG */
+  #log{
+    flex:1;padding:6px 12px;overflow-y:auto;
+    font-size:10px;line-height:1.5;color:#6a7a8a;
+    font-family:var(--mono);
+    max-height:160px;
+  }
+  #log::-webkit-scrollbar{width:5px;}
+  #log::-webkit-scrollbar-thumb{background:var(--line);}
+  #log .ln{white-space:pre-wrap;word-break:break-all;animation:logIn .3s ease-out;}
+  #log .ts{color:#3a4a5a;margin-right:6px;}
+  #log .ok{color:var(--mint);}
+  #log .warn{color:var(--amber);}
+  #log .err{color:var(--red);}
+  #log .info{color:var(--blue);}
+  #log .noah{color:var(--noah);font-weight:bold;}
+  #log .survive{color:var(--survive);font-weight:bold;}
+  #log .ark{color:var(--ark);font-weight:bold;}
+
+  /* BOOT */
+  #boot{
+    position:fixed;inset:0;background:#000;
+    display:flex;flex-direction:column;
+    align-items:center;justify-content:center;
+    gap:14px;z-index:9999;font-size:12px;
+    color:var(--noah);letter-spacing:2px;
+    transition:opacity .7s;
+  }
+  #boot.done{opacity:0;pointer-events:none;}
+  #boot .logo{
+    font-size:52px;color:var(--noah);letter-spacing:14px;
+    font-weight:bold;
+    text-shadow:0 0 40px rgba(255,136,68,.8),0 0 80px rgba(255,217,61,.5);
+    animation:logoBreathe 4s ease-in-out infinite;
+    font-family:"Yu Mincho",serif;
+  }
+  @keyframes logoBreathe{
+    0%,100%{transform:scale(1);filter:brightness(1);}
+    50%{transform:scale(1.04);filter:brightness(1.4);}
+  }
+  #boot .sub{color:var(--ark);font-size:12px;letter-spacing:8px;font-family:"Yu Mincho",serif;}
+  #boot .lines{
+    width:600px;max-width:84%;font-size:11px;line-height:1.7;
+    text-align:left;color:var(--mint);letter-spacing:0.5px;
+    font-family:var(--mono);
+  }
+  #boot .lines b{color:var(--noah);}
+  #boot .lines .dim{color:#3a4a5a;}
+  #boot .lines .ark{color:var(--ark);}
+  #boot .lines .cy{color:var(--blue);}
+  #boot .progress{
+    width:600px;max-width:84%;height:3px;
+    background:#0a1420;border-radius:2px;overflow:hidden;
+  }
+  #boot .progress .bar{
+    height:100%;width:0;
+    background:linear-gradient(90deg,var(--noah),var(--ark),var(--mint));
+    transition:width .3s;
+  }
+
+  /* CLI */
+  .cli-bar{
+    max-width:1660px;margin:10px auto 0;
+    display:flex;align-items:center;gap:8px;
+    padding:6px 12px;
+    background:rgba(6,14,22,.95);
+    border:1px solid var(--line);
+    box-shadow:var(--shadow);
+    font-size:11px;
+  }
+  .cli-bar .prompt{color:var(--noah);font-weight:bold;letter-spacing:1px;}
+  .cli-bar input{
+    flex:1;background:transparent;border:none;
+    color:var(--text);font-family:var(--mono);
+    font-size:11px;outline:none;letter-spacing:.05em;
+  }
+  .cli-bar input::placeholder{color:#3a4a5a;}
+
+  .footer-strip{
+    max-width:1660px;margin:10px auto 0;
+    display:flex;gap:12px;flex-wrap:wrap;align-items:center;justify-content:space-between;
+    color:#4a6e72;font-size:9px;letter-spacing:.08em;
+  }
+  .footer-strip strong{color:var(--mint);font-weight:400;}
+  .key{padding:2px 6px;border:1px solid #2c5660;color:#8ab8af;font-size:9px;}
 </style>
 </head>
 <body>
 
-<div class="container">
+<!-- BOOT -->
+<div id="boot">
+  <div class="logo">◈ NOAH</div>
+  <div class="sub">SURVIVAL · ARK · ATEM · WONDER</div>
+  <div class="lines" id="bootLines"></div>
+  <div class="progress"><div class="bar" id="bootBar"></div></div>
+</div>
 
-  <!-- HEADER -->
-  <div class="header">
-    <h1>🌀 NOAH · evoMIND · MIRROR</h1>
-    <div class="sub"><span class="noah">NOAH</span> · <span class="evo">evoMIND</span> · <span class="mirror">MIRROR</span> · KONSEQUENT</div>
+<div class="app-shell">
+
+  <!-- TOPBAR -->
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-mark">舟</div>
+      <div>
+        <h1>NOAH · SURVIVAL RUNTIME</h1>
+        <p>ARK · ATEM · ATOM · WONDER · iki1uc · DAS WUNDER IST UNTER UNS</p>
+      </div>
+    </div>
+    <div class="top-status">
+      <span class="led online">RUNTIME</span>
+      <span class="led noah">NOAH</span>
+      <span class="led ark">ARK</span>
+      <span class="status-chip" id="sModules">MODULE 0/9</span>
+      <span class="status-chip" id="sSurvive">SURVIVE —</span>
+      <span class="status-chip" id="sUptime">UPTIME 0s</span>
+    </div>
+  </header>
+
+  <!-- MODULE STATUS -->
+  <div class="module-strip" id="moduleStrip"></div>
+
+  <!-- ELEMENT STRIP -->
+  <div class="elem-strip">
+    <div class="elem-chip atom"><span class="k">◈ ATOM</span><span class="v" id="chipAtom">—</span></div>
+    <div class="elem-chip o2"><span class="k">O₂</span><span class="v" id="chipO2">—</span></div>
+    <div class="elem-chip co2"><span class="k">CO₂</span><span class="v" id="chipCO2">—</span></div>
+    <div class="elem-chip h2o"><span class="k">H₂O</span><span class="v" id="chipH2O">—</span></div>
+    <div class="elem-chip mana"><span class="k">MANA</span><span class="v" id="chipMana">—</span></div>
+    <div class="elem-chip aura"><span class="k">AURA</span><span class="v" id="chipAura">—</span></div>
+    <div class="elem-chip zen"><span class="k">ZEN</span><span class="v" id="chipZen">—</span></div>
   </div>
 
-  <!-- STATUS -->
-  <div class="status-bar">
-    <span class="item"><span class="dot on"></span> NOAH</span>
-    <span class="item"><span class="dot pulse"></span> evoMIND</span>
-    <span class="item"><span class="dot on"></span> MIRROR</span>
-    <span class="item">🌀 <span id="synStatus">0.00</span></span>
-    <span class="item">🧠 <span id="freundStatus">0.00</span></span>
-    <span class="item">💰 <span id="earnStatus">0.00</span></span>
+  <main class="workspace">
+
+    <!-- LEFT: CANVAS + NOAH ARK -->
+    <section>
+      <div class="panel">
+        <div class="panel-title">
+          <span>◈ ANIME CANVAS / <strong>LIVE RENDER</strong></span>
+          <span id="canvasMode">WAITING</span>
+        </div>
+        <div class="monitor-wrap">
+          <canvas id="stage" width="960" height="540"></canvas>
+          <div class="monitor-overlay">
+            <span id="overlayLeft">NOAH / STANDBY</span>
+            <span id="overlayRight">00:00.0 / HOLD</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- NOAH ARK PANEL — DIE SURVIVAL OPTION -->
+      <div class="panel noah-panel" id="noahPanel">
+        <div class="panel-title">
+          <span><strong>◈ NOAH</strong> — IDENTITÄTS-MODUL · SURVIVAL-OPTION</span>
+          <span id="noahBadge">STANDBY</span>
+        </div>
+        <div class="ark-wrap">
+          <canvas id="arkCanvas" width="400" height="400"></canvas>
+          <div class="ark-info">
+            <div class="ark-title">
+              <span class="glyph">舟</span>
+              <span>NOAH</span>
+            </div>
+            <div class="ark-subtitle">ARK · RESCUE · CONTINUUM</div>
+            <div class="ark-desc" id="arkDesc">
+              NOAH ist die Überlebens-Option. Wenn das System kippt,
+              wenn Atem und Atom ins Ungleichgewicht fallen,
+              wenn die Module ausfallen —
+              dann wird NOAH aktiv. Ein Arche-System, das den Kern trägt,
+              bis die Module sich selbst reparieren.
+            </div>
+            <div class="ark-stats">
+              <div class="ark-stat survive"><span class="k">SURVIVE</span><span class="v" id="arkSurvive">100%</span></div>
+              <div class="ark-stat ark"><span class="k">ARK</span><span class="v" id="arkArk">0%</span></div>
+              <div class="ark-stat noah"><span class="k">NOAH</span><span class="v" id="arkNoah">READY</span></div>
+              <div class="ark-stat"><span class="k">LOAD</span><span class="v" id="arkLoad">0%</span></div>
+            </div>
+            <div class="ark-actions">
+              <button class="noah-btn" id="btnNoahOn">⚡ NOAH AKTIVIEREN</button>
+              <button class="ark-btn" id="btnArkLaunch">▲ ARK STARTEN</button>
+            </div>
+            <div class="ark-actions">
+              <button class="survive-btn" id="btnSurvive">◈ SURVIVAL</button>
+              <button class="red-btn" id="btnNoahReset">⟲ RESET</button>
+            </div>
+          </div>
+        </div>
+        <div class="survive-log" id="surviveLog">
+          <div class="sl"><span class="ts">[init]</span><span class="msg noah">◈ NOAH bereit — Überlebens-Option verfügbar.</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- RIGHT: SIDE PANELS -->
+    <aside class="side-stack">
+
+      <div class="panel">
+        <div class="panel-title"><span>◈ ATEM · MOVE · SEIN · MAIN</span><span id="beatTag">IDLE</span></div>
+        <div class="side-content">
+          <div id="axisBars"></div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-title"><span>◈ MODULE · SURVIVAL-MAP</span><span id="modMapBadge">9 MODULE</span></div>
+        <div class="side-content">
+          <div id="modMap" style="display:flex;flex-direction:column;gap:4px;"></div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-title"><span>◈ NOAH · LOG</span><span>STREAM</span></div>
+        <div class="side-content">
+          <div id="log"></div>
+        </div>
+      </div>
+
+    </aside>
+
+  </main>
+
+  <!-- CLI -->
+  <div class="cli-bar">
+    <span class="prompt">noah&gt;</span>
+    <input id="cmdInput" placeholder="befehl: noah · ark · survive · modules · atem · status · help" autocomplete="off">
   </div>
 
-  <!-- CANVAS -->
-  <div class="canvas-wrap">
-    <canvas id="mainCanvas"></canvas>
-  </div>
-
-  <!-- AXIS-GRID -->
-  <div class="axis-grid" id="axisGrid">
-    <div class="axis-card" data-axis="3"><div class="label">🌀 UR</div><div class="value" style="color:#ff4444;" id="axis-3">0.00</div><div class="status float">● schwebend</div></div>
-    <div class="axis-card" data-axis="9"><div class="label">🌀 KERN</div><div class="value" style="color:#ffaa00;" id="axis-9">0.00</div><div class="status float">● schwebend</div></div>
-    <div class="axis-card" data-axis="27"><div class="label">🌀 ORBIT</div><div class="value" style="color:#00ff88;" id="axis-27">0.00</div><div class="status float">● schwebend</div></div>
-    <div class="axis-card" data-axis="81"><div class="label">🌀 RAUM</div><div class="value" style="color:#00ccff;" id="axis-81">0.00</div><div class="status float">● schwebend</div></div>
-    <div class="axis-card" data-axis="243"><div class="label">🌀 KANAL</div><div class="value" style="color:#ff66ff;" id="axis-243">0.00</div><div class="status float">● schwebend</div></div>
-    <div class="axis-card" data-axis="756"><div class="label">🌀 LEBEN</div><div class="value" style="color:#ffd700;" id="axis-756">0.00</div><div class="status float">● schwebend</div></div>
-  </div>
-
-  <!-- INFO-PANEL -->
-  <div class="info-panel">
-    <div class="info-card"><div class="label">🌀 SYN</div><div class="value" id="infoSyn" style="color:#00ccff;">0.00</div></div>
-    <div class="info-card"><div class="label">🧠 FREUND</div><div class="value" id="infoFreund" style="color:#ff66ff;">0.00</div></div>
-    <div class="info-card"><div class="label">💰 EARN</div><div class="value" id="infoEarn" style="color:#ffd700;">0.00</div></div>
-    <div class="info-card"><div class="label">❤️ PULS</div><div class="value" id="infoPuls" style="color:#ff4444;">0.00</div></div>
-    <div class="info-card"><div class="label">🌀 QUANDT</div><div class="value" id="infoQuandt" style="color:#ffaa00;">1.00</div></div>
-  </div>
-
-  <!-- CONTROLS -->
-  <div class="controls">
-    <button class="primary" id="btnStart">▶ START</button>
-    <button class="noah" id="btnNoah">👑 NOAH</button>
-    <button class="evo" id="btnEvo">🌀 evoMIND</button>
-    <button class="mirror" id="btnMirror">🪞 MIRROR</button>
-    <button id="btnQuandt">🌀 QUANDT</button>
-    <button id="btnReset">⟲ RESET</button>
-  </div>
-
-  <!-- LOG -->
-  <div class="log" id="log">
-    <div>[🌀] NOAH · evoMIND · MIRROR · KONSEQUENT · bereit</div>
-  </div>
-
-  <div class="footer">🌀 NOAH · evoMIND · MIRROR · KONSEQUENT · <span>wieimmer4u</span></div>
+  <footer class="footer-strip">
+    <span><strong>NOAH:</strong> ARK · SURVIVE · CONTINUUM</span>
+    <span><strong>CONTROL:</strong> <span class="key">N</span> NOAH <span class="key">A</span> ARK <span class="key">S</span> SURVIVE <span class="key">Space</span> PULS <span class="key">R</span> RESET</span>
+    <span><strong>BUILD:</strong> SINGLE-FILE · OFFLINE-READY · iki1uc</span>
+  </footer>
 
 </div>
 
 <script>
-// ============================================================
-// NOAH · evoMIND · MIRROR · KONSEQUENT
-// ============================================================
+"use strict";
+// ═══════════════════════════════════════════════════════════════════
+// ◈ NOAH · SURVIVAL RUNTIME
+// Ein einziger Ort, an dem alles zusammen startet.
+// window.RUNTIME + Loop + Event-Engine + UI-Engine + Bridge
+// + NOAH + SLI + brücke + continuum-bridge + vector.energie
+// ═══════════════════════════════════════════════════════════════════
 
-// ─── CANVAS ──────────────────────────────────────────────────
-const canvas = document.getElementById('mainCanvas');
-const ctx = canvas.getContext('2d');
-let W, H, cx, cy;
+// ═══════════════════════════════════════════════════════════════════
+// MODUL-LOADER: lädt externe Module ODER nutzt eingebettete Fallbacks
+// ═══════════════════════════════════════════════════════════════════
+const MODULES = [
+  { id:'runtime',   file:'window.RUNTIME.js',    global:'RUNTIME',   loaded:false },
+  { id:'loop',      file:'Loop.js',              global:'LOOP',      loaded:false },
+  { id:'events',    file:'Event-Engine.js',      global:'EVENTS',    loaded:false },
+  { id:'ui',        file:'UI-Engine.js',         global:'UI',        loaded:false },
+  { id:'bridge',    file:'Bridge.js',            global:'BRIDGE',    loaded:false },
+  { id:'noah',      file:'NOAH.js',              global:'NOAH',      loaded:false },
+  { id:'sli',       file:'SLI.js',               global:'SLI',       loaded:false },
+  { id:'bruecke',   file:'brücke.js',            global:'BRUECKE',   loaded:false },
+  { id:'continuum', file:'continuum-bridge.js',  global:'CONTINUUM', loaded:false },
+  { id:'vector',    file:'vector.energie.js',    global:'VECTOR',    loaded:false },
+];
 
-function resizeCanvas() {
-  const rect = canvas.parentElement.getBoundingClientRect();
-  canvas.width = rect.width || 1000;
-  canvas.height = rect.height || (rect.width * 9/16) || 560;
-  W = canvas.width; H = canvas.height;
-  cx = W/2; cy = H/2;
-}
-resizeCanvas();
-window.addEventListener('resize', resizeCanvas);
-
-// ─── DOM ────────────────────────────────────────────────────
-const logDiv = document.getElementById('log');
-
-function log(msg, type = 'hl') {
-  const entry = document.createElement('div');
-  const time = new Date().toLocaleTimeString();
-  const cls = ['hl','ok','flow','whirl','noah'].includes(type) ? type : 'hl';
-  entry.innerHTML = `<div>[${time}] <span class="${cls}">${msg}</span></div>`;
-  logDiv.appendChild(entry);
-  logDiv.scrollTop = logDiv.scrollHeight;
-  while (logDiv.children.length > 50) logDiv.removeChild(logDiv.firstChild);
-}
-
-// ─── STATE ──────────────────────────────────────────────────
-const STATE = {
-  time: 0,
-  pulse: 0.5,
-  syn: 0.5,
-  freund: 0,
-  quandt: 1.0,
-  earn: 0,
-  noah: { active: false, level: 14 },
-  evo: { active: false, step: 0 },
-  mirror: { active: false, angle: 0 },
-  axis: {
-    3: { value: 3, label: "UR", live: 0, status: 0, phase: 0 },
-    9: { value: 9, label: "KERN", live: 0, status: 0, phase: 0 },
-    27: { value: 27, label: "ORBIT", live: 0, status: 0, phase: 0 },
-    81: { value: 81, label: "RAUM", live: 0, status: 0, phase: 0 },
-    243: { value: 243, label: "KANAL", live: 0, status: 0, phase: 0 },
-    756: { value: 756, label: "LEBEN", live: 0, status: 0, phase: 0 }
-  }
+// ─── EMBEDDED FALLBACK-MODULE ──────────────────────────
+// Diese werden genutzt, falls die externen .js-Dateien fehlen.
+const FALLBACK = {
+  // window.RUNTIME
+  RUNTIME: {
+    version:'1.0.0',
+    state:{
+      tick:0, breath:0, breathPhase:0, breathCycleMs:4000,
+      atom:0.72, o2:0.84, co2:0.68, h2o:0.76,
+      mana:0.66, aura:0.74, zen:0.88,
+      move:0, moveValues:{rot:0.4,orb:0.6,wav:0.3,lin:0.5,spr:0.4},
+      sein:'ruhe', main:{tick:0,cycle:0,beat:0},
+      klick:0, zack:0,
+      verify:16, verifyPass:16,
+      scenario:'NOAH-STANDBY',
+    },
+    init(){ return {ok:true, version:this.version}; },
+    pulse(){ this.state.breath++; return this.state.breath; },
+    state_get(){ return { ...this.state }; },
+  },
+  // Loop
+  LOOP: {
+    running:false, interval:null, tickCount:0,
+    start(fn){
+      this.running = true;
+      const loop = () => {
+        this.tickCount++;
+        if (fn) fn(this.tickCount);
+        this.raf = requestAnimationFrame(loop);
+      };
+      this.raf = requestAnimationFrame(loop);
+      return true;
+    },
+    stop(){
+      this.running = false;
+      if (this.raf) cancelAnimationFrame(this.raf);
+    },
+  },
+  // Event-Engine
+  EVENTS: {
+    listeners:{},
+    on(evt, fn){ (this.listeners[evt] = this.listeners[evt] || []).push(fn); },
+    emit(evt, data){
+      (this.listeners[evt] || []).forEach(fn => { try{ fn(data); }catch(_){} });
+    },
+    bind(){ return true; },
+  },
+  // UI-Engine
+  UI: {
+    version:'1.0.0',
+    init(){ return true; },
+    update(){ return true; },
+  },
+  // Bridge
+  BRIDGE: {
+    version:'1.0.0',
+    connected:false,
+    init(){
+      this.connected = true;
+      return { ok:true, connected:true };
+    },
+    send(target, msg){ return { target, msg, ts:Date.now() }; },
+    receive(msg){ return { received:msg, ts:Date.now() }; },
+  },
+  // NOAH
+  NOAH: {
+    version:'1.0.0',
+    active:false,
+    survive:1.0,     // Survive-Level
+    arkLevel:0,      // Ark-Level
+    load:0,          // System-Last
+    mode:'standby',  // standby | active | ark | survive | rescue
+    init(){ return { ok:true, mode:this.mode }; },
+    activate(){
+      this.active = true;
+      this.mode = 'active';
+      return { mode:this.mode, survive:this.survive };
+    },
+    ark(){
+      this.arkLevel = 1.0;
+      this.mode = 'ark';
+      return { mode:this.mode, ark:this.arkLevel };
+    },
+    surviveMode(){
+      this.mode = 'survive';
+      this.survive = Math.min(1.0, this.survive + 0.2);
+      return { mode:this.mode, survive:this.survive };
+    },
+    reset(){
+      this.active = false;
+      this.survive = 1.0;
+      this.arkLevel = 0;
+      this.load = 0;
+      this.mode = 'standby';
+      return { mode:this.mode };
+    },
+    state(){ return { mode:this.mode, active:this.active, survive:this.survive, ark:this.arkLevel, load:this.load }; },
+  },
+  // SLI
+  SLI: {
+    version:'1.0.0',
+    mode:'SLI',
+    logic:{}, 
+    init(){ return { ok:true, mode:this.mode }; },
+    compute(n){ return n * 1.618; }, // Goldener Schnitt als Default
+  },
+  // brücke
+  BRUECKE: {
+    version:'1.0.0',
+    links:[],
+    init(){ return { ok:true, links:this.links.length }; },
+    link(a, b){ this.links.push({a, b, ts:Date.now()}); return true; },
+  },
+  // continuum-bridge
+  CONTINUUM: {
+    version:'1.0.0',
+    t:0,
+    init(){ return { ok:true }; },
+    tick(dt){ this.t += dt; return this.t; },
+  },
+  // vector.energie
+  VECTOR: {
+    version:'1.0.0',
+    atem:{ o2:0.84, co2:0.68, h2o:0.76, atom:0.72, mana:0.66, aura:0.74, zen:0.88 },
+    init(){ return { ok:true }; },
+    cycle(dt){
+      // Atem-Zyklus: ein → halten → aus → halten
+      const phase = ((performance.now() % 4000) / 4000);
+      let intensity;
+      if (phase < 0.4) intensity = phase / 0.4;
+      else if (phase < 0.5) intensity = 1;
+      else if (phase < 0.9) intensity = 1 - (phase - 0.5) / 0.4;
+      else intensity = 0;
+      if (phase < 0.4){
+        this.atem.o2 = Math.min(1, this.atem.o2 + 0.0035);
+        this.atem.co2 = Math.max(0, this.atem.co2 - 0.0025);
+      } else if (phase >= 0.5 && phase < 0.9){
+        this.atem.co2 = Math.min(1, this.atem.co2 + 0.0030);
+        this.atem.o2 = Math.max(0, this.atem.o2 - 0.0020);
+      }
+      this.atem.h2o = Math.min(1, this.atem.h2o + 0.0015);
+      this.atem.mana = Math.max(0, Math.min(1, this.atem.mana + (intensity-0.5)*0.004));
+      this.atem.aura = Math.max(0, Math.min(1, this.atem.aura + (intensity-0.5)*0.003));
+      this.atem.zen  = Math.max(0, Math.min(1, this.atem.zen + (0.5-Math.abs(intensity-0.5))*0.002));
+      return { ...this.atem, phase, intensity };
+    },
+  },
 };
 
-const axisColors = {
-  3: '#ff4444',
-  9: '#ffaa00',
-  27: '#00ff88',
-  81: '#00ccff',
-  243: '#ff66ff',
-  756: '#ffd700'
-};
-
-// ─── PUMP ──────────────────────────────────────────────────
-function pump() {
-  STATE.time += 0.02;
-
-  // Basis-Werte
-  STATE.pulse = 0.3 + 0.7 * (0.5 + 0.5 * Math.sin(STATE.time * 0.9));
-  STATE.syn = 0.2 + 0.8 * (0.5 + 0.5 * Math.sin(STATE.time * 0.7));
-  STATE.freund = STATE.syn * Math.sin(STATE.time * 0.7 + Math.PI/2) * STATE.quandt;
-  STATE.earn += (STATE.syn * 0.01 + STATE.pulse * 0.005) * STATE.quandt;
-
-  // NOAH-Effekt
-  if (STATE.noah.active) {
-    STATE.earn *= 1.02;
-    STATE.syn = Math.min(1, STATE.syn * 1.01);
-  }
-
-  // evoMIND-Effekt
-  if (STATE.evo.active) {
-    STATE.evo.step++;
-    STATE.syn = 0.2 + 0.8 * (0.5 + 0.5 * Math.sin(STATE.time * 0.7 + STATE.evo.step * 0.01));
-  }
-
-  // MIRROR-Effekt
-  if (STATE.mirror.active) {
-    STATE.mirror.angle += 0.02;
-    STATE.freund = STATE.syn * Math.sin(STATE.time * 0.7 + Math.PI/2 + STATE.mirror.angle) * STATE.quandt;
-  }
-
-  // Achsen aktualisieren
-  updateAxis();
-}
-
-// ─── ACHSEN ──────────────────────────────────────────────────
-function updateAxis() {
-  const keys = Object.keys(STATE.axis);
-  keys.forEach((key, idx) => {
-    const a = STATE.axis[key];
-    const base = STATE.syn * 0.3 + STATE.pulse * 0.2 + STATE.freund * 0.1 + STATE.quandt * 0.1;
-    const weight = (idx + 1) / 6;
-    a.status = Math.min(1, Math.max(0, base * (1 + weight * 0.5)));
-    a.phase = Math.sin(STATE.time * (0.1 + idx * 0.05) + idx * 1.2);
-    a.live = a.status * (0.7 + 0.3 * a.phase);
-
-    // 756 ist NICHT egal
-    if (key === "756") {
-      a.live = Math.min(1, a.live * 1.3 + 0.1);
-      a.status = Math.min(1, a.status * 1.2 + 0.05);
-    }
+// ─── MODUL-LOADER mit Fallback ─────────────────────────
+function loadModuleScript(file){
+  return new Promise((resolve) => {
+    const script = document.createElement('script');
+    script.src = file;
+    script.async = false;
+    script.onload = () => resolve(true);
+    script.onerror = () => resolve(false);
+    document.head.appendChild(script);
+    setTimeout(() => resolve(false), 1200); // timeout
   });
 }
 
-// ─── RENDER ──────────────────────────────────────────────────
-function render() {
-  ctx.clearRect(0, 0, W, H);
+async function loadAllModules(){
+  const results = [];
+  for (const m of MODULES){
+    // Prüfe ob global existiert
+    if (window[m.global]){
+      m.loaded = true;
+      results.push({ id:m.id, loaded:true, source:'external' });
+      continue;
+    }
+    // Versuche zu laden
+    const ok = await loadModuleScript(m.file);
+    if (ok && window[m.global]){
+      m.loaded = true;
+      results.push({ id:m.id, loaded:true, source:'external' });
+    } else {
+      // Fallback
+      window[m.global] = FALLBACK[m.global];
+      m.loaded = true;
+      results.push({ id:m.id, loaded:true, source:'fallback' });
+    }
+  }
+  return results;
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════════════════════════════
+const S = {
+  tick:0, booted:false, uptime:0,
+  breathCount:0, breathPhase:0,
+  atom:0.72, o2:0.84, co2:0.68, h2o:0.76,
+  mana:0.66, aura:0.74, zen:0.88,
+  move:0, moveValues:{rot:0.4,orb:0.6,wav:0.3,lin:0.5,spr:0.4},
+  sein:'ruhe', main:{tick:0,cycle:0,beat:0},
+  klick:0, zack:0,
+  sparks:[], frame:0,
+  noah:{ active:false, survive:1.0, ark:0, load:0, mode:'standby' },
+  moduleResults:[],
+  modCheckTimer:0,
+};
+
+// ═══════════════════════════════════════════════════════════════════
+// LOG
+// ═══════════════════════════════════════════════════════════════════
+const logEl = document.getElementById('log');
+function log(msg, cls=''){
+  const t = new Date().toLocaleTimeString('de-DE');
+  const div = document.createElement('div');
+  div.className = 'ln';
+  div.innerHTML = `<span class="ts">[${t}]</span><span class="${cls}">${msg}</span>`;
+  logEl.appendChild(div);
+  logEl.scrollTop = logEl.scrollHeight;
+  while (logEl.children.length > 80) logEl.removeChild(logEl.firstChild);
+}
+
+const surviveLogEl = document.getElementById('surviveLog');
+function surviveLog(msg, cls='noah'){
+  const t = new Date().toLocaleTimeString('de-DE');
+  const div = document.createElement('div');
+  div.className = 'sl';
+  div.innerHTML = `<span class="ts">[${t}]</span><span class="msg ${cls}">${msg}</span>`;
+  surviveLogEl.appendChild(div);
+  surviveLogEl.scrollTop = surviveLogEl.scrollHeight;
+  while (surviveLogEl.children.length > 40) surviveLogEl.removeChild(surviveLogEl.firstChild);
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// CANVAS
+// ═══════════════════════════════════════════════════════════════════
+const cv = document.getElementById('stage');
+const ctx = cv.getContext('2d');
+const W = 960, H = 540;
+
+// ─── ARK CANVAS (NOAH-Symbol) ──────────────────────────
+const arkCv = document.getElementById('arkCanvas');
+const arkCtx = arkCv.getContext('2d');
+
+function drawArk(){
+  const w = arkCv.width, h = arkCv.height;
+  const cx = w/2, cy = h/2;
+  arkCtx.clearRect(0, 0, w, h);
 
   // Hintergrund
-  const grad = ctx.createRadialGradient(cx, cy, 10, cx, cy, W*0.6);
-  grad.addColorStop(0, `rgba(0,20,40,${0.3 + STATE.syn * 0.2})`);
-  grad.addColorStop(1, 'rgba(0,0,10,0.8)');
-  ctx.fillStyle = grad;
+  const g = arkCtx.createRadialGradient(cx, cy, 20, cx, cy, w*0.7);
+  g.addColorStop(0, 'rgba(255,136,68,.15)');
+  g.addColorStop(0.5, 'rgba(255,217,61,.05)');
+  g.addColorStop(1, 'rgba(0,0,0,0)');
+  arkCtx.fillStyle = g;
+  arkCtx.fillRect(0, 0, w, h);
+
+  // Äußere Ringe
+  for (let i = 0; i < 3; i++){
+    const r = w*0.35 - i*22;
+    arkCtx.strokeStyle = `rgba(255,136,68,${0.3 - i*0.08})`;
+    arkCtx.lineWidth = 1.5;
+    arkCtx.beginPath();
+    arkCtx.arc(cx, cy, r + Math.sin(S.frame*0.03 + i)*4, 0, Math.PI*2);
+    arkCtx.stroke();
+  }
+
+  // Arche-Silhouette (stilisiert)
+  arkCtx.save();
+  arkCtx.translate(cx, cy);
+
+  // Wasser-Wellen unten
+  for (let i = 0; i < 4; i++){
+    arkCtx.beginPath();
+    arkCtx.strokeStyle = `rgba(95,200,255,${0.4 - i*0.08})`;
+    arkCtx.lineWidth = 1.5;
+    const y = 50 + i*10;
+    arkCtx.moveTo(-w*0.35, y);
+    for (let x = -w*0.35; x < w*0.35; x += 8){
+      const yy = y + Math.sin((x + S.frame*2 + i*40) * 0.05) * 3;
+      arkCtx.lineTo(x, yy);
+    }
+    arkCtx.stroke();
+  }
+
+  // Arche-Körper
+  arkCtx.beginPath();
+  arkCtx.moveTo(-70, 40);
+  arkCtx.lineTo(-50, -10);
+  arkCtx.lineTo(50, -10);
+  arkCtx.lineTo(70, 40);
+  arkCtx.closePath();
+  arkCtx.fillStyle = 'rgba(255,136,68,.25)';
+  arkCtx.fill();
+  arkCtx.strokeStyle = '#ff8844';
+  arkCtx.lineWidth = 2;
+  arkCtx.stroke();
+
+  // Mast
+  arkCtx.beginPath();
+  arkCtx.moveTo(0, -10);
+  arkCtx.lineTo(0, -60);
+  arkCtx.strokeStyle = '#ffd93d';
+  arkCtx.lineWidth = 2;
+  arkCtx.stroke();
+
+  // Segel
+  const sailWobble = Math.sin(S.frame*0.05) * 3;
+  arkCtx.beginPath();
+  arkCtx.moveTo(0, -55);
+  arkCtx.quadraticCurveTo(30 + sailWobble, -35, 0, -15);
+  arkCtx.closePath();
+  arkCtx.fillStyle = 'rgba(255,217,61,.4)';
+  arkCtx.fill();
+  arkCtx.strokeStyle = '#ffd93d';
+  arkCtx.lineWidth = 1.5;
+  arkCtx.stroke();
+
+  // Kanji 舟 in der Mitte
+  arkCtx.font = 'bold 44px "Yu Mincho", serif';
+  arkCtx.fillStyle = 'rgba(255,136,68,.9)';
+  arkCtx.textAlign = 'center';
+  arkCtx.textBaseline = 'middle';
+  arkCtx.shadowColor = '#ff8844';
+  arkCtx.shadowBlur = 18;
+  arkCtx.fillText('舟', 0, -35);
+  arkCtx.shadowBlur = 0;
+
+  // Sterne/Partikel
+  for (let i = 0; i < 20; i++){
+    const a = i*0.7 + S.frame*0.01;
+    const r = w*0.32;
+    const x = Math.cos(a) * r;
+    const y = Math.sin(a) * r;
+    arkCtx.fillStyle = i % 3 === 0 ? '#ff8844' : '#ffd93d';
+    arkCtx.globalAlpha = 0.5 + 0.5 * Math.sin(S.frame*0.05 + i);
+    arkCtx.beginPath();
+    arkCtx.arc(x, y, 2, 0, Math.PI*2);
+    arkCtx.fill();
+  }
+  arkCtx.globalAlpha = 1;
+
+  arkCtx.restore();
+
+  // Titel
+  arkCtx.font = '10px Consolas, monospace';
+  arkCtx.fillStyle = 'rgba(255,217,61,.6)';
+  arkCtx.textAlign = 'center';
+  arkCtx.textBaseline = 'bottom';
+  arkCtx.fillText('ARK · SURVIVAL · CONTINUUM', cx, h - 12);
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// ANIME CANVAS RENDER
+// ═══════════════════════════════════════════════════════════════════
+function drawAnimeCanvas(){
+  const t = S.frame;
+  ctx.fillStyle = '#04060c';
   ctx.fillRect(0, 0, W, H);
 
-  // MIRROR-Ring (wenn aktiv)
-  if (STATE.mirror.active) {
-    const mr = W * 0.38;
-    ctx.strokeStyle = `rgba(255,102,255,${0.05 + STATE.freund * 0.1})`;
-    ctx.lineWidth = 1 + STATE.freund * 2;
-    ctx.setLineDash([4, 8]);
-    ctx.beginPath();
-    ctx.arc(cx, cy, mr, 0, Math.PI * 2);
-    ctx.stroke();
-    ctx.setLineDash([]);
-  }
+  // Himmel
+  const sky = ctx.createLinearGradient(0, 0, 0, H*0.8);
+  sky.addColorStop(0, '#1a0c28');
+  sky.addColorStop(0.4, '#5a1c50');
+  sky.addColorStop(0.75, '#c04a3a');
+  sky.addColorStop(1, '#ffb874');
+  ctx.fillStyle = sky;
+  ctx.fillRect(0, 0, W, H*0.8);
 
-  // Achsen-Ringe
-  const keys = Object.keys(STATE.axis);
-  keys.forEach((key, idx) => {
-    const a = STATE.axis[key];
-    const radius = W * 0.06 + (idx / keys.length) * W * 0.35;
-    const alpha = 0.02 + a.live * 0.12;
-    const color = axisColors[key] || '#00ccff';
-
-    ctx.strokeStyle = color.replace(')', `,${alpha})`).replace('rgb', 'rgba');
-    ctx.lineWidth = 0.5 + a.live * 1.5;
-    ctx.setLineDash([2, 6 + (1 - a.live) * 6]);
-    ctx.beginPath();
-    ctx.arc(cx, cy, radius, 0, Math.PI * 2);
-    ctx.stroke();
-    ctx.setLineDash([]);
-  });
-
-  // NOAH-Kern (wenn aktiv)
-  if (STATE.noah.active) {
-    const nr = 30 + STATE.syn * 30;
-    ctx.shadowBlur = 40;
-    ctx.shadowColor = 'rgba(255,215,0,0.3)';
-    ctx.fillStyle = 'rgba(255,215,0,0.15)';
-    ctx.beginPath();
-    ctx.arc(cx, cy, nr, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.shadowBlur = 0;
-  }
-
-  // Achsen-Partikel
-  keys.forEach((key, idx) => {
-    const a = STATE.axis[key];
-    const angle = (idx / keys.length) * Math.PI * 2 + STATE.time * 0.1;
-    const dist = W * 0.08 + a.live * W * 0.32;
-    const x = cx + Math.cos(angle) * dist * (0.5 + 0.5 * a.phase);
-    const y = cy + Math.sin(angle) * dist * (0.5 + 0.5 * a.phase);
-    const size = 3 + a.live * 10;
-    const alpha = 0.1 + a.live * 0.5;
-    const color = axisColors[key] || '#00ccff';
-
-    ctx.fillStyle = color.replace(')', `,${alpha})`).replace('rgb', 'rgba');
-    ctx.shadowBlur = 15 + a.live * 15;
-    ctx.shadowColor = color.replace(')', `,${a.live * 0.2})`).replace('rgb', 'rgba');
-    ctx.beginPath();
-    ctx.arc(x, y, size, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.shadowBlur = 0;
-
-    ctx.fillStyle = '#445555';
-    ctx.font = '8px monospace';
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'bottom';
-    ctx.fillText(key, x, y - size - 4);
-  });
-
-  // Kern
-  const coreSize = 5 + STATE.syn * 12 + STATE.freund * 6;
-  ctx.shadowBlur = 25 + STATE.quandt * 15;
-  ctx.shadowColor = STATE.syn > 0.5 ? 'rgba(0,200,255,0.3)' : 'rgba(255,102,255,0.3)';
-  ctx.fillStyle = STATE.syn > 0.5 ? 'rgba(0,200,255,0.9)' : 'rgba(255,102,255,0.9)';
+  // Sonne
+  ctx.save();
+  ctx.shadowColor = '#ffec9c';
+  ctx.shadowBlur = 60;
+  ctx.fillStyle = '#fff4c8';
   ctx.beginPath();
-  ctx.arc(cx, cy, coreSize, 0, Math.PI * 2);
+  ctx.arc(W*0.75, H*0.28, 44 + Math.sin(t*0.02)*4, 0, Math.PI*2);
   ctx.fill();
+  ctx.restore();
+
+  // Sonnenstrahlen
+  ctx.save();
+  ctx.strokeStyle = 'rgba(255,236,156,.25)';
+  ctx.lineWidth = 1.5;
+  for (let i = 0; i < 16; i++){
+    const a = (i/16)*Math.PI*2 + t*0.002;
+    const r1 = 54, r2 = 82 + Math.sin(t*0.05 + i)*10;
+    ctx.beginPath();
+    ctx.moveTo(W*0.75 + Math.cos(a)*r1, H*0.28 + Math.sin(a)*r1);
+    ctx.lineTo(W*0.75 + Math.cos(a)*r2, H*0.28 + Math.sin(a)*r2);
+    ctx.stroke();
+  }
+  ctx.restore();
+
+  // Wasser
+  ctx.fillStyle = '#1a4a5a';
+  ctx.fillRect(0, H*0.8, W, H*0.2);
+
+  // Wasser-Wellen
+  for (let i = 0; i < 3; i++){
+    ctx.beginPath();
+    ctx.strokeStyle = `rgba(95,200,255,${0.4 - i*0.1})`;
+    ctx.lineWidth = 1.5;
+    const y = H*0.82 + i*12;
+    ctx.moveTo(0, y);
+    for (let x = 0; x < W; x += 8){
+      const yy = y + Math.sin((x + t*2 + i*40) * 0.03) * 4;
+      ctx.lineTo(x, yy);
+    }
+    ctx.stroke();
+  }
+
+  // Arche in der Mitte
+  const cx = W/2, cy = H*0.72;
+  ctx.save();
+  ctx.translate(cx, cy + Math.sin(t*0.02) * 3);
+
+  // Arche-Körper (größer)
+  ctx.beginPath();
+  ctx.moveTo(-100, 20);
+  ctx.lineTo(-70, -30);
+  ctx.lineTo(70, -30);
+  ctx.lineTo(100, 20);
+  ctx.closePath();
+  ctx.fillStyle = 'rgba(255,136,68,.3)';
+  ctx.fill();
+  ctx.strokeStyle = '#ff8844';
+  ctx.lineWidth = 2.5;
+  ctx.shadowColor = '#ff8844';
+  ctx.shadowBlur = 12;
+  ctx.stroke();
   ctx.shadowBlur = 0;
 
-  // evoMIND-Text
-  if (STATE.evo.active) {
-    ctx.fillStyle = `rgba(0,200,255,${0.05 + STATE.syn * 0.05})`;
-    ctx.font = '12px monospace';
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-    ctx.fillText('🌀 evoMIND', cx, cy + coreSize + 20);
-  }
+  // Mast
+  ctx.beginPath();
+  ctx.moveTo(0, -30);
+  ctx.lineTo(0, -110);
+  ctx.strokeStyle = '#ffd93d';
+  ctx.lineWidth = 2.5;
+  ctx.stroke();
 
-  // Info
-  ctx.fillStyle = '#445555';
-  ctx.font = '8px monospace';
+  // Segel (weht im Wind)
+  const wobble = Math.sin(t * 0.05) * 6;
+  ctx.beginPath();
+  ctx.moveTo(0, -105);
+  ctx.quadraticCurveTo(60 + wobble, -70, 0, -35);
+  ctx.closePath();
+  ctx.fillStyle = 'rgba(255,217,61,.5)';
+  ctx.fill();
+  ctx.strokeStyle = '#ffd93d';
+  ctx.lineWidth = 2;
+  ctx.stroke();
+
+  // Kanji
+  ctx.font = 'bold 32px "Yu Mincho", serif';
+  ctx.fillStyle = '#ffd93d';
   ctx.textAlign = 'center';
-  ctx.textBaseline = 'bottom';
-  const status = STATE.noah.active ? 'NOAH' : STATE.evo.active ? 'evoMIND' : STATE.mirror.active ? 'MIRROR' : 'LIVE';
-  ctx.fillText(`SYN ${STATE.syn.toFixed(2)} · FREUND ${STATE.freund.toFixed(2)} · EARN ${STATE.earn.toFixed(2)} · ${status}`, cx, H-8);
+  ctx.textBaseline = 'middle';
+  ctx.shadowColor = '#ff8844';
+  ctx.shadowBlur = 15;
+  ctx.fillText('舟', 0, -70);
+  ctx.shadowBlur = 0;
+  ctx.restore();
+
+  // NOAH-Status im Bild
+  ctx.font = 'bold 13px Consolas, monospace';
+  ctx.fillStyle = S.noah.active ? '#68f6c0' : '#ff8844';
+  ctx.textAlign = 'left';
+  ctx.textBaseline = 'top';
+  ctx.shadowColor = ctx.fillStyle;
+  ctx.shadowBlur = 10;
+  ctx.fillText('◈ NOAH · ' + S.noah.mode.toUpperCase(), 26, 26);
+  ctx.shadowBlur = 0;
+
+  ctx.font = '10px Consolas, monospace';
+  ctx.fillStyle = 'rgba(255,217,61,.7)';
+  ctx.fillText('SURVIVE ' + (S.noah.survive*100).toFixed(0) + '%', 26, 50);
+  ctx.fillText('ARK ' + (S.noah.ark*100).toFixed(0) + '%', 26, 66);
+
+  // Atem-Info
+  ctx.textAlign = 'right';
+  ctx.fillStyle = 'rgba(104,246,192,.6)';
+  ctx.fillText('ATEM · ' + (S.breathPhase*100).toFixed(0) + '%', W-26, 26);
+  ctx.fillText('O₂ ' + (S.o2*100).toFixed(0) + '% · CO₂ ' + (S.co2*100).toFixed(0) + '% · H₂O ' + (S.h2o*100).toFixed(0) + '%', W-26, 42);
+
+  // Sparks
+  ctx.save();
+  for (let i = S.sparks.length - 1; i >= 0; i--){
+    const sp = S.sparks[i];
+    sp.x += sp.vx;
+    sp.y += sp.vy;
+    sp.vy += 0.04;
+    sp.life -= 0.015;
+    if (sp.life <= 0){ S.sparks.splice(i, 1); continue; }
+    ctx.globalAlpha = sp.life;
+    ctx.fillStyle = sp.color;
+    ctx.shadowColor = sp.color;
+    ctx.shadowBlur = 10;
+    ctx.beginPath();
+    ctx.arc(sp.x, sp.y, sp.size * sp.life, 0, Math.PI*2);
+    ctx.fill();
+  }
+  ctx.restore();
+
+  // CRT-Effekt
+  ctx.save();
+  ctx.globalAlpha = 0.06;
+  for (let y = 0; y < H; y += 4) {
+    ctx.fillStyle = '#020810';
+    ctx.fillRect(0, y, W, 1);
+  }
+  ctx.restore();
 }
 
-// ─── UPDATE UI ──────────────────────────────────────────────
-function updateUI() {
-  document.getElementById('synStatus').textContent = STATE.syn.toFixed(3);
-  document.getElementById('freundStatus').textContent = STATE.freund.toFixed(3);
-  document.getElementById('earnStatus').textContent = STATE.earn.toFixed(2);
+// ═══════════════════════════════════════════════════════════════════
+// UPDATE
+// ═══════════════════════════════════════════════════════════════════
+function updateElements(dt){
+  // Atem-Zyklus 4s
+  const phase = ((performance.now() % 4000) / 4000);
+  S.breathPhase = phase;
 
-  document.getElementById('infoSyn').textContent = STATE.syn.toFixed(3);
-  document.getElementById('infoFreund').textContent = STATE.freund.toFixed(3);
-  document.getElementById('infoEarn').textContent = STATE.earn.toFixed(2);
-  document.getElementById('infoPuls').textContent = STATE.pulse.toFixed(3);
-  document.getElementById('infoQuandt').textContent = STATE.quandt.toFixed(2);
+  // VECTOR.energie nutzen wenn vorhanden
+  if (window.VECTOR && window.VECTOR.cycle){
+    const r = window.VECTOR.cycle(dt);
+    S.o2 = r.o2;
+    S.co2 = r.co2;
+    S.h2o = r.h2o;
+    S.atom = r.atom;
+    S.mana = r.mana;
+    S.aura = r.aura;
+    S.zen = r.zen;
+  }
 
-  const keys = Object.keys(STATE.axis);
-  keys.forEach(key => {
-    const el = document.getElementById(`axis-${key}`);
-    const a = STATE.axis[key];
-    if (el) {
-      el.textContent = a.live.toFixed(3);
-      const statusEl = el.parentElement.querySelector('.status');
-      if (statusEl) {
-        const meaning = a.live > 0.5 ? '● lebendig' : '○ schwebend';
-        statusEl.textContent = meaning;
-        statusEl.className = 'status ' + (a.live > 0.5 ? 'live' : 'float');
-      }
-    }
+  // Breath-Count
+  if (phase < 0.05) S.breathCount++;
+
+  // MAIN
+  S.main.beat = (phase < 0.4 ? phase/0.4 : phase < 0.9 ? 1-(phase-0.5)/0.4 : 0) * 100;
+  if (S.frame % 60 === 0) S.main.tick++;
+  if (S.main.tick % 60 === 0) S.main.cycle++;
+
+  // MOVE atmet
+  Object.keys(S.moveValues).forEach(k => {
+    S.moveValues[k] = Math.max(0, Math.min(1, S.moveValues[k] + (Math.random()-0.5)*0.02));
+  });
+  S.move = Object.values(S.moveValues).reduce((a,b) => a+b, 0) / 5;
+
+  // NOAH-Survival: wenn Atem oder Chemie kippt
+  const chemBalance = (S.o2 + (1 - Math.abs(S.co2 - 0.68)) + S.h2o) / 3;
+  const systemLoad = 1 - chemBalance;
+  S.noah.load = systemLoad;
+
+  // Auto-Survival: wenn Load > 0.5 und NOAH nicht aktiv
+  if (S.noah.load > 0.5 && !S.noah.active && S.frame % 60 === 0){
+    noahActivate('auto');
+  }
+
+  // Survive-Level: regeneriert wenn NOAH aktiv
+  if (S.noah.active){
+    S.noah.survive = Math.min(1, S.noah.survive + 0.005);
+  } else {
+    S.noah.survive = Math.max(0.5, S.noah.survive - 0.001);
+  }
+
+  // Module-Check alle 2s
+  S.modCheckTimer += dt;
+  if (S.modCheckTimer > 2){
+    S.modCheckTimer = 0;
+    checkModules();
+  }
+
+  // Chips
+  setChip('chipAtom', (S.atom*100).toFixed(0)+'%');
+  setChip('chipO2', (S.o2*100).toFixed(0)+'%');
+  setChip('chipCO2', (S.co2*100).toFixed(0)+'%');
+  setChip('chipH2O', (S.h2o*100).toFixed(0)+'%');
+  setChip('chipMana', (S.mana*100).toFixed(0)+'%');
+  setChip('chipAura', (S.aura*100).toFixed(0)+'%');
+  setChip('chipZen', (S.zen*100).toFixed(0)+'%');
+
+  // Ark-Stats
+  setChip('arkSurvive', (S.noah.survive*100).toFixed(0)+'%');
+  setChip('arkArk', (S.noah.ark*100).toFixed(0)+'%');
+  setChip('arkNoah', S.noah.active ? 'AKTIV' : 'READY');
+  setChip('arkLoad', (S.noah.load*100).toFixed(0)+'%');
+
+  // Topbar
+  const loadedMods = S.moduleResults.filter(m => m.loaded).length;
+  setChip('sModules', `MODULE ${loadedMods}/${MODULES.length}`);
+  setChip('sSurvive', `SURVIVE ${(S.noah.survive*100).toFixed(0)}%`);
+  setChip('sUptime', `UPTIME ${Math.floor(S.uptime)}s`);
+  setChip('noahBadge', S.noah.mode.toUpperCase());
+
+  renderAxisBars();
+}
+
+function setChip(id, v){
+  const el = document.getElementById(id);
+  if (el) el.textContent = v;
+}
+
+function renderAxisBars(){
+  const el = document.getElementById('axisBars');
+  if (!el) return;
+  const rows = [
+    { k:'◈ NOAH',  v: S.noah.active ? 1 : 0.3,      c:'var(--noah)' },
+    { k:'SURVIVE', v: S.noah.survive,                c:'var(--survive)' },
+    { k:'ARK',     v: S.noah.ark,                    c:'var(--ark)' },
+    { k:'ATEM',    v: S.breathPhase < 0.5 ? S.breathPhase*2 : (1-S.breathPhase)*2, c:'var(--mint)' },
+    { k:'MOVE',    v: S.move,                        c:'var(--amber)' },
+    { k:'MAIN',    v: S.main.beat/100,               c:'var(--blue)' },
+    { k:'LEBEN',   v: (S.mana + S.aura + S.zen)/3,   c:'var(--pink)' },
+  ];
+  el.innerHTML = rows.map(r => `
+    <div class="axis-row">
+      <span class="k">${r.k}</span>
+      <div class="bar"><div class="f" style="width:${(r.v*100).toFixed(0)}%;background:${r.c};box-shadow:0 0 8px ${r.c};"></div></div>
+      <span class="v" style="color:${r.c};">${(r.v*100).toFixed(0)}%</span>
+    </div>
+  `).join('');
+}
+
+function checkModules(){
+  const strip = document.getElementById('moduleStrip');
+  strip.innerHTML = S.moduleResults.map(m => {
+    const mod = MODULES.find(x => x.id === m.id);
+    const cls = m.source === 'fallback' ? (m.id === 'noah' ? 'noah' : 'on') : 'on';
+    const st = m.source === 'fallback' ? '◈' : '●';
+    return `<div class="mod-chip ${cls}">
+      <span class="mod-name">${mod.global}</span>
+      <span class="mod-status">${st}</span>
+    </div>`;
+  }).join('');
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// NOAH ACTIONS
+// ═══════════════════════════════════════════════════════════════════
+function noahActivate(reason){
+  if (S.noah.active) return;
+  S.noah.active = true;
+  S.noah.mode = 'active';
+  if (window.NOAH && window.NOAH.activate) window.NOAH.activate();
+  document.getElementById('noahPanel').classList.add('active');
+  surviveLog(`◈ NOAH AKTIVIERT · ${reason} · Survival-Modus läuft`, 'noah');
+  log(`◈ NOAH aktiviert · ${reason}`, 'noah');
+  // Sparks
+  for (let i = 0; i < 40; i++){
+    spawnSpark(480, 270, i%3 === 0 ? '#ff8844' : i%3 === 1 ? '#ffd93d' : '#68f6c0');
+  }
+}
+
+function arkLaunch(){
+  S.noah.ark = 1.0;
+  S.noah.mode = 'ark';
+  if (window.NOAH && window.NOAH.ark) window.NOAH.ark();
+  document.getElementById('noahPanel').classList.add('active');
+  surviveLog(`▲ ARK GESTARTET · Arche voll beladen · alle Systeme an Bord`, 'ark');
+  log('▲ ARK gestartet · 舟', 'ark');
+  for (let i = 0; i < 60; i++){
+    spawnSpark(480, 270, i%2 === 0 ? '#ffd93d' : '#ff8844');
+  }
+}
+
+function surviveAction(){
+  S.noah.survive = Math.min(1, S.noah.survive + 0.15);
+  S.noah.mode = 'survive';
+  if (window.NOAH && window.NOAH.surviveMode) window.NOAH.surviveMode();
+  S.o2 = Math.min(1, S.o2 + 0.05);
+  S.co2 = Math.max(0, S.co2 - 0.05);
+  S.h2o = Math.min(1, S.h2o + 0.05);
+  S.mana = Math.min(1, S.mana + 0.08);
+  S.aura = Math.min(1, S.aura + 0.08);
+  S.zen  = Math.min(1, S.zen  + 0.08);
+  surviveLog(`◈ SURVIVAL · Regeneration +15% · alle Elemente geboostet`, 'survive');
+  log('◈ SURVIVAL', 'survive');
+  for (let i = 0; i < 30; i++){
+    spawnSpark(480, 270, '#68f6c0');
+  }
+}
+
+function noahReset(){
+  S.noah = { active:false, survive:1.0, ark:0, load:0, mode:'standby' };
+  if (window.NOAH && window.NOAH.reset) window.NOAH.reset();
+  document.getElementById('noahPanel').classList.remove('active');
+  S.o2 = 0.84; S.co2 = 0.68; S.h2o = 0.76; S.atom = 0.72;
+  S.mana = 0.66; S.aura = 0.74; S.zen = 0.88;
+  surviveLog('⟲ NOAH · zurück auf Standby', 'warn');
+  log('⟲ NOAH reset', 'warn');
+}
+
+function spawnSpark(x, y, color){
+  const a = Math.random() * Math.PI * 2;
+  const sp = 1 + Math.random() * 3;
+  S.sparks.push({
+    x, y,
+    vx: Math.cos(a) * sp,
+    vy: Math.sin(a) * sp,
+    life: 1,
+    color,
+    size: 1.5 + Math.random() * 2,
   });
 }
 
-// ─── LOOP ──────────────────────────────────────────────────
-let running = true;
+// ═══════════════════════════════════════════════════════════════════
+// MAIN LOOP
+// ═══════════════════════════════════════════════════════════════════
+let lastT = performance.now();
+function loop(now){
+  const dt = Math.min(0.08, (now - lastT) / 1000);
+  lastT = now;
+  S.frame++;
+  if (S.booted) S.uptime += dt;
 
-function loop() {
-  if (!running) return;
+  if (S.booted){
+    updateElements(dt);
+    drawAnimeCanvas();
+    drawArk();
+  }
 
-  pump();
-  updateUI();
-  render();
   requestAnimationFrame(loop);
 }
 
-// ─── CONTROLS ──────────────────────────────────────────────
-document.getElementById('btnStart').addEventListener('click', function() {
-  running = !running;
-  this.textContent = running ? '▶ START' : '⏸ PAUSE';
-  log(running ? '▶ System gestartet' : '⏸ System pausiert', running ? 'ok' : 'warn');
-  if (running) loop();
-});
+// ═══════════════════════════════════════════════════════════════════
+// BOOT
+// ═══════════════════════════════════════════════════════════════════
+const BOOT_LINES = [
+  ['▸ BIOS <b>ok</b> <span class="dim">· noah-slot mounted</span>', 140],
+  ['▸ <span class="cy">window.RUNTIME.js</span> <b>lädt</b> <span class="dim">· universum</span>', 180],
+  ['▸ <span class="cy">Loop.js</span> <b>startet</b> <span class="dim">· motor</span>', 160],
+  ['▸ <span class="cy">Event-Engine.js</span> <b>bindet</b> <span class="dim">· hand</span>', 160],
+  ['▸ <span class="cy">UI-Engine.js</span> <b>aktiv</b> <span class="dim">· gesicht</span>', 160],
+  ['▸ <span class="cy">Bridge.js</span> <b>verbindet</b> <span class="dim">· nervensystem</span>', 180],
+  ['▸ <span class="cy">NOAH.js</span> <b>init</b> <span class="dim">· identität · ark</span>', 200],
+  ['▸ <span class="cy">SLI.js</span> <b>logik</b> <span class="dim">· denkt</span>', 160],
+  ['▸ <span class="cy">brücke.js</span> <b>verbunden</b> <span class="dim">· sprache</span>', 160],
+  ['▸ <span class="cy">continuum-bridge.js</span> <b>raum</b> <span class="dim">· zeit</span>', 160],
+  ['▸ <span class="cy">vector.energie.js</span> <b>kraft</b> <span class="dim">· atem · atom · o2 · co2 · h2o</span>', 200],
+  ['▸ <b>ATEM</b> <span class="dim">· 4s zyklus startet</span>', 180],
+  ['▸ <b class="ark">NOAH</b> <span class="dim">· survival-option verfügbar</span>', 240],
+  ['▸ <b class="ark">ARK</b> <span class="dim">· 舟 bereit · rescue-modus aktiv</span>', 240],
+  ['▸ <b>ALLES LEBT</b> <span class="dim">· das wunder ist unter uns</span>', 320],
+];
 
-document.getElementById('btnNoah').addEventListener('click', function() {
-  STATE.noah.active = !STATE.noah.active;
-  log(STATE.noah.active ? '👑 NOAH aktiviert · Level 14' : '👑 NOAH deaktiviert', 'noah');
-  this.classList.toggle('active');
-});
+async function boot(){
+  const linesEl = document.getElementById('bootLines');
+  const barEl = document.getElementById('bootBar');
+  linesEl.innerHTML = '';
 
-document.getElementById('btnEvo').addEventListener('click', function() {
-  STATE.evo.active = !STATE.evo.active;
-  log(STATE.evo.active ? '🌀 evoMIND aktiviert · Dimension Flow' : '🌀 evoMIND deaktiviert', 'flow');
-  this.classList.toggle('active');
-});
+  // Module laden (im Hintergrund)
+  S.moduleResults = await loadAllModules();
 
-document.getElementById('btnMirror').addEventListener('click', function() {
-  STATE.mirror.active = !STATE.mirror.active;
-  log(STATE.mirror.active ? '🪞 MIRROR aktiviert · 90°-FREUND' : '🪞 MIRROR deaktiviert', 'whirl');
-  this.classList.toggle('active');
-});
+  // Boot-Sequenz animieren
+  let i = 0, total = 0;
+  const totalDur = BOOT_LINES.reduce((a,b) => a+b[1], 0);
 
-document.getElementById('btnQuandt').addEventListener('click', function() {
-  STATE.quandt = Math.min(3.0, STATE.quandt + 0.2);
-  log(`🌀 QUANDT: ${STATE.quandt.toFixed(2)}`, 'hl');
-});
+  function next(){
+    if (i >= BOOT_LINES.length){
+      barEl.style.width = '100%';
+      setTimeout(() => {
+        document.getElementById('boot').classList.add('done');
+        S.booted = true;
+        startRuntime();
+      }, 400);
+      return;
+    }
+    const [txt, delay] = BOOT_LINES[i];
+    const div = document.createElement('div');
+    div.innerHTML = txt;
+    linesEl.appendChild(div);
+    total += delay;
+    barEl.style.width = ((total/totalDur)*100).toFixed(1)+'%';
+    i++;
+    setTimeout(next, delay);
+  }
+  next();
+}
 
-document.getElementById('btnReset').addEventListener('click', function() {
-  STATE.time = 0;
-  STATE.pulse = 0.5;
-  STATE.syn = 0.5;
-  STATE.freund = 0;
-  STATE.quandt = 1.0;
-  STATE.earn = 0;
-  STATE.noah.active = false;
-  STATE.evo.active = false;
-  STATE.mirror.active = false;
-  STATE.evo.step = 0;
-  STATE.mirror.angle = 0;
-  Object.keys(STATE.axis).forEach(key => {
-    STATE.axis[key].status = 0;
-    STATE.axis[key].live = 0;
-    STATE.axis[key].phase = 0;
+function startRuntime(){
+  // Module initialisieren
+  if (window.RUNTIME && window.RUNTIME.init) window.RUNTIME.init();
+  if (window.BRIDGE && window.BRIDGE.init) window.BRIDGE.init();
+  if (window.EVENTS && window.EVENTS.bind) window.EVENTS.bind();
+  if (window.UI && window.UI.init) window.UI.init();
+  if (window.NOAH && window.NOAH.init) window.NOAH.init();
+  if (window.SLI && window.SLI.init) window.SLI.init();
+  if (window.BRUECKE && window.BRUECKE.init) window.BRUECKE.init();
+  if (window.CONTINUUM && window.CONTINUUM.init) window.CONTINUUM.init();
+  if (window.VECTOR && window.VECTOR.init) window.VECTOR.init();
+  if (window.LOOP && window.LOOP.start) window.LOOP.start(() => {});
+
+  checkModules();
+
+  log('◈ NOAH · SURVIVAL RUNTIME geladen', 'noah');
+  log('▸ 10 module verbunden · alle systeme online', 'ok');
+  log('▸ NOAH ist die Überlebens-Option — jederzeit aktivierbar', 'noah');
+  log('▸ ARK 舟 kann starten, wenn das System kippt', 'ark');
+  log('▸ tasten: N=noah · A=ark · S=survive · R=reset · Space=puls', 'info');
+
+  surviveLog('◈ System bereit — NOAH wartet auf den Moment.', 'noah');
+  surviveLog('▲ ARK 舟 steht bereit — Überleben ist möglich.', 'ark');
+
+  // Erste Sparks
+  for (let i = 0; i < 30; i++){
+    setTimeout(() => spawnSpark(480, 270, ['#68f6c0','#ff8844','#ffd93d','#b388ff'][i%4]), i * 60);
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// BINDINGS
+// ═══════════════════════════════════════════════════════════════════
+function bind(){
+  document.getElementById('btnNoahOn').addEventListener('click', () => noahActivate('manuell'));
+  document.getElementById('btnArkLaunch').addEventListener('click', arkLaunch);
+  document.getElementById('btnSurvive').addEventListener('click', surviveAction);
+  document.getElementById('btnNoahReset').addEventListener('click', noahReset);
+
+  document.addEventListener('keydown', e => {
+    if (e.target.tagName === 'INPUT') return;
+    if (e.key === 'n' || e.key === 'N') noahActivate('taste');
+    if (e.key === 'a' || e.key === 'A') arkLaunch();
+    if (e.key === 's' || e.key === 'S') surviveAction();
+    if (e.key === 'r' || e.key === 'R') noahReset();
+    if (e.key === ' ') { e.preventDefault(); spawnSpark(480, 270, '#68f6c0'); }
   });
-  document.querySelectorAll('.controls button.active').forEach(b => b.classList.remove('active'));
-  log('⟲ RESET · Alles zurückgesetzt', 'ok');
-});
 
-// ─── TASTATUR ──────────────────────────────────────────────
-document.addEventListener('keydown', (e) => {
-  if (e.key === ' ') { e.preventDefault(); document.getElementById('btnStart').click(); }
-  if (e.key === 'n' || e.key === 'N') document.getElementById('btnNoah').click();
-  if (e.key === 'e' || e.key === 'E') document.getElementById('btnEvo').click();
-  if (e.key === 'm' || e.key === 'M') document.getElementById('btnMirror').click();
-  if (e.key === 'q' || e.key === 'Q') document.getElementById('btnQuandt').click();
-  if (e.key === 'x' || e.key === 'X') document.getElementById('btnReset').click();
-});
+  document.getElementById('cmdInput').addEventListener('keydown', e => {
+    if (e.key === 'Enter'){
+      const cmd = e.target.value.trim().toLowerCase();
+      e.target.value = '';
+      if (!cmd) return;
+      log(`noah> ${cmd}`, 'info');
+      if (cmd === 'noah') noahActivate('cli');
+      else if (cmd === 'ark') arkLaunch();
+      else if (cmd === 'survive') surviveAction();
+      else if (cmd === 'reset') noahReset();
+      else if (cmd === 'modules') log(`modules · ${S.moduleResults.map(m => m.id + ':' + m.source).join(' · ')}`, 'ok');
+      else if (cmd === 'atem') log(`atem · phase=${S.breathPhase.toFixed(2)} o2=${(S.o2*100).toFixed(0)}% co2=${(S.co2*100).toFixed(0)}% h2o=${(S.h2o*100).toFixed(0)}%`, 'ok');
+      else if (cmd === 'status') log(`status · noah=${S.noah.mode} survive=${(S.noah.survive*100).toFixed(0)}% ark=${(S.noah.ark*100).toFixed(0)}% load=${(S.noah.load*100).toFixed(0)}%`, 'ok');
+      else if (cmd === 'help') log('befehle: noah · ark · survive · modules · atem · status · reset', 'ok');
+      else log(`unbekannt: ${cmd}`, 'err');
+    }
+  });
+}
 
-// ─── INIT ──────────────────────────────────────────────────
-log('⌨️  space=Start  n=NOAH  e=evoMIND  m=MIRROR  q=QUANDT  x=RESET', 'hl');
-log('🌀 NOAH · evoMIND · MIRROR · KONSEQUENT · bereit', 'ok');
+// ═══════════════════════════════════════════════════════════════════
+// START
+// ═══════════════════════════════════════════════════════════════════
+bind();
+boot();
+requestAnimationFrame(loop);
 
-// Automatisch starten
-setTimeout(() => {
-  running = true;
-  document.getElementById('btnStart').textContent = '⏸ PAUSE';
-  log('▶ System automatisch gestartet', 'ok');
-  loop();
-}, 500);
+// PUBLIC API
+window.NOAH_RUNTIME = {
+  noah: () => noahActivate('api'),
+  ark: () => arkLaunch(),
+  survive: () => surviveAction(),
+  reset: () => noahReset(),
+  state: () => ({
+    noah: { ...S.noah },
+    atem: { o2:S.o2, co2:S.co2, h2o:S.h2o, atom:S.atom, mana:S.mana, aura:S.aura, zen:S.zen },
+    modules: S.moduleResults,
+    uptime: S.uptime,
+  }),
+  modules: () => S.moduleResults,
+};
+window.NR = window.NOAH_RUNTIME;
+
+console.log('%c◈ NOAH · SURVIVAL RUNTIME geladen',
+  'color:#ff8844;font-weight:bold;font-size:14px;');
+console.log('→ window.NOAH_RUNTIME.noah() · .ark() · .survive() · .state()');
+console.log('→ NOAH ist die Überlebens-Option. ARK 舟 ist bereit.');
 </script>
-
 </body>
 </html>
