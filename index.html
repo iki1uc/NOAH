@@ -1,1304 +1,311 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="de">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>◈ DER LETZTE SOMMER · 81 MOMENTE · ATEM · ATOM · WUNDER</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="
+  default-src 'self';
+  script-src 'self' 'unsafe-inline';
+  style-src 'self' 'unsafe-inline';
+  frame-ancestors 'self';
+  object-src 'none';
+">
+<title>atom · frieden · iki1uc</title>
 <style>
-  :root{
-    --ink:#04060c; --deep:#080d18; --panel:#0c1622;
-    --line:#1e3a4a; --text:#d8f0e8; --muted:#6a8e94;
-    --mint:#68f6c0; --amber:#ffbd5c; --pink:#ff6d9d;
-    --blue:#6cc9ff; --violet:#b388ff; --gold:#ffcc66;
-    --o2:#7ce0a8; --co2:#ffcc44; --h2o:#5fc8ff; --atom:#b388ff;
-    --mana:#ff66c8; --aura:#ffd93d; --zen:#8cf0d0;
-    --shadow:0 0 0 1px rgba(104,246,192,.14),0 12px 44px rgba(0,0,0,.5);
-  }
-  *{box-sizing:border-box;}
-  html,body{height:100%;}
-  body{
-    margin:0;color:var(--text);
-    background:
-      radial-gradient(circle at 25% 15%,rgba(104,246,192,.06),transparent 30rem),
-      radial-gradient(circle at 78% 80%,rgba(179,136,255,.05),transparent 34rem),
-      linear-gradient(145deg,#04060c,#080f1a 54%,#04080e);
-    font-family:"Courier New",monospace;letter-spacing:.03em;overflow-x:hidden;
-  }
-  button,input{font:inherit;}
-  button{
-    color:var(--text);background:#0d202a;border:1px solid #2c5560;
-    padding:.55rem .85rem;cursor:pointer;text-transform:uppercase;
-    letter-spacing:.08em;transition:.15s;font-size:11px;
-  }
-  button:hover,button:focus-visible{color:#04110f;background:var(--mint);border-color:var(--mint);outline:none;}
-  button.active{color:#04110f;background:var(--mint);border-color:var(--mint);}
-  .app-shell{min-height:100%;padding:14px;}
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{height:100%;background:#04070c;color:#8aa8a0;
+            font-family:'Consolas','Courier New',monospace;overflow:hidden}
+  canvas{display:block;position:fixed;inset:0}
 
-  .topbar{
-    max-width:1560px;margin:0 auto 10px;display:flex;gap:16px;
-    align-items:center;justify-content:space-between;flex-wrap:wrap;
-    padding:11px 16px;border:1px solid var(--line);
-    background:rgba(6,14,22,.94);box-shadow:var(--shadow);
-  }
-  .brand{display:flex;align-items:center;gap:12px;min-width:0;}
-  .brand-mark{
-    width:38px;height:38px;flex:0 0 auto;display:grid;place-items:center;
-    color:#04110f;background:var(--mint);font-weight:900;font-size:13px;
-    box-shadow:4px 4px 0 #1f5750;animation:markPulse 3s ease-in-out infinite;
-  }
-  @keyframes markPulse{0%,100%{box-shadow:4px 4px 0 #1f5750;}
-    50%{box-shadow:4px 4px 0 #1f5750,0 0 22px rgba(104,246,192,.6);}}
-  .brand h1{margin:0;font-size:clamp(13px,1.7vw,19px);line-height:1.15;
-    background:linear-gradient(90deg,var(--mint),var(--violet),var(--gold));
-    -webkit-background-clip:text;-webkit-text-fill-color:transparent;}
-  .brand p{margin:4px 0 0;color:var(--muted);font-size:10px;}
-  .top-status{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:8px;font-size:10px;color:var(--muted);}
-  .led{display:inline-flex;align-items:center;gap:6px;}
-  .led::before{content:"";width:7px;height:7px;background:var(--pink);border-radius:50%;box-shadow:0 0 9px var(--pink);}
-  .led.online::before{background:var(--mint);box-shadow:0 0 9px var(--mint);animation:ledBreath 4s ease-in-out infinite;}
-  @keyframes ledBreath{0%,100%{transform:scale(.85);}50%{transform:scale(1.3);}}
+  #kopf{position:fixed;top:32px;left:50%;transform:translateX(-50%);
+        text-align:center;z-index:6;pointer-events:none}
+  #kopf .marke{font-size:9px;letter-spacing:.55em;color:#2a4a3a;margin-bottom:10px}
+  #kopf h1{font-size:clamp(20px,4vw,36px);font-weight:100;letter-spacing:.45em;
+           color:#8cf0d0;text-shadow:0 0 40px rgba(140,240,208,.2)}
+  #kopf .unter{font-size:10px;letter-spacing:.4em;color:#3a5a4a;margin-top:10px}
 
-  .elem-strip{
-    max-width:1560px;margin:0 auto 10px;display:grid;
-    grid-template-columns:repeat(7,1fr);gap:6px;padding:8px 10px;
-    background:rgba(6,14,22,.9);border:1px solid var(--line);box-shadow:var(--shadow);
-  }
-  @media(max-width:1000px){.elem-strip{grid-template-columns:repeat(4,1fr);}}
-  @media(max-width:600px){.elem-strip{grid-template-columns:repeat(3,1fr);}}
-  .elem-chip{
-    padding:6px 8px;background:rgba(2,8,12,.6);
-    border:1px solid var(--line);border-left:3px solid #2a3644;
-    border-radius:4px;font-size:10px;display:flex;
-    justify-content:space-between;align-items:center;transition:.3s;
-  }
-  .elem-chip.o2{border-left-color:var(--o2);}
-  .elem-chip.co2{border-left-color:var(--co2);}
-  .elem-chip.h2o{border-left-color:var(--h2o);}
-  .elem-chip.atom{border-left-color:var(--atom);}
-  .elem-chip.mana{border-left-color:var(--mana);}
-  .elem-chip.aura{border-left-color:var(--aura);}
-  .elem-chip.zen{border-left-color:var(--zen);}
-  .elem-chip .k{color:var(--muted);letter-spacing:1.5px;font-size:9px;font-weight:bold;}
-  .elem-chip .v{font-weight:bold;font-size:12px;}
-  .elem-chip.o2 .v{color:var(--o2);}
-  .elem-chip.co2 .v{color:var(--co2);}
-  .elem-chip.h2o .v{color:var(--h2o);}
-  .elem-chip.atom .v{color:var(--atom);}
-  .elem-chip.mana .v{color:var(--mana);}
-  .elem-chip.aura .v{color:var(--aura);}
-  .elem-chip.zen .v{color:var(--zen);}
+  #werte{position:fixed;top:50%;left:24px;transform:translateY(-50%);
+         z-index:6;pointer-events:none;font-size:10px;letter-spacing:.25em;
+         line-height:2.4;color:#3a5a4a}
+  #werte .z{display:grid;grid-template-columns:50px 80px 50px;gap:8px;
+            align-items:center}
+  #werte .k{color:#3a5a4a}
+  #werte .v{color:#8cf0d0;text-align:right;font-weight:bold}
+  #werte .b{height:3px;background:#0a1c24;position:relative;overflow:hidden}
+  #werte .b i{display:block;height:100%;background:#8cf0d0;
+              transition:width .3s}
 
-  .workspace{
-    max-width:1560px;margin:0 auto;display:grid;
-    grid-template-columns:minmax(0,1.5fr) minmax(300px,.5fr);gap:10px;
-  }
-  @media(max-width:1040px){
-    .workspace{grid-template-columns:1fr;}
-    .side-stack{grid-template-columns:repeat(2,minmax(0,1fr));}
-    .side-panel:first-child{grid-column:1/-1;}
-  }
-  @media(max-width:690px){
-    .app-shell{padding:8px;}
-    .side-stack{grid-template-columns:1fr;}
-    .side-panel:first-child{grid-column:auto;}
-  }
-  .panel{border:1px solid var(--line);background:rgba(8,18,26,.92);box-shadow:var(--shadow);}
-  .panel-title{
-    display:flex;align-items:center;justify-content:space-between;gap:12px;
-    padding:9px 12px;border-bottom:1px solid var(--line);
-    color:var(--muted);font-size:10px;text-transform:uppercase;letter-spacing:.12em;
-  }
-  .panel-title strong{color:var(--mint);font-weight:700;}
+  #frieden{position:fixed;bottom:60px;left:50%;transform:translateX(-50%);
+           text-align:center;z-index:6;pointer-events:none;
+           font-size:11px;letter-spacing:.5em;
+           transition:color .8s, text-shadow .8s}
+  #frieden.an{color:#8cf0d0;text-shadow:0 0 30px rgba(140,240,208,.5)}
+  #frieden.aus{color:#3a5a4a}
 
-  .monitor-wrap{position:relative;padding:10px;background:#040b12;}
-  canvas#stage{
-    width:100%;display:block;aspect-ratio:16/9;background:#040b12;
-    border:1px solid #2e5666;image-rendering:auto;
-    box-shadow:inset 0 0 0 5px rgba(2,8,12,.6),0 0 24px rgba(104,246,192,.1);
+  #satz{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);
+        font-size:9px;letter-spacing:.35em;color:#2a4a3a;
+        z-index:6;pointer-events:none;text-align:center;line-height:2.2}
+
+  #fuss{position:fixed;bottom:14px;right:20px;font-size:9px;
+        letter-spacing:.35em;color:#1e3328;z-index:6}
+  #fuss b{color:#3a5a4a;font-weight:400}
+
+  .ecke{position:fixed;width:14px;height:14px;z-index:998;
+        pointer-events:none;opacity:.28;border-color:#8cf0d0}
+  .ecke.ol{top:12px;left:12px;border-top:1px solid;border-left:1px solid}
+  .ecke.or{top:12px;right:12px;border-top:1px solid;border-right:1px solid}
+  .ecke.ul{bottom:12px;left:12px;border-bottom:1px solid;border-left:1px solid}
+  .ecke.ur{bottom:12px;right:12px;border-bottom:1px solid;border-right:1px solid}
+
+  #sperre{display:none}
+  html[data-gate="gesperrt"] body > *:not(#sperre){display:none !important}
+  html[data-gate="gesperrt"] #sperre{
+    display:flex;position:fixed;inset:0;
+    align-items:center;justify-content:center;flex-direction:column;
+    background:#04070c;z-index:9999;text-align:center;padding:24px}
+  #sperre .wort{font-size:clamp(22px,5vw,44px);font-weight:100;
+                letter-spacing:.45em;color:#8cf0d0;margin-bottom:16px}
+  #sperre .grund{font-size:10px;letter-spacing:.35em;color:#b388ff}
+
+  @media(max-width:640px){
+    #werte{font-size:9px;left:14px}
+    #werte .z{grid-template-columns:40px 60px 40px}
   }
-  .monitor-overlay{
-    position:absolute;inset:18px;pointer-events:none;
-    display:flex;justify-content:space-between;align-items:flex-start;
-    color:rgba(216,240,232,.75);font-size:9px;
-    text-shadow:0 0 6px #35dca7;letter-spacing:.15em;
-  }
-  .monitor-overlay span:last-child{text-align:right;}
-
-  .scene-tabs{
-    display:grid;grid-template-columns:repeat(9,minmax(80px,1fr));
-    gap:5px;padding:10px 10px 0;background:rgba(4,12,20,.7);overflow-x:auto;
-  }
-  @media(max-width:900px){.scene-tabs{grid-template-columns:repeat(5,minmax(80px,1fr));}}
-  @media(max-width:600px){.scene-tabs{grid-template-columns:repeat(3,minmax(80px,1fr));}}
-  .scene-tab{
-    min-height:58px;text-align:left;padding:8px;
-    border-color:#1f4150;background:#0a1a22;color:var(--muted);font-size:10px;
-  }
-  .scene-tab small{display:block;margin-top:4px;color:#4f7a80;font-size:9px;}
-  .scene-tab.active{color:#04110f;background:var(--mint);border-color:var(--mint);}
-  .scene-tab.active small{color:#155a48;}
-  .scene-tab[data-color="amber"].active{background:var(--amber);border-color:var(--amber);}
-  .scene-tab[data-color="pink"].active{background:var(--pink);border-color:var(--pink);}
-  .scene-tab[data-color="blue"].active{background:var(--blue);border-color:var(--blue);}
-  .scene-tab[data-color="violet"].active{background:var(--violet);border-color:var(--violet);}
-  .scene-tab[data-color="mint"].active{background:var(--mint);border-color:var(--mint);}
-  .scene-tab[data-color="gold"].active{background:var(--gold);border-color:var(--gold);}
-  .scene-tab[data-color="red"].active{background:#ff8a8a;border-color:#ff8a8a;}
-
-  .transport{
-    display:flex;flex-wrap:wrap;gap:6px;align-items:center;
-    padding:10px;border-top:1px solid var(--line);background:#08161e;
-  }
-  .transport .primary{min-width:150px;color:#04110f;background:var(--mint);border-color:var(--mint);font-weight:700;}
-  .transport .primary:hover{background:#a0ffdd;}
-  .transport .grow{flex:1;}
-  .transport label{color:var(--muted);font-size:10px;}
-  .speed-group{display:flex;gap:4px;}
-  .speed-group button{padding:.45rem .55rem;font-size:10px;}
-
-  .timeline{padding:10px 12px 12px;border-top:1px solid #1a3a44;background:#06121a;}
-  .timeline-head{display:flex;justify-content:space-between;gap:10px;color:var(--muted);font-size:10px;margin-bottom:7px;}
-  .timeline-head strong{color:var(--amber);}
-  .range-wrap{position:relative;}
-  input[type=range]{width:100%;height:18px;margin:0;appearance:none;background:transparent;cursor:pointer;}
-  input[type=range]::-webkit-slider-runnable-track{height:5px;background:#1e3a44;border:1px solid #2e5866;}
-  input[type=range]::-moz-range-track{height:5px;background:#1e3a44;border:1px solid #2e5866;}
-  input[type=range]::-webkit-slider-thumb{
-    appearance:none;width:14px;height:18px;margin-top:-7px;
-    background:var(--mint);border:1px solid #d7ffed;box-shadow:0 0 10px var(--mint);
-  }
-  input[type=range]::-moz-range-thumb{width:14px;height:18px;border-radius:0;background:var(--mint);border:1px solid #d7ffed;box-shadow:0 0 10px var(--mint);}
-  .markers{position:absolute;inset:0 0 auto;height:18px;pointer-events:none;}
-  .marker{position:absolute;top:4px;width:1px;height:11px;background:var(--amber);opacity:.85;}
-  .marker em{position:absolute;top:13px;left:3px;white-space:nowrap;color:#5e898d;font-style:normal;font-size:8px;}
-
-  .side-stack{display:grid;align-content:start;gap:10px;}
-  .side-panel{min-width:0;}
-  .side-content{padding:11px;}
-  .cue-row{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;}
-  .scene-big{color:var(--amber);font-size:20px;font-weight:700;line-height:1;}
-  .scene-big span{display:block;margin-top:5px;color:var(--text);font-size:11px;}
-  .source-chip{padding:4px 7px;border:1px solid #2c5666;color:var(--muted);font-size:9px;white-space:nowrap;letter-spacing:.1em;}
-  .progress-meter{height:5px;margin:12px 0 10px;background:#0f2b34;overflow:hidden;}
-  .progress-meter > i{display:block;height:100%;width:0%;background:var(--mint);box-shadow:0 0 12px rgba(104,246,192,.6);transition:width .3s;}
-  .time-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:6px;}
-  .time-box{padding:7px;border:1px solid #1e3a44;background:#06141d;}
-  .time-box small{display:block;color:var(--muted);font-size:8px;margin-bottom:3px;}
-  .time-box strong{color:var(--text);font-size:13px;}
-
-  .readout{min-height:76px;color:#a9d9ca;font-size:11px;line-height:1.55;white-space:pre-wrap;}
-  .readout .quote{color:var(--amber);}
-  .readout-title{margin:0 0 6px;color:var(--mint);font-size:10px;}
-
-  .cue-list{list-style:none;padding:0;margin:8px 0 0;display:grid;gap:5px;}
-  .cue-list li{display:grid;grid-template-columns:48px 1fr;gap:8px;color:#5a8488;font-size:9px;line-height:1.35;position:relative;padding-left:6px;}
-  .cue-list li b{color:var(--amber);font-weight:400;}
-  .cue-list li.active{color:var(--text);}
-  .cue-list li.active b{color:var(--mint);}
-  .cue-list li.active::before{content:"▶";position:absolute;left:-6px;color:var(--pink);font-size:8px;}
-
-  .sfx-log{display:flex;flex-direction:column;gap:5px;font-size:9px;color:#79a1a4;min-height:80px;}
-  .sfx-line{display:flex;gap:8px;border-bottom:1px dashed #1e3a44;padding-bottom:4px;}
-  .sfx-line b{color:var(--pink);font-weight:400;}
-  .sfx-line span{color:#8cb7ae;}
-
-  .mini-plot{display:grid;grid-template-columns:repeat(9,1fr);gap:3px;padding:8px 10px;background:#040d14;border-top:1px solid #1a3a44;}
-  .mini-plot .cell{aspect-ratio:1;background:#0a1c24;border:1px solid #17303a;position:relative;overflow:hidden;transition:.3s;}
-  .mini-plot .cell.active{border-color:var(--amber);box-shadow:0 0 8px rgba(255,189,92,.6);}
-  .mini-plot .cell.thumb{background-size:cover;background-position:center;}
-  .mini-plot .cell.done{opacity:.55;}
-
-  .story-overlay{
-    position:absolute;left:20px;bottom:20px;max-width:min(560px,55%);
-    padding:12px 16px;background:rgba(4,10,14,.85);
-    border-left:3px solid var(--mint);border-radius:2px;
-    color:var(--text);font-size:12px;line-height:1.55;
-    backdrop-filter:blur(4px);pointer-events:none;
-    text-shadow:0 0 6px rgba(104,246,192,.35);
-    opacity:0;transition:opacity .6s;
-  }
-  .story-overlay.show{opacity:1;}
-  .story-overlay .ch{color:var(--amber);font-size:10px;letter-spacing:.15em;margin-bottom:6px;text-transform:uppercase;}
-  .story-overlay .title{color:var(--mint);font-size:14px;font-weight:700;margin-bottom:6px;}
-  .story-overlay .line{color:#d8f0e8;}
-  .story-overlay .track{margin-top:8px;color:var(--pink);font-size:10px;letter-spacing:.05em;}
-
-  .footer-strip{
-    max-width:1560px;margin:10px auto 0;display:flex;gap:12px;
-    flex-wrap:wrap;align-items:center;justify-content:space-between;
-    color:#4a6e72;font-size:9px;letter-spacing:.08em;
-  }
-  .footer-strip strong{color:var(--mint);font-weight:400;}
-  .key{padding:2px 6px;border:1px solid #2c5660;color:#8ab8af;font-size:9px;}
 </style>
 </head>
 <body>
-<div class="app-shell">
 
-  <header class="topbar">
-    <div class="brand">
-      <div class="brand-mark">幻</div>
-      <div>
-        <h1>DER LETZTE SOMMER · 81 MOMENTE · ATEM · ATOM · WUNDER</h1>
-        <p>IRFAN · INDIla · AURORA · STROMAE · LADY GAGA · KEY MOZART · RESPO 9×9</p>
-      </div>
-    </div>
-    <div class="top-status">
-      <span class="led online">RUNTIME ATMET</span>
-      <span>CANVAS 2D · ANIME + FOTO</span>
-      <span>OFFLINE · SINGLE HTML</span>
-    </div>
-  </header>
+<!-- 1 · TORWÄCHTER -->
+<script>
+  window.__EVO_GATE = { ok:false, grund:'wird geprüft', zeit:Date.now() };
+</script>
 
-  <div class="elem-strip">
-    <div class="elem-chip atom"><span class="k">◈ ATOM</span><span class="v" id="chipAtom">—</span></div>
-    <div class="elem-chip o2"><span class="k">O₂</span><span class="v" id="chipO2">—</span></div>
-    <div class="elem-chip co2"><span class="k">CO₂</span><span class="v" id="chipCO2">—</span></div>
-    <div class="elem-chip h2o"><span class="k">H₂O</span><span class="v" id="chipH2O">—</span></div>
-    <div class="elem-chip mana"><span class="k">MANA</span><span class="v" id="chipMana">—</span></div>
-    <div class="elem-chip aura"><span class="k">AURA</span><span class="v" id="chipAura">—</span></div>
-    <div class="elem-chip zen"><span class="k">ZEN</span><span class="v" id="chipZen">—</span></div>
-  </div>
+<!-- 2 · DER WÄCHTER -->
+<script src="security.js"></script>
 
-  <main class="workspace">
-    <section class="panel monitor-panel">
-      <div class="panel-title">
-        <span>◈ PREVIEW / <strong>LIVE ANIME + FOTO CANVAS</strong></span>
-        <span id="canvasMode">WAITING</span>
-      </div>
-      <div class="monitor-wrap">
-        <canvas id="stage" width="960" height="540"></canvas>
-        <div class="monitor-overlay">
-          <span id="overlayLeft">CH1 / DER LETZTE SOMMER</span>
-          <span id="overlayRight">00:00.0 / HOLD</span>
-        </div>
-        <div id="storyOverlay" class="story-overlay"></div>
-      </div>
-      <nav id="sceneTabs" class="scene-tabs" aria-label="Kapitel-Navigation"></nav>
-      <div id="miniPlot" class="mini-plot" aria-label="81-Moment-Matrix"></div>
-      <div class="transport">
-        <button id="startBtn" class="primary">▶ START STORY</button>
-        <button id="stepBack">◀ ZURÜCK</button>
-        <button id="stepForward">▶ VOR</button>
-        <span class="grow"></span>
-        <label>TEMPO</label>
-        <div class="speed-group">
-          <button data-speed="0.5">0.5×</button>
-          <button data-speed="1" class="active">1.0×</button>
-          <button data-speed="2">2.0×</button>
-        </div>
-        <button id="autoBtn" class="active">⟳ AUTO</button>
-        <button id="breathBtn" class="active">◈ ATEM: AN</button>
-        <button id="fullscreenBtn">⛶ FULL</button>
-        <button id="resetBtn">⟲ RESET</button>
-      </div>
-      <div class="timeline">
-        <div class="timeline-head">
-          <span>MASTER TIMELINE / <strong id="timelineScene">CH1</strong></span>
-          <span id="timelineTime">00:00.0 / 06:00</span>
-        </div>
-        <div class="range-wrap">
-          <div id="markers" class="markers"></div>
-          <input id="timeline" type="range" min="0" max="360" step="0.1" value="0">
-        </div>
-      </div>
-    </section>
+<!-- 3 · TÜRSTEHER -->
+<script>
+  (function(){
+    if(window.__EVO_WACHE === true){
+      window.__EVO_GATE.ok = true;
+      window.__EVO_GATE.grund = 'wächter aktiv';
+    } else {
+      window.__EVO_GATE.grund = 'security.js fehlt';
+      document.documentElement.setAttribute('data-gate','gesperrt');
+      document.addEventListener('DOMContentLoaded', () => {
+        const g = document.getElementById('sperre-grund');
+        if(g) g.textContent = window.__EVO_GATE.grund;
+      });
+    }
+  })();
+</script>
 
-    <aside class="side-stack">
-      <section class="panel side-panel">
-        <div class="panel-title"><span>◈ DIRECTOR STATE</span><span id="runState">IDLE</span></div>
-        <div class="side-content">
-          <div class="cue-row">
-            <div class="scene-big"><span id="sceneCode">CH1</span><span id="sceneTitle">DER LETZTE SOMMER</span></div>
-            <span id="sourceChip" class="source-chip">IRFAN</span>
-          </div>
-          <div class="progress-meter"><i id="sceneProgress"></i></div>
-          <div class="time-grid">
-            <div class="time-box"><small>MOMENT</small><strong id="sceneTime">01 / 09</strong></div>
-            <div class="time-box"><small>MASTER</small><strong id="masterTime">00:00.0</strong></div>
-          </div>
-        </div>
-      </section>
+<title>atom · frieden · iki1uc</title>
 
-      <section class="panel side-panel">
-        <div class="panel-title"><span>◈ ATEM · MOVE · SEIN · SOUND</span><span id="beatTag">CH1-01</span></div>
-        <div class="side-content"><div id="axisBars"></div></div>
-      </section>
+<canvas id="cv"></canvas>
 
-      <section class="panel side-panel">
-        <div class="panel-title"><span>◈ LIVE PROMPTER</span><span>CUE</span></div>
-        <div class="side-content">
-          <h2 class="readout-title" id="promptHeading">STORY / MOMENT</h2>
-          <div id="prompter" class="readout"></div>
-        </div>
-      </section>
-
-      <section class="panel side-panel">
-        <div class="panel-title"><span>◈ SOUNDTRACK</span><span>♫</span></div>
-        <div class="side-content">
-          <ul id="trackList" class="cue-list"></ul>
-          <div style="margin-top:10px;display:flex;gap:6px;flex-wrap:wrap;">
-            <audio id="audioEl" controls preload="none" style="width:100%;height:30px;"></audio>
-          </div>
-        </div>
-      </section>
-    </aside>
-  </main>
-
-  <footer class="footer-strip">
-    <span><strong>STORY:</strong> DER LETZTE SOMMER MIT IRFAN · 81 MOMENTE</span>
-    <span><strong>CONTROL:</strong> <span class="key">SPACE</span> PLAY <span class="key">← →</span> MOMENT <span class="key">F</span> FULL <span class="key">B</span> ATEM</span>
-    <span><strong>BUILD:</strong> RESPO 9×9 · OFFLINE</span>
-  </footer>
-
+<div id="kopf">
+  <div class="marke">iki1uc · kader</div>
+  <h1>ATOM</h1>
+  <div class="unter">natur · wasser · co₂ · sauerstoff</div>
 </div>
 
-<script>
-(() => {
-"use strict";
+<div id="werte">
+  <div class="z"><span class="k">O₂</span><span class="b"><i id="bO2"></i></span><span class="v" id="vO2">—</span></div>
+  <div class="z"><span class="k">CO₂</span><span class="b"><i id="bCO2"></i></span><span class="v" id="vCO2">—</span></div>
+  <div class="z"><span class="k">H₂O</span><span class="b"><i id="bH2O"></i></span><span class="v" id="vH2O">—</span></div>
+  <div class="z"><span class="k">KERN</span><span class="b"><i id="bKern"></i></span><span class="v" id="vKern">—</span></div>
+</div>
 
-// ═══════════════════════════════════════════════════════════════
-// ◈ DER LETZTE SOMMER · 81 MOMENTE
-// 9 Kapitel × 9 Bilder = RESPO-Matrix
-// Atem · Atom · Wunder · Sound-Reaktiv · Kamera-Schwebe · Grain
-// ═══════════════════════════════════════════════════════════════
+<div id="frieden" class="aus">· frieden ·</div>
 
-const W = 960, H = 540;
-const SEC_PER_IMAGE = 4;          // Basis: 4s pro Bild bei 1.0×
-const TOTAL_IMAGES = 81;
-const MASTER_DURATION = TOTAL_IMAGES * SEC_PER_IMAGE; // 324s ≈ 5:24
+<div id="satz">
+  o₂ und co₂ sind gegenpole<br>
+  atem bewegt sie · frieden ist das band
+</div>
 
-// ─── KAPITEL-DEFINITION (9×9 RESPO) ──────────────────────────
-// Jedes Kapitel: 9 Bilder, ein Track, ein Text
-const chapters = [
-  {
-    id:"CH1", title:"DER LETZTE SOMMER", color:"amber", source:"IRFAN",
-    track:"Indila — Comme un bateau",
-    trackUrl:"", // hier optional MP3-URL eintragen
-    subtitle:"wo mit Irfan noch alles in Ordnung war",
-    story:"Das war der Sommer, in dem mit Irfan noch alles in Ordnung war. Wir hatten keine Achsen, keine Monster, keine Cinematic-Schwere. Nur Licht. Nur Zeit. Nur uns.",
-    prompt:"Totale · warmes Licht · Zeitlupe · Wärme im Bild",
-    folder:"1",
-    images:["th (45).webp","th (46).webp","th (47).webp","th (48).webp","th (49).webp","th (50).webp","th (51).webp","th (52).webp","th (53).webp"],
-  },
-  {
-    id:"CH2", title:"MONSTER IM ID", color:"violet", source:"DARK",
-    track:"THE WITCH — Dark Pulse",
-    trackUrl:"",
-    subtitle:"roh, dunkel, ehrlich",
-    story:"Das Monster war kein Feind. Es war ein Spiegel. Es zeigte mir, was ich war, bevor ich wusste, wer ich bin.",
-    prompt:"Nahaufnahme · Schatten · Atem · langsames Ziehen",
-    folder:"2",
-    images:["th (35).webp","th (36).webp","th (37).webp","th (38).webp","th (39).webp","th (40).webp","th (41).webp","th (42).webp","th (43).webp"],
-  },
-  {
-    id:"CH3", title:"CINEMATIC", color:"blue", source:"KEY",
-    track:"Key — Mozart Techno Reimagined",
-    trackUrl:"",
-    subtitle:"i miss u cinematic",
-    story:"Ich vermisse die Cinematic-Ära. Die Zeit, in der Musik ein Ort war. Ein Raum, in dem ich atmen konnte.",
-    prompt:"Weite · Filmkorn · Kameraschwebe · kalte Farben",
-    folder:"3",
-    images:["th (26).webp","th (27).webp","th (28).webp","th (29).webp","th (30).webp","th (31).webp","th (32).webp","th (33).webp","th (34).webp"],
-  },
-  {
-    id:"CH4", title:"AINSI BAS LA VIDA", color:"pink", source:"INDILA",
-    track:"Indila — Ainsi Bas La Vida (dark orchestral)",
-    trackUrl:"",
-    subtitle:"ich war außer mir, weil ich offen war",
-    story:"Da war ein Track, der hat mich aus mir rausgehoben. Ich war außer mir. Nicht weil ich schwach war. Sondern weil ich offen war.",
-    prompt:"Halbnah · warmes Rosa · langsamer Zoom · Verletzlichkeit",
-    folder:"4",
-    images:["th (21).webp","th (22).webp","th (23).webp","th (24).webp","th (25).webp","1.webp","2.webp","3.webp","4.webp"],
-  },
-  {
-    id:"CH5", title:"DIE LADY VOM MEER", color:"mint", source:"AURORA",
-    track:"AURORA — Runaway (dark edit)",
-    trackUrl:"",
-    subtitle:"nicht real, aber Präsenz",
-    story:"Sie war nicht real. Aber sie war eine Präsenz. Ein Gefühl, das blieb, obwohl es nie da war.",
-    prompt:"Traum · Wasser · weiches Licht · Zeit dehnt sich",
-    folder:"5",
-    images:["1.webp","2.webp","3.webp","4.webp","5.webp","6.webp","7.webp","8.webp","9.webp"],
-  },
-  {
-    id:"CH6", title:"STROMAE-ENERGIE", color:"gold", source:"STROMAE",
-    track:"Stromae — Santé (orchestral)",
-    trackUrl:"",
-    subtitle:"markant, erzählend, rhythmisch",
-    story:"Stromae war ein Motor. Er erzählte, ohne zu erklären. Er trug mich, ohne mich zu kennen.",
-    prompt:"Rhythmus · Schnitt · Struktur · Markanz",
-    folder:"6",
-    images:["th (69).webp","th (70).webp","th (71).webp","th (72).webp","th (73).webp","1.webp","2.webp","3.webp","4.webp"],
-  },
-  {
-    id:"CH7", title:"ANDERES KALIBER", color:"pink", source:"GAGA",
-    track:"Lady Gaga — Bloody Mary (Dark Orchestra)",
-    trackUrl:"",
-    subtitle:"ein Diebstahl aus zwanzig Welten",
-    story:"Das war ein anderes Kaliber. Ein Diebstahl aus zwanzig Welten. Ein Gefühl, das nicht hätte existieren dürfen.",
-    prompt:"Kraft · Kontrast · Orchestral · dunkel",
-    folder:"7",
-    images:["th (74).webp","th (75).webp","th (76).webp","th (77).webp","th (78).webp","th (79).webp","th (80).webp","th (81).webp","th (82).webp"],
-  },
-  {
-    id:"CH8", title:"DIE ACHSEN", color:"blue", source:"AURORA",
-    track:"AURORA — Cure For Me (dark edit)",
-    trackUrl:"",
-    subtitle:"Druck, Zug, Öffnung, Tiefe, Wahrheit",
-    story:"Die Achsen kamen. Druck. Zug. Öffnung. Tiefe. Wahrheit. Ich war nicht mehr derselbe.",
-    prompt:"Achsen sichtbar · Gitter · Druck · Öffnung",
-    folder:"8",
-    images:["th (83).webp","th (84).webp","th (85).webp","th (86).webp","th (87).webp","th (88).webp","th (89).webp","th (90).webp","th (91).webp"],
-  },
-  {
-    id:"CH9", title:"DAS WUNDER IST UNTER UNS", color:"mint", source:"INDILA",
-    track:"Indila — S.O.S (orchestral)",
-    trackUrl:"",
-    subtitle:"Atem, Atom, O₂, CO₂, H₂O",
-    story:"Das Wunder war nie weg. Es war unter uns. Im Atem. Im Atom. Im Licht. Im Sommer.",
-    prompt:"Atem · Atom · Licht · Offenbarung",
-    folder:"9",
-    images:["th (92).webp","th (93).webp","th (94).webp","th (95).webp","th (96).webp","th (97).webp","th (98).webp","th (99).webp","th (100).webp"],
-  },
-];
+<div id="fuss"><b>iki1uc</b> · atom · <span id="zeit">--:--</span></div>
 
-// ─── SZENEN-ZEITEN ─────────────────────────────────────────
-let cursor = 0;
-chapters.forEach((ch, ci) => {
-  ch.start = cursor;
-  ch.runtimeDuration = ch.images.length * SEC_PER_IMAGE;
-  ch.end = cursor + ch.runtimeDuration;
-  cursor = ch.end;
-  ch.index = ci;
-});
-chapters[chapters.length - 1].end = MASTER_DURATION;
+<div id="sperre">
+  <div class="wort">GESPERRT</div>
+  <div class="grund" id="sperre-grund">wächter nicht geladen</div>
+</div>
 
-// ─── CANVAS ─────────────────────────────────────────────
-const canvas = document.getElementById('stage');
-const ctx = canvas.getContext('2d');
-ctx.imageSmoothingEnabled = true;
+<div class="ecke ol"></div>
+<div class="ecke or"></div>
+<div class="ecke ul"></div>
+<div class="ecke ur"></div>
 
-// ─── STATE ──────────────────────────────────────────────
-const S = {
-  time: 0, playing: false, speed: 1, breathOn: true, autoOn: true,
-  lastFrame: performance.now(), frame: 0, shake: 0,
-  audio: null, audioCtx: null, analyser: null, source: null,
-  spectrum: new Uint8Array(128),
-  soundEnergy: 0, soundBass: 0, soundPulse: 0, lastBeat: 0,
-  // Atem
-  breathPhase: 0, breathCycleMs: 4000,
-  // Elemente
-  atom: 0.72, o2: 0.84, co2: 0.68, h2o: 0.76,
-  mana: 0.66, aura: 0.74, zen: 0.88,
-  // MOVE
-  move: 0.4, moveValues: { rot:0.4, orb:0.6, wav:0.3, lin:0.5, spr:0.4 },
-  sparks: [],
-  // Bilder
-  imageCache: {},   // key: chapterIdx-imgIdx → Image|false
-  currentChapter: 0, currentImage: 0,
+<script type="module">
+import { ATOM } from './atom.js';
+
+if(!window.__EVO_GATE || !window.__EVO_GATE.ok){
+  console.log('atom · gesperrt');
+  throw new Error('gate');
+}
+
+/* Zeit */
+function setZeit(){
+  const j = new Date();
+  document.getElementById('zeit').textContent =
+    String(j.getHours()).padStart(2,'0') + ':' +
+    String(j.getMinutes()).padStart(2,'0');
+}
+setZeit();
+setInterval(setZeit, 30000);
+
+/* Canvas */
+const cv = document.getElementById('cv');
+const ctx = cv.getContext('2d');
+let cx, cy;
+function resize(){
+  const dpr = Math.min(devicePixelRatio, 2);
+  cv.width = innerWidth * dpr;
+  cv.height = innerHeight * dpr;
+  cv.style.width = innerWidth + 'px';
+  cv.style.height = innerHeight + 'px';
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  cx = innerWidth / 2;
+  cy = innerHeight / 2;
+}
+addEventListener('resize', resize);
+resize();
+
+/* Farben der vier stoffe */
+const FARBEN = {
+  o2:   '#7ce0a8',
+  co2:  '#ffcc44',
+  h2o:  '#5fc8ff',
+  kern: '#b388ff',
 };
 
-// ─── BILD-LOADER (mit elegantem Fallback) ───────────────
-function getImage(chIdx, imgIdx){
-  const key = chIdx + ":" + imgIdx;
-  if (S.imageCache[key] !== undefined) return S.imageCache[key];
-  const ch = chapters[chIdx];
-  const name = ch.images[imgIdx];
-  if (!name) { S.imageCache[key] = false; return false; }
-  const img = new Image();
-  img.onload = () => { S.imageCache[key] = img; };
-  img.onerror = () => { S.imageCache[key] = false; };
-  // Ordner + Dateiname
-  img.src = encodeURI(ch.folder + "/" + name);
-  S.imageCache[key] = null; // pending
-  return null;
-}
-function preloadAll(){
-  chapters.forEach((ch, ci) => ch.images.forEach((_, ii) => getImage(ci, ii)));
-}
+let t = 0;
+function zeichne(){
+  if(!window.__EVO_GATE.ok) return;
+  requestAnimationFrame(zeichne);
+  t += 16;
 
-// ─── AUDIO ANALYSE (sound-reaktiv) ──────────────────────
-const audioEl = document.getElementById('audioEl');
-function setupAudio(){
-  if (S.audioCtx) return;
-  try {
-    const AC = window.AudioContext || window.webkitAudioContext;
-    S.audioCtx = new AC();
-    S.analyser = S.audioCtx.createAnalyser();
-    S.analyser.fftSize = 256;
-    S.analyser.smoothingTimeConstant = 0.84;
-    S.source = S.audioCtx.createMediaElementSource(audioEl);
-    S.source.connect(S.analyser);
-    S.analyser.connect(S.audioCtx.destination);
-  } catch(_){ S.audioCtx = null; }
-}
-function readSound(now){
-  if (!S.analyser || audioEl.paused){
-    // Fallback: Atem-getriebene Pulsation
-    S.soundEnergy += ((S.breathPhase < 0.5 ? S.breathPhase*2 : (1-S.breathPhase)*2) * 0.6 - S.soundEnergy) * 0.08;
-    S.soundBass = S.soundEnergy;
-    S.soundPulse *= 0.94;
-    return;
-  }
-  S.analyser.getByteFrequencyData(S.spectrum);
-  let total = 0, low = 0;
-  const bassBins = Math.floor(S.spectrum.length * 0.12);
-  for (let i = 0; i < S.spectrum.length; i++) total += S.spectrum[i];
-  for (let i = 0; i < bassBins; i++) low += S.spectrum[i];
-  const rawE = total / S.spectrum.length / 255;
-  const rawB = low / bassBins / 255;
-  S.soundEnergy += (rawE - S.soundEnergy) * 0.12;
-  S.soundBass += (rawB - S.soundBass) * 0.18;
-  if (rawB > 0.58 && rawB > S.soundBass + 0.12 && now - S.lastBeat > 180){
-    S.soundPulse = 1; S.lastBeat = now;
-    for (let i = 0; i < 12; i++) spawnSpark(
-      Math.random()*W, Math.random()*H*0.8 + 40,
-      ['#ffcc66','#68f6c0','#b388ff','#6cc9ff','#ff6d9d'][Math.floor(Math.random()*5)],
-      1, Math.random()<0.4?'star':'spark'
-    );
-  }
-  S.soundPulse *= 0.91;
-}
-
-// ─── ELEMENTE-ZYKLUS ────────────────────────────────────
-function updateElements(dt){
-  S.breathPhase = ((performance.now() % S.breathCycleMs) / S.breathCycleMs);
-  const ph = S.breathPhase;
-  let intensity;
-  if (ph < 0.4) intensity = ph / 0.4;
-  else if (ph < 0.5) intensity = 1.0;
-  else if (ph < 0.9) intensity = 1 - (ph - 0.5) / 0.4;
-  else intensity = 0.0;
-
-  if (ph < 0.4){
-    S.o2 = Math.min(1, S.o2 + 0.0035);
-    S.co2 = Math.max(0, S.co2 - 0.0025);
-    S.h2o = Math.min(1, S.h2o + 0.0012);
-  } else if (ph >= 0.5 && ph < 0.9){
-    S.co2 = Math.min(1, S.co2 + 0.0030);
-    S.o2 = Math.max(0, S.o2 - 0.0020);
-    S.h2o = Math.min(1, S.h2o + 0.0020);
-  }
-  S.atom = Math.max(0, Math.min(1, S.atom + (Math.random()-0.5) * 0.003));
-  S.mana = Math.max(0, Math.min(1, S.mana + (intensity - 0.5) * 0.004 + (Math.random()-0.5)*0.002));
-  S.aura = Math.max(0, Math.min(1, S.aura + (intensity - 0.5) * 0.003));
-  S.zen  = Math.max(0, Math.min(1, S.zen  + (0.5 - Math.abs(intensity - 0.5)) * 0.002));
-
-  Object.keys(S.moveValues).forEach(k => {
-    S.moveValues[k] = Math.max(0, Math.min(1, S.moveValues[k] + (Math.random()-0.5)*0.02));
-  });
-  S.move = (S.moveValues.rot + S.moveValues.orb + S.moveValues.wav + S.moveValues.lin + S.moveValues.spr) / 5;
-  S.move = Math.max(S.move, S.soundEnergy * 0.9); // Sound treibt MOVE mit
-
-  setChip('chipAtom', (S.atom*100).toFixed(0)+'%');
-  setChip('chipO2', (S.o2*100).toFixed(0)+'%');
-  setChip('chipCO2', (S.co2*100).toFixed(0)+'%');
-  setChip('chipH2O', (S.h2o*100).toFixed(0)+'%');
-  setChip('chipMana', (S.mana*100).toFixed(0)+'%');
-  setChip('chipAura', (S.aura*100).toFixed(0)+'%');
-  setChip('chipZen', (S.zen*100).toFixed(0)+'%');
-  renderAxisBars();
-}
-function setChip(id, v){ const el = document.getElementById(id); if (el) el.textContent = v; }
-function renderAxisBars(){
-  const el = document.getElementById('axisBars'); if (!el) return;
-  const rows = [
-    { k:'MOVE',  v:S.move, color:'var(--amber)' },
-    { k:'SOUND', v:S.soundEnergy, color:'var(--pink)' },
-    { k:'BASS',  v:S.soundBass, color:'var(--violet)' },
-    { k:'ATEM',  v: S.breathPhase < 0.5 ? S.breathPhase*2 : (1-S.breathPhase)*2, color:'var(--mint)' },
-    { k:'LEBEN', v: (S.mana+S.aura+S.zen)/3, color:'var(--blue)' },
-  ];
-  el.innerHTML = rows.map(r => `
-    <div style="display:grid;grid-template-columns:56px 1fr 42px;gap:6px;align-items:center;
-                padding:3px 0;border-bottom:1px dashed rgba(104,246,192,.06);font-size:10px;">
-      <span style="color:var(--muted);font-size:9px;letter-spacing:1px;font-weight:bold;">${r.k}</span>
-      <div style="height:6px;background:#0a1c24;border-radius:2px;overflow:hidden;">
-        <div style="height:100%;width:${(r.v*100).toFixed(0)}%;background:${r.color};transition:width .35s;"></div>
-      </div>
-      <span style="text-align:right;color:${r.color};font-weight:bold;font-size:10px;">${(r.v*100).toFixed(0)}%</span>
-    </div>`).join('');
-}
-
-// ─── PARTIKEL ───────────────────────────────────────────
-function spawnSpark(x, y, color, count=1, kind='spark'){
-  for (let i = 0; i < count; i++){
-    const a = Math.random() * Math.PI * 2;
-    const sp = 1 + Math.random() * 3;
-    S.sparks.push({
-      x, y, vx: Math.cos(a)*sp, vy: Math.sin(a)*sp,
-      life: 1, maxLife: 30 + Math.random()*40,
-      color, size: 1 + Math.random()*2, kind,
-    });
-  }
-  if (S.sparks.length > 600) S.sparks.splice(0, S.sparks.length - 600);
-}
-function updateSparks(dt){
-  for (let i = S.sparks.length - 1; i >= 0; i--){
-    const s = S.sparks[i];
-    s.x += s.vx * (dt*60) * (1 + S.soundEnergy * 2);
-    s.y += s.vy * (dt*60) * (1 + S.soundEnergy * 2);
-    s.vx *= 0.96; s.vy *= 0.96;
-    s.vy += 0.02;
-    s.life -= dt / (s.maxLife/60);
-    if (s.life <= 0) S.sparks.splice(i, 1);
-  }
-}
-function drawSparks(){
-  for (const s of S.sparks){
-    ctx.globalAlpha = Math.max(0, s.life);
-    ctx.fillStyle = s.color;
-    ctx.beginPath();
-    if (s.kind === 'star'){
-      const r = s.size * 2 * s.life;
-      for (let i = 0; i < 4; i++){
-        const a = i * Math.PI/2 + Math.atan2(s.vy, s.vx);
-        const x1 = s.x + Math.cos(a) * r;
-        const y1 = s.y + Math.sin(a) * r;
-        const a2 = a + Math.PI/4;
-        const x2 = s.x + Math.cos(a2) * r*0.3;
-        const y2 = s.y + Math.sin(a2) * r*0.3;
-        if (i===0) ctx.moveTo(x1, y1); else ctx.lineTo(x1, y1);
-        ctx.lineTo(x2, y2);
-      }
-      ctx.closePath(); ctx.fill();
-    } else {
-      ctx.arc(s.x, s.y, s.size * s.life, 0, Math.PI*2); ctx.fill();
-    }
-    ctx.globalAlpha = 1;
-  }
-}
-
-// ─── KAMERA (Ken-Burns + Atem + Sound + Shake) ──────────
-function cameraOffset(localT){
-  const f = S.frame;
-  const moveAmp = 2 + S.move * 9 + S.soundEnergy * 6;
-  const breathAmp = 1 + (S.breathOn ? (S.breathPhase < 0.5 ? S.breathPhase*2 : (1-S.breathPhase)*2) * 3 : 0);
-  let ox = Math.sin(f*0.011) * moveAmp * 0.6 + Math.sin(f*0.003)*breathAmp*0.4;
-  let oy = Math.cos(f*0.014) * moveAmp * 0.4 + Math.sin(f*0.0065)*breathAmp*0.6;
-  // Ken-Burns: langsamer Zoom pro Bild
-  const kb = Math.sin(localT * Math.PI); // 0..1..0
-  const zoom = 1.02 + kb * 0.06 + S.soundPulse * 0.02 + Math.sin(f*0.004) * 0.006 * (0.4 + S.move*0.8);
-  if (S.shake > 0){
-    ox += (Math.random()-0.5) * S.shake;
-    oy += (Math.random()-0.5) * S.shake;
-    S.shake *= 0.88; if (S.shake < 0.05) S.shake = 0;
-  }
-  return {ox, oy, zoom};
-}
-
-// ─── ZEICHEN-HILFEN ────────────────────────────────────
-function rect(x, y, w, h, fill){ ctx.fillStyle = fill; ctx.fillRect(Math.round(x), Math.round(y), Math.round(w), Math.round(h)); }
-function text(txt, x, y, size=14, color='#d8f0e8', align='left', weight='400', font='"Courier New",monospace'){
-  ctx.font = `${weight} ${size}px ${font}`;
-  ctx.fillStyle = color;
-  ctx.textBaseline = 'top'; ctx.textAlign = align;
-  ctx.fillText(txt, Math.round(x), Math.round(y));
-}
-function clamp(n, a=0, b=1){ return Math.max(a, Math.min(b, n)); }
-function lerp(a, b, t){ return a + (b - a) * t; }
-function ease(t){ t = clamp(t); return t*t*(3-2*t); }
-function roundRect(x, y, w, h, r){
-  ctx.beginPath();
-  ctx.moveTo(x + r, y);
-  ctx.lineTo(x + w - r, y);
-  ctx.quadraticCurveTo(x + w, y, x + w, y + r);
-  ctx.lineTo(x + w, y + h - r);
-  ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
-  ctx.lineTo(x + r, y + h);
-  ctx.quadraticCurveTo(x, y + h, x, y + h - r);
-  ctx.lineTo(x, y + r);
-  ctx.quadraticCurveTo(x, y, x + r, y);
-  ctx.closePath();
-}
-function wrapText(txt, maxChars){
-  const words = String(txt).split(/\s+/);
-  const lines = []; let line = '';
-  words.forEach(w => {
-    const nxt = line ? line + ' ' + w : w;
-    if (nxt.length > maxChars && line){ lines.push(line); line = w; }
-    else line = nxt;
-  });
-  if (line) lines.push(line);
-  return lines;
-}
-function multiline(txt, x, y, mc, lh, size, color, maxLines=4){
-  const lines = wrapText(txt, mc).slice(0, maxLines);
-  lines.forEach((l, i) => text(l, x, y + i*lh, size, color));
-  return lines.length;
-}
-
-// ─── FILM GRAIN / SCANLINES / VIGNETTE ─────────────────
-function drawCRT(){
-  // Scanlines
-  ctx.save();
-  ctx.globalAlpha = 0.06;
-  for (let y = 0; y < H; y += 4) rect(0, y, W, 1, '#020810');
-  // Vignette
-  const v = ctx.createRadialGradient(W/2, H/2, 130, W/2, H/2, 620);
-  v.addColorStop(0, 'rgba(0,0,0,0)');
-  v.addColorStop(1, 'rgba(0,0,0,.65)');
-  ctx.globalAlpha = 1;
-  ctx.fillStyle = v; ctx.fillRect(0, 0, W, H);
-  // Film-Grain (dichte skaliert mit Sound)
-  const grainDensity = 60 + S.soundEnergy * 120;
-  ctx.globalAlpha = 0.05 + S.soundEnergy * 0.08;
-  for (let i = 0; i < grainDensity; i++){
-    const x = Math.random() * W, y = Math.random() * H;
-    rect(x, y, 1, 1, Math.random() < 0.5 ? '#fff' : '#000');
-  }
-  // Staubkörner (immer)
-  ctx.globalAlpha = 0.15;
-  for (let i = 0; i < 26; i++){
-    const x = (Math.sin(i*93.7 + S.frame*0.06)*0.5+0.5) * W;
-    const y = (Math.sin(i*17.3 + S.frame*0.10)*0.5+0.5) * H;
-    rect(x, y, 1, 1, i%3 ? '#7df4c4' : '#ff6d9d');
-  }
-  ctx.restore();
-}
-
-// ─── ELEMENT-PARTIKEL (ATEM · ATOM · O2 · CO2 · H2O) ───
-function drawElementParticles(intensity=1){
-  const t = S.frame;
-  const cx = W/2, cy = H/2;
-  const sound = 0.4 + S.soundEnergy * 1.2;
-
-  // Atom-Kern
-  const atomR = 40 + S.atom * 30 + S.soundBass * 24;
-  ctx.save();
-  ctx.strokeStyle = `rgba(179,136,255,${(0.3 + S.atom*0.3) * intensity})`;
-  ctx.lineWidth = 1;
-  ctx.beginPath(); ctx.arc(cx, cy, atomR, 0, Math.PI*2); ctx.stroke();
-  for (let i = 0; i < 3; i++){
-    ctx.save();
-    ctx.translate(cx, cy);
-    ctx.rotate(t * 0.005 + i * Math.PI/3);
-    ctx.strokeStyle = `rgba(179,136,255,${(0.15 + S.atom*0.15) * intensity})`;
-    ctx.beginPath();
-    ctx.ellipse(0, 0, atomR + 15, atomR * 0.35, 0, 0, Math.PI*2);
-    ctx.stroke();
-    ctx.restore();
-  }
-  ctx.restore();
-
-  // O2 (grün, steigen auf)
-  for (let i = 0; i < 10; i++){
-    const a = (i/10)*Math.PI*2 + t*0.008;
-    const r = 90 + S.o2 * 40 + sound * 40;
-    const x = cx + Math.cos(a)*r;
-    const y = cy + Math.sin(a)*r - 40;
-    ctx.save();
-    ctx.globalAlpha = (0.4 + S.o2 * 0.3) * intensity;
-    ctx.fillStyle = '#7ce0a8'; ctx.shadowColor = '#7ce0a8'; ctx.shadowBlur = 12;
-    ctx.beginPath(); ctx.arc(x, y, 3 + S.o2*2, 0, Math.PI*2); ctx.fill();
-    ctx.restore();
-  }
-  // CO2 (gold, sinken)
-  for (let i = 0; i < 10; i++){
-    const a = (i/10)*Math.PI*2 + Math.PI/8 + t*0.006;
-    const r = 100 + S.co2 * 40 + sound * 30;
-    const x = cx + Math.cos(a)*r;
-    const y = cy + Math.sin(a)*r + 40;
-    ctx.save();
-    ctx.globalAlpha = (0.4 + S.co2 * 0.3) * intensity;
-    ctx.fillStyle = '#ffcc44'; ctx.shadowColor = '#ffcc44'; ctx.shadowBlur = 10;
-    ctx.beginPath(); ctx.arc(x, y, 2.5 + S.co2*2, 0, Math.PI*2); ctx.fill();
-    ctx.restore();
-  }
-  // H2O (cyan, fließen)
-  for (let i = 0; i < 12; i++){
-    const a = (i/12)*Math.PI*2 + t*0.004;
-    const r = 130 + S.h2o * 30 + sound * 20;
-    const wobble = Math.sin(t*0.02 + i) * 10;
-    const x = cx + Math.cos(a)*(r + wobble);
-    const y = cy + Math.sin(a)*(r + wobble) * 0.9;
-    ctx.save();
-    ctx.globalAlpha = (0.3 + S.h2o * 0.3) * intensity;
-    ctx.fillStyle = '#5fc8ff'; ctx.shadowColor = '#5fc8ff'; ctx.shadowBlur = 8;
-    ctx.beginPath();
-    ctx.ellipse(x, y, 2 + S.h2o*1.5, 4 + S.h2o*2, a, 0, Math.PI*2);
-    ctx.fill();
-    ctx.restore();
-  }
-
-  // MOVE-Bokeh (sound-verstärkt)
-  const bokehCount = Math.round(8 + S.move * 26 + S.soundEnergy * 20);
-  for (let i = 0; i < bokehCount; i++){
-    const a = i * 2.399963 + t * (0.006 + (i%5)*0.002);
-    const r = 60 + ((i*53) % 260) + Math.sin(t*0.01+i)*18;
-    const x = cx + Math.cos(a) * r * 1.4;
-    const y = cy + Math.sin(a) * r * 0.75;
-    if (x < -20 || x > W+20 || y < -20 || y > H+20) continue;
-    ctx.save();
-    ctx.globalAlpha = (0.12 + 0.22 * S.move) * intensity;
-    ctx.fillStyle = ['#68f6c0','#b388ff','#ffbd5c','#ff6d9d'][i%4];
-    ctx.beginPath(); ctx.arc(x, y, 1.2 + (i%3), 0, Math.PI*2); ctx.fill();
-    ctx.restore();
-  }
-}
-
-// ─── WUNDER-STRAHLEN (Bloom) ────────────────────────────
-function drawWonderBloom(intensity){
-  if (intensity <= 0) return;
-  const cx = W/2, cy = H/2;
-  const r = 180 + Math.sin(S.frame*0.02) * 20 + S.soundEnergy * 80;
-  const g = ctx.createRadialGradient(cx, cy, 0, cx, cy, r);
-  g.addColorStop(0, `rgba(255, 210, 140, ${0.10 * intensity})`);
-  g.addColorStop(0.5, `rgba(179, 136, 255, ${0.06 * intensity})`);
-  g.addColorStop(1, 'rgba(0,0,0,0)');
-  ctx.save();
-  ctx.globalCompositeOperation = 'lighter';
-  ctx.fillStyle = g;
-  ctx.fillRect(0, 0, W, H);
-  ctx.restore();
-}
-
-// ─── HAUPT-RENDERER: BILD + ATEM + ATOM ────────────────
-function renderChapter(chIdx, imgIdx, localT){
-  const ch = chapters[chIdx];
-  const img = getImage(chIdx, imgIdx);
-
-  ctx.clearRect(0, 0, W, H);
+  // Atme — atom.js rechnet
+  const z = ATOM.atme(t);
 
   // Hintergrund
-  rect(0, 0, W, H, '#04080e');
+  ctx.fillStyle = 'rgba(4,7,12,0.22)';
+  ctx.fillRect(0, 0, innerWidth, innerHeight);
 
-  // Kamera
-  const cam = cameraOffset(localT);
-  ctx.save();
-  ctx.translate(W/2, H/2);
-  ctx.scale(cam.zoom, cam.zoom);
-  ctx.translate(-W/2 + cam.ox, -H/2 + cam.oy);
+  // Äußerer rahmen · das band des friedens
+  const Rmax = Math.min(innerWidth, innerHeight) * 0.32;
+  const Rinner = Rmax * (1 - ATOM.band / ATOM.mitte);
 
-  // Bild zeichnen (oder Platzhalter)
-  if (img instanceof Image){
-    // cover
-    const iw = img.naturalWidth, ih = img.naturalHeight;
-    const scale = Math.max(W/iw, H/ih);
-    const dw = iw * scale, dh = ih * scale;
-    const dx = (W - dw)/2, dy = (H - dh)/2;
-    // Bild "atmet" mit Sound (ganz leicht)
-    const pulse = 1 + S.soundBass * 0.012;
-    ctx.save();
-    ctx.translate(W/2, H/2);
-    ctx.scale(pulse, pulse);
-    ctx.translate(-W/2, -H/2);
-    ctx.globalAlpha = 0.96;
-    ctx.drawImage(img, dx, dy, dw, dh);
-    ctx.restore();
+  // Band: zwei gestrichelte ringe
+  ctx.beginPath();
+  ctx.arc(cx, cy, Rmax, 0, Math.PI * 2);
+  ctx.strokeStyle = 'rgba(140,240,208,0.06)';
+  ctx.lineWidth = 0.6;
+  ctx.stroke();
 
-    // Farbstimmung pro Kapitel (Overlay)
-    const tint = chapterTint(ch.color);
-    ctx.save();
-    ctx.globalCompositeOperation = 'multiply';
-    ctx.fillStyle = tint;
-    ctx.globalAlpha = 0.35;
-    ctx.fillRect(dx, dy, dw, dh);
-    ctx.restore();
-  } else {
-    // Platzhalter
-    rect(0, 0, W, H, '#060c14');
-    drawPlaceholder(chIdx, imgIdx, localT);
-  }
+  ctx.beginPath();
+  ctx.arc(cx, cy, Rinner, 0, Math.PI * 2);
+  ctx.strokeStyle = 'rgba(140,240,208,0.06)';
+  ctx.lineWidth = 0.6;
+  ctx.stroke();
 
-  // Wunder-Bloom
-  drawWonderBloom(0.4 + S.soundEnergy * 0.6);
+  // Vier ringe — o2, co2, h2o, kern
+  const ringe = [
+    { k:'o2',   wert:z.o2,   farbe:FARBEN.o2   },
+    { k:'co2',  wert:z.co2,  farbe:FARBEN.co2  },
+    { k:'h2o',  wert:z.h2o,  farbe:FARBEN.h2o  },
+    { k:'kern', wert:z.kern, farbe:FARBEN.kern },
+  ];
 
-  // Atem-Partikel (Atom/O2/CO2/H2O)
-  drawElementParticles(0.9);
+  ringe.forEach((r, i) => {
+    const a0 = (i / 4) * Math.PI * 2 - Math.PI / 2;
+    const a1 = a0 + (Math.PI * 2) / 4 * r.wert;
 
-  // Speed-Lines bei starkem Bass
-  if (S.soundPulse > 0.4){
-    drawSpeedLines(W/2, H/2, 20, 200, 520,
-      `rgba(255,189,92,${0.15 + S.soundPulse * 0.3})`);
-  }
-
-  // Partikel
-  drawSparks();
-
-  ctx.restore();
-
-  // CRT / Grain / Vignette
-  drawCRT();
-}
-
-function chapterTint(color){
-  switch(color){
-    case 'amber': return '#ffd79b';
-    case 'violet': return '#a48cff';
-    case 'blue': return '#7ec8ff';
-    case 'pink': return '#ff9ec4';
-    case 'mint': return '#9effd5';
-    case 'gold': return '#ffe08a';
-    case 'red': return '#ffb0b0';
-    default: return '#ffffff';
-  }
-}
-
-function drawPlaceholder(chIdx, imgIdx, localT){
-  // Elegant: Nummer + Moment-Marker
-  const ch = chapters[chIdx];
-  const n = (chIdx+1) + "-" + String(imgIdx+1).padStart(2,"0");
-  text('MOMENT ' + n, W/2, H/2 - 30, 22, '#68f6c0', 'center', '700');
-  text(ch.title, W/2, H/2 + 6, 14, '#ffbd5c', 'center', '700');
-  text('BILD FEHLT · ' + ch.folder + "/" + ch.images[imgIdx], W/2, H/2 + 34, 10, '#4a6e72', 'center');
-
-  // Sanftes Rauschen
-  for (let i = 0; i < 300; i++){
-    const x = Math.random()*W, y = Math.random()*H;
-    rect(x, y, 1, 1, `rgba(104,246,192,${0.02 + Math.random()*0.05})`);
-  }
-  // Rahmen
-  ctx.strokeStyle = 'rgba(104,246,192,.35)';
-  ctx.lineWidth = 1;
-  ctx.strokeRect(40, 40, W-80, H-80);
-}
-
-function drawSpeedLines(cx, cy, count=24, innerR=180, outerR=520, color='rgba(255,189,92,.25)'){
-  ctx.save();
-  ctx.strokeStyle = color;
-  ctx.lineWidth = 1.5;
-  for (let i = 0; i < count; i++){
-    const a = (i / count) * Math.PI * 2 + Math.random() * 0.1;
-    const r1 = innerR + Math.random() * 30;
-    const r2 = outerR + Math.random() * 60;
     ctx.beginPath();
-    ctx.moveTo(cx + Math.cos(a) * r1, cy + Math.sin(a) * r1);
-    ctx.lineTo(cx + Math.cos(a) * r2, cy + Math.sin(a) * r2);
+    ctx.arc(cx, cy, Rmax, a0, a1);
+    ctx.strokeStyle = r.farbe;
+    ctx.globalAlpha = 0.35 + r.wert * 0.5;
+    ctx.lineWidth = 1.6;
+    ctx.stroke();
+
+    // Punkt am ende
+    const ex = cx + Math.cos(a1) * Rmax;
+    const ey = cy + Math.sin(a1) * Rmax;
+    ctx.beginPath();
+    ctx.arc(ex, ey, 2.5 + r.wert * 2, 0, Math.PI * 2);
+    ctx.fillStyle = r.farbe;
+    ctx.globalAlpha = 0.7 + r.wert * 0.3;
+    ctx.fill();
+    ctx.globalAlpha = 1;
+  });
+
+  // Kern in der mitte — das atom
+  const kernGlut = ctx.createRadialGradient(cx, cy, 0, cx, cy, 70);
+  const hauch = z.frieden ? 0.5 : 0.2;
+  kernGlut.addColorStop(0, `rgba(140,240,208,${hauch})`);
+  kernGlut.addColorStop(0.5, `rgba(179,136,255,${hauch * 0.5})`);
+  kernGlut.addColorStop(1, 'rgba(140,240,208,0)');
+  ctx.beginPath();
+  ctx.arc(cx, cy, 70, 0, Math.PI * 2);
+  ctx.fillStyle = kernGlut;
+  ctx.fill();
+
+  // Kern-punkt
+  ctx.beginPath();
+  ctx.arc(cx, cy, 3 + z.kern * 3, 0, Math.PI * 2);
+  ctx.fillStyle = '#8cf0d0';
+  ctx.fill();
+
+  // Innenpulse — der atem
+  for(let i = 0; i < 4; i++){
+    const ph = ((t * 0.00015) + i / 4) % 1;
+    const r = Rmax * (1 - ph);
+    if(r < 10) continue;
+    ctx.beginPath();
+    ctx.arc(cx, cy, r, 0, Math.PI * 2);
+    ctx.strokeStyle = `rgba(140,240,208,${0.06 * (1 - ph)})`;
+    ctx.lineWidth = 0.5;
     ctx.stroke();
   }
-  ctx.restore();
-}
 
-// ─── UI UPDATES ────────────────────────────────────────
-function fmt(sec, tenths=true){
-  sec = Math.max(0, sec);
-  const m = Math.floor(sec/60).toString().padStart(2,'0');
-  const s = Math.floor(sec%60).toString().padStart(2,'0');
-  const d = tenths ? '.' + Math.floor((sec%1)*10) : '';
-  return `${m}:${s}${d}`;
-}
-function chapterAt(time){
-  const t = Math.max(0, Math.min(time, MASTER_DURATION - 0.0001));
-  return chapters.findIndex(ch => t >= ch.start && t < ch.end);
-}
-function momentFor(chIdx){
-  const ch = chapters[chIdx];
-  const localInCh = clamp((S.time - ch.start) / ch.runtimeDuration);
-  const imgIdx = Math.min(ch.images.length - 1, Math.floor(localInCh * ch.images.length));
-  const imgLocal = (localInCh * ch.images.length) % 1;
-  return { imgIdx, imgLocal, localInCh };
-}
+  // Werte-Anzeige
+  const setz = (id, x) => {
+    const v = document.getElementById('v' + id);
+    const b = document.getElementById('b' + id);
+    if(v) v.textContent = (x * 100).toFixed(0) + '%';
+    if(b) b.style.width  = (x * 100).toFixed(0) + '%';
+  };
+  setz('O2',   z.o2);
+  setz('CO2',  z.co2);
+  setz('H2O',  z.h2o);
+  setz('Kern', z.kern);
 
-function updateUI(){
-  const chIdx = chapterAt(S.time);
-  const ch = chapters[chIdx];
-  const { imgIdx, imgLocal, localInCh } = momentFor(chIdx);
-
-  // Wechsel?
-  if (chIdx !== S.currentChapter || imgIdx !== S.currentImage){
-    S.currentChapter = chIdx; S.currentImage = imgIdx;
-    S.shake = 8;
-    for (let i = 0; i < 20; i++){
-      spawnSpark(W/2, H/2, ['#68f6c0','#b388ff','#ffbd5c','#ff6d9d'][i%4], 1, 'star');
-    }
-  }
-
-  // Text
-  document.getElementById('sceneCode').textContent = ch.id;
-  document.getElementById('sceneTitle').textContent = ch.title;
-  document.getElementById('sourceChip').textContent = ch.source;
-  document.getElementById('sceneProgress').style.width = `${localInCh*100}%`;
-  document.getElementById('sceneTime').textContent = String(imgIdx+1).padStart(2,'0') + " / 09";
-  document.getElementById('masterTime').textContent = fmt(S.time);
-  document.getElementById('timelineScene').textContent = ch.id;
-  document.getElementById('timelineTime').textContent = `${fmt(S.time)} / ${fmt(MASTER_DURATION, false)}`;
-  document.getElementById('beatTag').textContent = `${ch.id}-${String(imgIdx+1).padStart(2,'0')}`;
-  document.getElementById('promptHeading').textContent = (ch.prompt || 'STORY').toUpperCase();
-
-  const pr = document.getElementById('prompter');
-  pr.innerHTML = '';
-  const p1 = document.createElement('div');
-  p1.textContent = ch.prompt;
-  pr.appendChild(p1);
-  const p2 = document.createElement('div');
-  p2.className = 'quote'; p2.style.marginTop = '10px';
-  p2.textContent = ch.story;
-  pr.appendChild(p2);
-
-  // Story-Overlay
-  const so = document.getElementById('storyOverlay');
-  so.innerHTML = `
-    <div class="ch">${ch.id} · ${ch.subtitle}</div>
-    <div class="title">${ch.title}</div>
-    <div class="line">${ch.story}</div>
-    <div class="track">♫ ${ch.track}</div>
-  `;
-  so.classList.add('show');
-
-  // Tabs
-  [...document.querySelectorAll('.scene-tab')].forEach((t, i) => {
-    t.classList.toggle('active', i === chIdx);
-  });
-
-  // Mini-Plot (81 Zellen)
-  const cells = document.querySelectorAll('.mini-plot .cell');
-  const chStart = chIdx * 9;
-  cells.forEach((c, i) => {
-    c.classList.toggle('active', i === chStart + imgIdx);
-    c.classList.toggle('done', i < chStart + imgIdx);
-  });
-
-  // Timeline
-  document.getElementById('timeline').value = S.time.toFixed(1);
-  document.getElementById('overlayLeft').textContent = `${ch.id} / ${ch.title}`;
-  document.getElementById('overlayRight').textContent = `${fmt(S.time)} / ${S.playing ? 'RUN' : 'HOLD'}`;
-  document.getElementById('canvasMode').textContent = S.playing ? 'LIVE / PLAYING' : 'LIVE / HOLD';
-  document.getElementById('runState').textContent = S.playing ? 'PLAYING' : 'IDLE';
-
-  // Render
-  renderChapter(chIdx, imgIdx, imgLocal);
-}
-
-function updateControls(){
-  const btn = document.getElementById('startBtn');
-  btn.textContent = S.playing ? 'Ⅱ PAUSE STORY' : '▶ START STORY';
-  btn.classList.toggle('active', S.playing);
-  document.getElementById('autoBtn').textContent = `⟳ AUTO: ${S.autoOn ? 'ON' : 'OFF'}`;
-  document.getElementById('autoBtn').classList.toggle('active', S.autoOn);
-  document.getElementById('breathBtn').textContent = `◈ ATEM: ${S.breathOn ? 'AN' : 'AUS'}`;
-  document.getElementById('breathBtn').classList.toggle('active', S.breathOn);
-  document.querySelectorAll('[data-speed]').forEach(b =>
-    b.classList.toggle('active', Number(b.dataset.speed) === S.speed));
-  updateUI();
-}
-
-// ─── TABS + MARKER + MINI-PLOT ─────────────────────────
-function makeTabs(){
-  const el = document.getElementById('sceneTabs');
-  el.innerHTML = '';
-  chapters.forEach((ch, i) => {
-    const b = document.createElement('button');
-    b.className = 'scene-tab';
-    b.dataset.index = i;
-    b.dataset.color = ch.color;
-    b.innerHTML = `<strong>${ch.id}</strong> ${ch.title}<small>${ch.images.length}× MOMENT</small>`;
-    b.addEventListener('click', () => {
-      S.time = ch.start + (0.001 * ch.runtimeDuration); // erstes Bild
-      updateControls();
-    });
-    el.appendChild(b);
-  });
-}
-function makeMarkers(){
-  const el = document.getElementById('markers');
-  el.innerHTML = '';
-  chapters.forEach((ch, i) => {
-    const m = document.createElement('span');
-    m.className = 'marker';
-    m.style.left = `${(ch.start / MASTER_DURATION) * 100}%`;
-    m.title = `${ch.id} / ${ch.title}`;
-    m.innerHTML = i === 0 ? '' : `<em>${ch.id}</em>`;
-    el.appendChild(m);
-  });
-}
-function makeMiniPlot(){
-  const el = document.getElementById('miniPlot');
-  el.innerHTML = '';
-  for (let c = 0; c < 9; c++){
-    for (let i = 0; i < 9; i++){
-      const cell = document.createElement('div');
-      cell.className = 'cell';
-      cell.dataset.ch = c;
-      cell.dataset.img = i;
-      cell.title = `CH${c+1} · MOMENT ${i+1}`;
-      // Thumbnail als Hintergrund wenn vorhanden (imageCache nicht synchron verfügbar → lazy setzen)
-      const ch = chapters[c];
-      const key = c + ":" + i;
-      const img = S.imageCache[key];
-      if (img instanceof Image){
-        cell.style.backgroundImage = `url(${img.src})`;
-        cell.classList.add('thumb');
-      }
-      cell.addEventListener('click', () => {
-        const targetCh = chapters[c];
-        S.time = targetCh.start + (i / 9) * targetCh.runtimeDuration + 0.001;
-        updateControls();
-      });
-      el.appendChild(cell);
-    }
+  // Frieden-anzeige
+  const fEl = document.getElementById('frieden');
+  if(z.frieden){
+    fEl.classList.add('an'); fEl.classList.remove('aus');
+    fEl.textContent = '· frieden ·';
+  } else {
+    fEl.classList.add('aus'); fEl.classList.remove('an');
+    // Wer ist am weitesten weg?
+    const w = z.waage;
+    const max = Math.max(w.o2, w.co2, w.h2o, w.kern);
+    const wer = max === w.o2 ? 'o₂' :
+                max === w.co2 ? 'co₂' :
+                max === w.h2o ? 'h₂o' : 'kern';
+    fEl.textContent = `· ${wer} außer band ·`;
   }
 }
-function refreshMiniPlotThumbs(){
-  const cells = document.querySelectorAll('.mini-plot .cell');
-  cells.forEach(cell => {
-    const c = Number(cell.dataset.ch);
-    const i = Number(cell.dataset.img);
-    const key = c + ":" + i;
-    const img = S.imageCache[key];
-    if (img instanceof Image && !cell.classList.contains('thumb')){
-      cell.style.backgroundImage = `url(${img.src})`;
-      cell.classList.add('thumb');
-    }
-  });
-}
+zeichne();
 
-// ─── SOUNDTRACK-LISTE ──────────────────────────────────
-function makeTrackList(){
-  const el = document.getElementById('trackList');
-  el.innerHTML = '';
-  chapters.forEach((ch, i) => {
-    const li = document.createElement('li');
-    li.dataset.index = i;
-    li.innerHTML = `<b>${ch.id}</b><span>${ch.track}</span>`;
-    el.appendChild(li);
-  });
-}
-function updateTrackList(){
-  const chIdx = chapterAt(S.time);
-  const items = document.querySelectorAll('#trackList li');
-  items.forEach((li, i) => li.classList.toggle('active', i === chIdx));
-  // Track in audioEl laden, wenn URL vorhanden
-  const ch = chapters[chIdx];
-  if (ch.trackUrl && audioEl.src !== ch.trackUrl){
-    audioEl.src = ch.trackUrl;
-  }
-}
-
-// ─── EVENTS ────────────────────────────────────────────
-function bind(){
-  document.getElementById('startBtn').addEventListener('click', () => {
-    if (!S.playing){
-      if (S.time >= MASTER_DURATION - 0.1) S.time = 0;
-      S.playing = true;
-      S.lastFrame = performance.now();
-      // AudioContext initialisieren (User-Geste)
-      setupAudio();
-      if (S.audioCtx && S.audioCtx.state === 'suspended') S.audioCtx.resume();
-    } else {
-      S.playing = false;
-    }
-    updateControls();
-  });
-  document.getElementById('stepBack').addEventListener('click', () => {
-    S.playing = false;
-    S.time = Math.max(0, S.time - SEC_PER_IMAGE);
-    updateControls();
-  });
-  document.getElementById('stepForward').addEventListener('click', () => {
-    S.playing = false;
-    S.time = Math.min(MASTER_DURATION, S.time + SEC_PER_IMAGE);
-    updateControls();
-  });
-  document.getElementById('autoBtn').addEventListener('click', () => {
-    S.autoOn = !S.autoOn; updateControls();
-  });
-  document.getElementById('breathBtn').addEventListener('click', () => {
-    S.breathOn = !S.breathOn; updateControls();
-  });
-  document.querySelectorAll('[data-speed]').forEach(b =>
-    b.addEventListener('click', () => { S.speed = Number(b.dataset.speed); updateControls(); }));
-  document.getElementById('timeline').addEventListener('input', e => {
-    S.playing = false;
-    S.time = Number(e.target.value);
-    updateControls();
-  });
-  document.getElementById('fullscreenBtn').addEventListener('click', () => {
-    if (!document.fullscreenElement) document.documentElement.requestFullscreen?.();
-    else document.exitFullscreen?.();
-  });
-  document.getElementById('resetBtn').addEventListener('click', () => {
-    S.time = 0; S.playing = false; S.currentChapter = -1; S.currentImage = -1;
-    updateControls();
-  });
-
-  document.addEventListener('keydown', e => {
-    if (e.target.matches('input,button,audio')) return;
-    if (e.code === 'Space'){ e.preventDefault(); document.getElementById('startBtn').click(); }
-    if (e.key === 'ArrowLeft'){ S.playing = false; S.time = Math.max(0, S.time - SEC_PER_IMAGE); updateControls(); }
-    if (e.key === 'ArrowRight'){ S.playing = false; S.time = Math.min(MASTER_DURATION, S.time + SEC_PER_IMAGE); updateControls(); }
-    if (e.key.toLowerCase() === 'f') document.getElementById('fullscreenBtn').click();
-    if (e.key.toLowerCase() === 'b') document.getElementById('breathBtn').click();
-    if (e.key === 'Home'){ S.playing = false; S.time = 0; updateControls(); }
-    if (e.key === 'End'){ S.playing = false; S.time = MASTER_DURATION - 0.1; updateControls(); }
-  });
-
-  // Audio
-  audioEl.addEventListener('play', () => {
-    setupAudio();
-    if (S.audioCtx && S.audioCtx.state === 'suspended') S.audioCtx.resume();
-  });
-}
-
-// ─── MAIN LOOP ─────────────────────────────────────────
-function loop(now){
-  const dt = Math.min(0.08, (now - S.lastFrame) / 1000);
-  S.lastFrame = now;
-  S.frame++;
-
-  if (S.breathOn) updateElements(dt);
-  updateSparks(dt);
-  readSound(now);
-
-  // Auto-Partikel
-  if (Math.random() < 0.02 + S.move * 0.04 + S.soundEnergy * 0.08){
-    const colors = ['#ffcc66','#68f6c0','#b388ff','#6cc9ff','#ff6d9d'];
-    spawnSpark(
-      Math.random() * W, Math.random() * H * 0.8 + 40,
-      colors[Math.floor(Math.random() * colors.length)],
-      1, Math.random() < 0.4 ? 'star' : 'spark'
-    );
-  }
-
-  // Auto-Advance
-  if (S.playing && S.autoOn){
-    S.time += dt * S.speed;
-    if (S.time >= MASTER_DURATION){
-      S.time = MASTER_DURATION - 0.001;
-      S.playing = false;
-    }
-  }
-
-  // Aktuelles Kapitel / Bild
-  const chIdx = chapterAt(S.time);
-  const { imgIdx } = momentFor(chIdx);
-
-  // Vorladen nächstes Bild
-  if (chIdx >= 0){
-    const ch = chapters[chIdx];
-    // aktuelle + nächste 2 Bilder
-    for (let k = 0; k <= 2; k++){
-      const ni = imgIdx + k;
-      if (ni < ch.images.length) getImage(chIdx, ni);
-    }
-    // nächstes Kapitel vorladen
-    if (chIdx + 1 < chapters.length && k === 0){
-      // erste 2 Bilder des nächsten Kapitels
-      getImage(chIdx + 1, 0);
-      getImage(chIdx + 1, 1);
-    }
-  }
-
-  updateUI();
-  updateTrackList();
-  requestAnimationFrame(loop);
-}
-
-// ─── INIT ──────────────────────────────────────────────
-makeTabs();
-makeMarkers();
-makeMiniPlot();
-makeTrackList();
-bind();
-updateControls();
-preloadAll();
-// Mini-Plot-Thumbs nach und nach aktualisieren
-setInterval(refreshMiniPlotThumbs, 800);
-
-requestAnimationFrame(loop);
-
-})();
+console.log('');
+console.log('  atom · frieden · iki1uc');
+console.log('  ─────────────────────────────────');
+console.log('  vier stoffe · zwei pole · ein atem');
+console.log('  o₂ und co₂ gegenläufig · chemie');
+console.log('  ', ATOM.satz);
+console.log('');
 </script>
+
 </body>
 </html>
