@@ -10,42 +10,81 @@
   frame-ancestors 'self';
   object-src 'none';
 ">
-<title>atom · frieden · iki1uc</title>
+<title>mainboard · mana · aura · zen · iki1uc</title>
 <style>
   *{margin:0;padding:0;box-sizing:border-box}
   html,body{height:100%;background:#04070c;color:#8aa8a0;
             font-family:'Consolas','Courier New',monospace;overflow:hidden}
   canvas{display:block;position:fixed;inset:0}
 
-  #kopf{position:fixed;top:32px;left:50%;transform:translateX(-50%);
+  #kopf{position:fixed;top:24px;left:50%;transform:translateX(-50%);
         text-align:center;z-index:6;pointer-events:none}
-  #kopf .marke{font-size:9px;letter-spacing:.55em;color:#2a4a3a;margin-bottom:10px}
-  #kopf h1{font-size:clamp(20px,4vw,36px);font-weight:100;letter-spacing:.45em;
+  #kopf .marke{font-size:9px;letter-spacing:.55em;color:#2a4a3a;margin-bottom:8px}
+  #kopf h1{font-size:clamp(16px,3.2vw,28px);font-weight:100;letter-spacing:.42em;
            color:#8cf0d0;text-shadow:0 0 40px rgba(140,240,208,.2)}
-  #kopf .unter{font-size:10px;letter-spacing:.4em;color:#3a5a4a;margin-top:10px}
+  #kopf .unter{font-size:9.5px;letter-spacing:.4em;color:#3a5a4a;margin-top:8px}
 
-  #werte{position:fixed;top:50%;left:24px;transform:translateY(-50%);
-         z-index:6;pointer-events:none;font-size:10px;letter-spacing:.25em;
-         line-height:2.4;color:#3a5a4a}
-  #werte .z{display:grid;grid-template-columns:50px 80px 50px;gap:8px;
+  /* ─── MAINBOARD · RECHTS ─────────────────────── */
+  #board{position:fixed;top:50%;right:22px;transform:translateY(-50%);
+         z-index:6;pointer-events:none;font-size:9.5px;
+         letter-spacing:.22em;line-height:2;color:#3a5a4a;
+         display:grid;gap:6px}
+  #board .z{display:grid;grid-template-columns:60px 90px 46px;gap:8px;
             align-items:center}
-  #werte .k{color:#3a5a4a}
-  #werte .v{color:#8cf0d0;text-align:right;font-weight:bold}
-  #werte .b{height:3px;background:#0a1c24;position:relative;overflow:hidden}
-  #werte .b i{display:block;height:100%;background:#8cf0d0;
-              transition:width .3s}
+  #board .k{color:#4a6a5a}
+  #board .b{height:3px;background:#0a1c24;overflow:hidden}
+  #board .b i{display:block;height:100%;transition:width .3s}
+  #board .v{text-align:right;font-weight:bold}
+  #board .mana .k{color:#7ce0a8}
+  #board .mana .v{color:#7ce0a8}
+  #board .mana .b i{background:#7ce0a8}
+  #board .aura .k{color:#ffcc44}
+  #board .aura .v{color:#ffcc44}
+  #board .aura .b i{background:#ffcc44}
+  #board .zen  .k{color:#5fc8ff}
+  #board .zen  .v{color:#5fc8ff}
+  #board .zen  .b i{background:#5fc8ff}
+  #board .cpu  .k{color:#b388ff}
+  #board .cpu  .v{color:#b388ff}
+  #board .cpu  .b i{background:#b388ff}
+  #board .ram  .k{color:#8cf0d0}
+  #board .ram  .v{color:#8cf0d0}
+  #board .ram  .b i{background:#8cf0d0}
+  #board .gpu  .k{color:#f0d080}
+  #board .gpu  .v{color:#f0d080}
+  #board .gpu  .b i{background:#f0d080}
 
-  #frieden{position:fixed;bottom:60px;left:50%;transform:translateX(-50%);
-           text-align:center;z-index:6;pointer-events:none;
-           font-size:11px;letter-spacing:.5em;
-           transition:color .8s, text-shadow .8s}
-  #frieden.an{color:#8cf0d0;text-shadow:0 0 30px rgba(140,240,208,.5)}
-  #frieden.aus{color:#3a5a4a}
+  /* ─── OHNMACHT · OBEN RECHTS ─────────────────── */
+  #ohnmacht{position:fixed;top:22px;right:22px;z-index:6;
+            pointer-events:none;font-size:9px;letter-spacing:.3em;
+            text-align:right;line-height:2;color:#3a5a4a;
+            transition:color .6s, text-shadow .6s}
+  #ohnmacht.aktiv{color:#b388ff;
+                  text-shadow:0 0 25px rgba(179,136,255,.6)}
+  #ohnmacht .v{color:#8cf0d0}
+  #ohnmacht.aktiv .v{color:#b388ff}
 
-  #satz{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);
-        font-size:9px;letter-spacing:.35em;color:#2a4a3a;
-        z-index:6;pointer-events:none;text-align:center;line-height:2.2}
+  /* ─── WIRBEL · STEUERUNG ─────────────────────── */
+  #wirbel{position:fixed;bottom:58px;left:50%;transform:translateX(-50%);
+          z-index:6;display:flex;gap:8px;align-items:center;
+          font-size:9px;letter-spacing:.3em;color:#3a5a4a}
+  #wirbel button{background:transparent;border:1px solid #1a2a3a;
+                 color:#3a5a4a;font-family:inherit;font-size:9px;
+                 letter-spacing:.3em;padding:5px 12px;cursor:pointer;
+                 transition:all .3s}
+  #wirbel button:hover{color:#8cf0d0;border-color:#3a5a4a}
+  #wirbel button.on{color:#f0d080;border-color:#f0d080}
+  #wirbel .stufe{color:#8cf0d0;font-weight:bold;min-width:20px;
+                 text-align:center}
 
+  /* ─── SONNE · UNTEN ──────────────────────────── */
+  #sonne{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);
+         z-index:6;pointer-events:none;text-align:center;
+         font-size:9px;letter-spacing:.35em;color:#f0d080;
+         line-height:2;opacity:.85}
+  #sonne b{font-weight:400}
+
+  /* ─── FUSS ───────────────────────────────────── */
   #fuss{position:fixed;bottom:14px;right:20px;font-size:9px;
         letter-spacing:.35em;color:#1e3328;z-index:6}
   #fuss b{color:#3a5a4a;font-weight:400}
@@ -57,6 +96,7 @@
   .ecke.ul{bottom:12px;left:12px;border-bottom:1px solid;border-left:1px solid}
   .ecke.ur{bottom:12px;right:12px;border-bottom:1px solid;border-right:1px solid}
 
+  /* ─── SPERRE ─────────────────────────────────── */
   #sperre{display:none}
   html[data-gate="gesperrt"] body > *:not(#sperre){display:none !important}
   html[data-gate="gesperrt"] #sperre{
@@ -67,9 +107,13 @@
                 letter-spacing:.45em;color:#8cf0d0;margin-bottom:16px}
   #sperre .grund{font-size:10px;letter-spacing:.35em;color:#b388ff}
 
-  @media(max-width:640px){
-    #werte{font-size:9px;left:14px}
-    #werte .z{grid-template-columns:40px 60px 40px}
+  @media(max-width:820px){
+    #board{right:8px;font-size:8.5px}
+    #board .z{grid-template-columns:48px 60px 36px}
+    #ohnmacht{font-size:8px;top:14px;right:14px}
+    #wirbel{font-size:8px}
+    #wirbel button{font-size:8px;padding:4px 8px}
+    #sonne{font-size:8px}
   }
 </style>
 </head>
@@ -100,31 +144,41 @@
   })();
 </script>
 
-<title>atom · frieden · iki1uc</title>
-
 <canvas id="cv"></canvas>
 
 <div id="kopf">
-  <div class="marke">iki1uc · kader</div>
-  <h1>ATOM</h1>
-  <div class="unter">natur · wasser · co₂ · sauerstoff</div>
+  <div class="marke">iki1uc · kader · mainboard</div>
+  <h1>MANA · AURA · ZEN</h1>
+  <div class="unter">hoch · breit · tiefe · tornado · sonne</div>
 </div>
 
-<div id="werte">
-  <div class="z"><span class="k">O₂</span><span class="b"><i id="bO2"></i></span><span class="v" id="vO2">—</span></div>
-  <div class="z"><span class="k">CO₂</span><span class="b"><i id="bCO2"></i></span><span class="v" id="vCO2">—</span></div>
-  <div class="z"><span class="k">H₂O</span><span class="b"><i id="bH2O"></i></span><span class="v" id="vH2O">—</span></div>
-  <div class="z"><span class="k">KERN</span><span class="b"><i id="bKern"></i></span><span class="v" id="vKern">—</span></div>
+<div id="ohnmacht">
+  <div>ohnmacht · <span class="v" id="ohm">ruhe</span></div>
+  <div>peak · <span class="v" id="peak">0%</span></div>
 </div>
 
-<div id="frieden" class="aus">· frieden ·</div>
-
-<div id="satz">
-  o₂ und co₂ sind gegenpole<br>
-  atem bewegt sie · frieden ist das band
+<div id="board">
+  <div class="z mana"><span class="k">MANA</span><span class="b"><i id="bMana"></i></span><span class="v" id="vMana">—</span></div>
+  <div class="z aura"><span class="k">AURA</span><span class="b"><i id="bAura"></i></span><span class="v" id="vAura">—</span></div>
+  <div class="z zen"><span class="k">ZEN</span><span class="b"><i id="bZen"></i></span><span class="v" id="vZen">—</span></div>
+  <div class="z cpu"><span class="k">CPU</span><span class="b"><i id="bCpu"></i></span><span class="v" id="vCpu">—</span></div>
+  <div class="z ram"><span class="k">RAM</span><span class="b"><i id="bRam"></i></span><span class="v" id="vRam">—</span></div>
+  <div class="z gpu"><span class="k">GPU</span><span class="b"><i id="bGpu"></i></span><span class="v" id="vGpu">—</span></div>
 </div>
 
-<div id="fuss"><b>iki1uc</b> · atom · <span id="zeit">--:--</span></div>
+<div id="wirbel">
+  <button id="wAus" class="on">AUS</button>
+  <button id="w1">1</button>
+  <button id="w2">2</button>
+  <button id="w3">3</button>
+  <span class="stufe" id="stufe">0</span>
+</div>
+
+<div id="sonne">
+  <b>☀ sonne · kann man nicht ausschalten</b>
+</div>
+
+<div id="fuss"><b>iki1uc</b> · mainboard · <span id="zeit">--:--</span></div>
 
 <div id="sperre">
   <div class="wort">GESPERRT</div>
@@ -137,14 +191,28 @@
 <div class="ecke ur"></div>
 
 <script type="module">
-import { ATOM } from './atom.js';
+/* ═══════════════════════════════════════════════════════════
+   index.html · mainboard · iki1uc
+   ═══════════════════════════════════════════════════════════
+   Alle atome zusammen. Ein mainboard.
+   Mana · Aura · Zen als abgeleitete werte.
+   Tornado als kontrollierbare naturgewalt.
+   Ohnmacht als peak.
+   Sonne unausschaltbar.
+   ═══════════════════════════════════════════════════════════ */
 
 if(!window.__EVO_GATE || !window.__EVO_GATE.ok){
-  console.log('atom · gesperrt');
+  console.log('mainboard · gesperrt');
   throw new Error('gate');
 }
 
-/* Zeit */
+/* ─── ATOME LADEN ──────────────────────────────── */
+let ATOM = null;
+try { ATOM = (await import('./atom.js')).ATOM; } catch(e){}
+let WAAGE = null;
+try { WAAGE = (await import('./waage.js')).WAAGE; } catch(e){}
+
+/* ─── ZEIT ─────────────────────────────────────── */
 function setZeit(){
   const j = new Date();
   document.getElementById('zeit').textContent =
@@ -154,7 +222,7 @@ function setZeit(){
 setZeit();
 setInterval(setZeit, 30000);
 
-/* Canvas */
+/* ─── CANVAS ───────────────────────────────────── */
 const cv = document.getElementById('cv');
 const ctx = cv.getContext('2d');
 let cx, cy;
@@ -171,52 +239,103 @@ function resize(){
 addEventListener('resize', resize);
 resize();
 
-/* Farben der vier stoffe */
-const FARBEN = {
-  o2:   '#7ce0a8',
-  co2:  '#ffcc44',
-  h2o:  '#5fc8ff',
-  kern: '#b388ff',
+/* ─── ZUSTAND ──────────────────────────────────── */
+const S = {
+  t: 0,
+  wirbel: 0,          // 0..3 · kontrolle
+  wirbelZiel: 0,
+  peak: 0,            // 0..1 · peak-wert
+  ohnmacht: false,
+  ohnmachtZeit: 0,
+  zeitSeitPeak: 0,
 };
 
-let t = 0;
+/* ─── WIRBEL STEUERUNG ─────────────────────────── */
+function setWirbel(n){
+  S.wirbelZiel = n;
+  ['wAus','w1','w2','w3'].forEach(id => {
+    document.getElementById(id).classList.remove('on');
+  });
+  document.getElementById(n === 0 ? 'wAus' : 'w' + n).classList.add('on');
+  document.getElementById('stufe').textContent = n;
+}
+document.getElementById('wAus').addEventListener('click', () => setWirbel(0));
+document.getElementById('w1').addEventListener('click', () => setWirbel(1));
+document.getElementById('w2').addEventListener('click', () => setWirbel(2));
+document.getElementById('w3').addEventListener('click', () => setWirbel(3));
+
+/* ─── ZEICHNEN ─────────────────────────────────── */
 function zeichne(){
   if(!window.__EVO_GATE.ok) return;
   requestAnimationFrame(zeichne);
-  t += 16;
+  S.t += 16;
 
-  // Atme — atom.js rechnet
-  const z = ATOM.atme(t);
+  /* Atom atmen */
+  const z = ATOM ? ATOM.atme(S.t) : { o2: 0.6, co2: 0.6, h2o: 0.6, kern: 0.6, frieden: true, waage: {o2:0,co2:0,h2o:0,kern:0} };
 
-  // Hintergrund
-  ctx.fillStyle = 'rgba(4,7,12,0.22)';
+  /* Wirbel sanft zum Ziel */
+  S.wirbel += (S.wirbelZiel - S.wirbel) * 0.05;
+
+  /* Peak berechnen — wie nah am maximum */
+  const peak = Math.max(z.o2, z.co2, z.h2o, z.kern);
+  S.peak = peak;
+
+  /* Ohnmacht: wenn peak > 0.95 für mehr als 2 sekunden */
+  if(peak > 0.95){
+    S.zeitSeitPeak += 16;
+    if(S.zeitSeitPeak > 2000 && !S.ohnmacht){
+      S.ohnmacht = true;
+      S.ohnmachtZeit = 3000;
+    }
+  } else {
+    S.zeitSeitPeak = 0;
+  }
+
+  if(S.ohnmacht){
+    S.ohnmachtZeit -= 16;
+    if(S.ohnmachtZeit <= 0){
+      S.ohnmacht = false;
+      S.ohnmachtZeit = 0;
+    }
+  }
+
+  /* Hintergrund */
+  ctx.fillStyle = 'rgba(4,7,12,0.20)';
   ctx.fillRect(0, 0, innerWidth, innerHeight);
 
-  // Äußerer rahmen · das band des friedens
-  const Rmax = Math.min(innerWidth, innerHeight) * 0.32;
-  const Rinner = Rmax * (1 - ATOM.band / ATOM.mitte);
+  const Rmax = Math.min(innerWidth, innerHeight) * 0.30;
+  const wirbelKraft = S.wirbel / 3;
 
-  // Band: zwei gestrichelte ringe
+  /* ─── TORNADO · der wirbel ────────────────── */
+  if(S.wirbel > 0.05){
+    const wind = 4 + S.wirbel * 6;
+    for(let i = 0; i < wind; i++){
+      const phase = (S.t * 0.0008 * (1 + S.wirbel * 0.4) + i / wind) % 1;
+      const radius = Rmax * (1 - phase);
+      const dreh = phase * Math.PI * 4 + S.t * 0.002;
+
+      ctx.beginPath();
+      ctx.arc(cx, cy, radius, dreh, dreh + Math.PI * 0.6);
+      ctx.strokeStyle = `rgba(140,240,208,${0.08 * (1 - phase) * (0.5 + wirbelKraft)})`;
+      ctx.lineWidth = 1 + S.wirbel * 0.5;
+      ctx.stroke();
+    }
+  }
+
+  /* ─── BAND DES FRIEDENS ───────────────────── */
   ctx.beginPath();
   ctx.arc(cx, cy, Rmax, 0, Math.PI * 2);
   ctx.strokeStyle = 'rgba(140,240,208,0.06)';
   ctx.lineWidth = 0.6;
   ctx.stroke();
 
-  ctx.beginPath();
-  ctx.arc(cx, cy, Rinner, 0, Math.PI * 2);
-  ctx.strokeStyle = 'rgba(140,240,208,0.06)';
-  ctx.lineWidth = 0.6;
-  ctx.stroke();
-
-  // Vier ringe — o2, co2, h2o, kern
+  /* ─── VIER RINGE · o2 co2 h2o kern ─────────── */
   const ringe = [
-    { k:'o2',   wert:z.o2,   farbe:FARBEN.o2   },
-    { k:'co2',  wert:z.co2,  farbe:FARBEN.co2  },
-    { k:'h2o',  wert:z.h2o,  farbe:FARBEN.h2o  },
-    { k:'kern', wert:z.kern, farbe:FARBEN.kern },
+    { wert: z.o2,   farbe:'#7ce0a8' },
+    { wert: z.co2,  farbe:'#ffcc44' },
+    { wert: z.h2o,  farbe:'#5fc8ff' },
+    { wert: z.kern, farbe:'#b388ff' },
   ];
-
   ringe.forEach((r, i) => {
     const a0 = (i / 4) * Math.PI * 2 - Math.PI / 2;
     const a1 = a0 + (Math.PI * 2) / 4 * r.wert;
@@ -228,7 +347,6 @@ function zeichne(){
     ctx.lineWidth = 1.6;
     ctx.stroke();
 
-    // Punkt am ende
     const ex = cx + Math.cos(a1) * Rmax;
     const ey = cy + Math.sin(a1) * Rmax;
     ctx.beginPath();
@@ -239,71 +357,95 @@ function zeichne(){
     ctx.globalAlpha = 1;
   });
 
-  // Kern in der mitte — das atom
-  const kernGlut = ctx.createRadialGradient(cx, cy, 0, cx, cy, 70);
-  const hauch = z.frieden ? 0.5 : 0.2;
+  /* ─── KERN ─────────────────────────────────── */
+  const hauch = S.ohnmacht ? 1.0 : (z.frieden ? 0.5 : 0.2);
+  const kernGlut = ctx.createRadialGradient(cx, cy, 0, cx, cy, 90 + S.peak * 40);
   kernGlut.addColorStop(0, `rgba(140,240,208,${hauch})`);
-  kernGlut.addColorStop(0.5, `rgba(179,136,255,${hauch * 0.5})`);
+  kernGlut.addColorStop(0.5, `rgba(179,136,255,${hauch * 0.6})`);
   kernGlut.addColorStop(1, 'rgba(140,240,208,0)');
   ctx.beginPath();
-  ctx.arc(cx, cy, 70, 0, Math.PI * 2);
+  ctx.arc(cx, cy, 90 + S.peak * 40, 0, Math.PI * 2);
   ctx.fillStyle = kernGlut;
   ctx.fill();
 
-  // Kern-punkt
   ctx.beginPath();
-  ctx.arc(cx, cy, 3 + z.kern * 3, 0, Math.PI * 2);
-  ctx.fillStyle = '#8cf0d0';
+  ctx.arc(cx, cy, 3 + z.kern * 4 + S.peak * 3, 0, Math.PI * 2);
+  ctx.fillStyle = S.ohnmacht ? '#b388ff' : '#8cf0d0';
   ctx.fill();
 
-  // Innenpulse — der atem
+  /* ─── INNENPULSE ───────────────────────────── */
   for(let i = 0; i < 4; i++){
-    const ph = ((t * 0.00015) + i / 4) % 1;
+    const ph = ((S.t * 0.00015) + i / 4) % 1;
     const r = Rmax * (1 - ph);
     if(r < 10) continue;
     ctx.beginPath();
     ctx.arc(cx, cy, r, 0, Math.PI * 2);
-    ctx.strokeStyle = `rgba(140,240,208,${0.06 * (1 - ph)})`;
+    ctx.strokeStyle = `rgba(140,240,208,${0.06 * (1 - ph) * (1 + wirbelKraft)})`;
     ctx.lineWidth = 0.5;
     ctx.stroke();
   }
 
-  // Werte-Anzeige
+  /* ─── SONNE · unten rechts · unausschaltbar ── */
+  const sonneX = innerWidth - 60;
+  const sonneY = innerHeight - 60;
+  const sonneGlut = ctx.createRadialGradient(sonneX, sonneY, 0, sonneX, sonneY, 50);
+  sonneGlut.addColorStop(0, 'rgba(240,208,128,0.7)');
+  sonneGlut.addColorStop(0.4, 'rgba(240,208,128,0.2)');
+  sonneGlut.addColorStop(1, 'rgba(240,208,128,0)');
+  ctx.beginPath();
+  ctx.arc(sonneX, sonneY, 50, 0, Math.PI * 2);
+  ctx.fillStyle = sonneGlut;
+  ctx.fill();
+
+  /* ─── WERTE · BOARD ────────────────────────── */
   const setz = (id, x) => {
     const v = document.getElementById('v' + id);
     const b = document.getElementById('b' + id);
     if(v) v.textContent = (x * 100).toFixed(0) + '%';
     if(b) b.style.width  = (x * 100).toFixed(0) + '%';
   };
-  setz('O2',   z.o2);
-  setz('CO2',  z.co2);
-  setz('H2O',  z.h2o);
-  setz('Kern', z.kern);
 
-  // Frieden-anzeige
-  const fEl = document.getElementById('frieden');
-  if(z.frieden){
-    fEl.classList.add('an'); fEl.classList.remove('aus');
-    fEl.textContent = '· frieden ·';
+  /* Mana = o2 · Aura = co2 · Zen = h2o */
+  setz('Mana', z.o2);
+  setz('Aura', z.co2);
+  setz('Zen',  z.h2o);
+
+  /* CPU · RAM · GPU · abgeleitet */
+  const cpu = 0.4 + z.kern * 0.4 + S.wirbel * 0.2;
+  const ram = 0.5 + z.o2 * 0.3 + (S.wirbel > 0 ? 0.15 : 0);
+  const gpu = 0.3 + z.kern * 0.4 + S.wirbel * 0.3;
+
+  setz('Cpu', Math.min(1, cpu));
+  setz('Ram', Math.min(1, ram));
+  setz('Gpu', Math.min(1, gpu));
+
+  /* Ohnmacht-Anzeige */
+  const ohmEl = document.getElementById('ohnmacht');
+  const ohmV = document.getElementById('ohm');
+  const peakEl = document.getElementById('peak');
+  peakEl.textContent = (S.peak * 100).toFixed(0) + '%';
+
+  if(S.ohnmacht){
+    ohmEl.classList.add('aktiv');
+    ohmV.textContent = 'OHNMACHT';
+  } else if(S.peak > 0.95){
+    ohmEl.classList.remove('aktiv');
+    ohmV.textContent = 'peak';
   } else {
-    fEl.classList.add('aus'); fEl.classList.remove('an');
-    // Wer ist am weitesten weg?
-    const w = z.waage;
-    const max = Math.max(w.o2, w.co2, w.h2o, w.kern);
-    const wer = max === w.o2 ? 'o₂' :
-                max === w.co2 ? 'co₂' :
-                max === w.h2o ? 'h₂o' : 'kern';
-    fEl.textContent = `· ${wer} außer band ·`;
+    ohmEl.classList.remove('aktiv');
+    ohmV.textContent = 'ruhe';
   }
 }
 zeichne();
 
+/* ─── KONSOLE ───────────────────────────────────── */
 console.log('');
-console.log('  atom · frieden · iki1uc');
+console.log('  mainboard · iki1uc');
 console.log('  ─────────────────────────────────');
-console.log('  vier stoffe · zwei pole · ein atem');
-console.log('  o₂ und co₂ gegenläufig · chemie');
-console.log('  ', ATOM.satz);
+console.log('  mana · aura · zen · als abgeleitete werte');
+console.log('  wirbel · tornado · kontrollierbar (0-3)');
+console.log('  ohnmacht · peak');
+console.log('  sonne · kann man nicht ausschalten');
 console.log('');
 </script>
 
