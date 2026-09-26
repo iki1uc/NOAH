@@ -1,20 +1,22 @@
 /* ═══════════════════════════════════════════════════════════
-   radar.js · Circle-Navigation · Gate · Wurmloch · iki1uc
+   radar.js · circle-navigation · gate · wurmloch · iki1uc
    ═══════════════════════════════════════════════════════════
    TMP · RÄRE WAHRHEIT
 
-   Einzelurteil. Keine Importe.
+   Einzelurteil. Keine Importe. Keine Abhängigkeiten.
    Jede Funktion tut eine Sache.
 
    Die Kette aus geo.md:
      ◉ ROOT → 3 → 9 → ◎ → 81 → ◆ → △ → 27 → ▣ → 3↺ → 0
 
-   Jede Stufe ist ein KNOTEN.
-   Jeder Knoten zieht an — wie Gravitation.
-   Jeder Übergang ist ein GATE — wie eine Tür.
-   Der Durchlauf ist ein WURMLOCH — kein Umweg.
+   Elfte Stufen. Jede ein Knoten.
+   Jeder Knoten zieht an — Gravitation.
+   Jeder Übergang ist ein Gate — Tür mit Echo.
+   Der Durchlauf ist ein Wurmloch — kein Umweg.
 
-   Echo-Hall: jeder Sprung hinterlässt einen Klang.
+   Admin und User sind Rollen. Keine Ränge.
+   Energie ist die Antriebskraft.
+   Alles logisch. Alles ableitbar. Alles funktional.
    ═══════════════════════════════════════════════════════════ */
 
 /* ─── TMP ────────────────────────────────────────────── */
@@ -30,17 +32,17 @@ const TMP = {
    ═══════════════════════════════════════════════════════════ */
 
 const KNOTEN = [
-  { stufe: 0,  zeichen: '◉',  name: 'ROOT',           rolle: 'admin',   energie: 1.0 },
-  { stufe: 1,  zeichen: '3',  name: 'Axiom-1',        rolle: 'user',    energie: 0.9 },
-  { stufe: 2,  zeichen: '9',  name: 'Axiom-0',        rolle: 'user',    energie: 0.8 },
-  { stufe: 3,  zeichen: '◎',  name: 'Mind-Zentrum',   rolle: 'admin',   energie: 1.0 },
-  { stufe: 4,  zeichen: '81', name: 'NC9×9.room',     rolle: 'user',    energie: 0.7 },
-  { stufe: 5,  zeichen: '◆',  name: 'Axiom-2',        rolle: 'admin',   energie: 0.9 },
-  { stufe: 6,  zeichen: '△',  name: 'FIELD',          rolle: 'user',    energie: 0.6 },
-  { stufe: 7,  zeichen: '27', name: 'SYS.VEC',        rolle: 'user',    energie: 0.8 },
-  { stufe: 8,  zeichen: '▣',  name: 'LIVE.team',      rolle: 'admin',   energie: 0.9 },
-  { stufe: 9,  zeichen: '3↺', name: 'DEEPSPACENINE',  rolle: 'admin',   energie: 1.0 },
-  { stufe: 10, zeichen: '0',  name: 'COORD0',         rolle: 'neutral', energie: 0.5 },
+  { stufe: 0,  zeichen: '◉',  name: 'ROOT.index.html', rolle: 'admin',   energie: 1.0 },
+  { stufe: 1,  zeichen: '3',  name: 'Axiom-1',          rolle: 'user',    energie: 0.9 },
+  { stufe: 2,  zeichen: '9',  name: 'Axiom-0',          rolle: 'user',    energie: 0.8 },
+  { stufe: 3,  zeichen: '◎',  name: 'Mind-Zentrum',     rolle: 'admin',   energie: 1.0 },
+  { stufe: 4,  zeichen: '81', name: 'NC9×9.room',       rolle: 'user',    energie: 0.7 },
+  { stufe: 5,  zeichen: '◆',  name: 'Axiom-2',          rolle: 'admin',   energie: 0.9 },
+  { stufe: 6,  zeichen: '△',  name: 'FIELD',            rolle: 'user',    energie: 0.6 },
+  { stufe: 7,  zeichen: '27', name: 'SYS.VEC',          rolle: 'user',    energie: 0.8 },
+  { stufe: 8,  zeichen: '▣',  name: 'LIVE.team',        rolle: 'admin',   energie: 0.9 },
+  { stufe: 9,  zeichen: '3↺', name: 'DEEPSPACENINE',    rolle: 'admin',   energie: 1.0 },
+  { stufe: 10, zeichen: '0',  name: 'COORD0',           rolle: 'neutral', energie: 0.5 },
 ];
 
 /* ═══════════════════════════════════════════════════════════
@@ -54,35 +56,33 @@ export const RADAR = {
   knoten: KNOTEN,
 
   /* ─── ZUSTAND ─────────────────────────────────── */
-  position: 0,        // welcher knoten ist gerade aktiv
+  position: 0,
   besucht: new Set([0]),
-  echo: [],           // die klänge der sprünge
-  würfe: 0,           // wie oft gesprungen
+  echo: [],
+  würfe: 0,
 
   /* ─── GRAVITATION ────────────────────────────────
-     Jeder knoten zieht an.
-     Die stärke hängt von der energie ab.
-     Kein zufall. rechnung.
+     Jeder Knoten zieht an.
+     Die Stärke hängt von der Energie ab.
+     Kein Zufall. Rechnung.
   ─────────────────────────────────────────────────── */
   gravitation(von, nach){
     const a = this.knoten[von];
     const b = this.knoten[nach];
     if(!a || !b) return 0;
-    // anziehung: je ähnlicher die energie, desto stärker
     return 1 - Math.abs(a.energie - b.energie);
   },
 
   /* ─── GATE · Tür mit Echo ────────────────────────
-     Ein sprung von A nach B.
-     Jede Tür macht einen klang.
-     Der klang ist das echo — er bleibt.
+     Ein Sprung von A nach B.
+     Jede Tür macht einen Klang.
+     Der Klang bleibt.
   ─────────────────────────────────────────────────── */
   springen(nach){
     if(nach < 0 || nach >= this.knoten.length) return null;
     const von = this.position;
     const g = this.gravitation(von, nach);
 
-    // echo erzeugen
     const klang = {
       von: this.knoten[von].name,
       nach: this.knoten[nach].name,
@@ -99,13 +99,13 @@ export const RADAR = {
     return klang;
   },
 
-  /* ─── WURMLOCH · abkürzung ───────────────────────
-     Kein umweg über jede stufe.
+  /* ─── WURMLOCH · Abkürzung ───────────────────────
+     Kein Umweg über jede Stufe.
      Direkt von A nach B.
      Nur erlaubt, wenn beide schon besucht wurden.
   ─────────────────────────────────────────────────── */
   wurmloch(nach){
-    if(!this.besucht.has(nach)) {
+    if(!this.besucht.has(nach)){
       return { ok: false, grund: 'ziel nicht besucht · kein wurmloch' };
     }
     if(nach === this.position){
@@ -119,9 +119,9 @@ export const RADAR = {
     };
   },
 
-  /* ─── HIGHWAY · der lauf ─────────────────────────
-     Ein durchlauf durch alle stufen.
-     Nicht springen. gehen.
+  /* ─── HIGHWAY · der Lauf ─────────────────────────
+     Ein Durchlauf durch alle Stufen.
+     Nicht springen. Gehen.
   ─────────────────────────────────────────────────── */
   highway(){
     const spur = [];
@@ -135,6 +135,13 @@ export const RADAR = {
       });
     }
     return spur;
+  },
+
+  /* ─── ECHO HALL ─────────────────────────────────
+     Alle Sprünge, die erklangen.
+  ─────────────────────────────────────────────────── */
+  echoHall(){
+    return this.echo.slice();
   },
 
   /* ─── SELBSTAUSKUNFT ───────────────────────────── */
