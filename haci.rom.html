@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="
+  default-src 'self';
+  script-src 'self' 'unsafe-inline';
+  style-src 'self' 'unsafe-inline';
+  frame-ancestors 'self';
+  object-src 'none';
+">
+<title>haci.rom · der ort · iki1uc</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{height:100%;background:#04070c;color:#8aa8a0;
+            font-family:'Consolas','Courier New',monospace;overflow:hidden}
+  canvas{display:block;position:fixed;inset:0}
+
+  #kopf{position:fixed;top:32px;left:50%;transform:translateX(-50%);
+        text-align:center;z-index:6;pointer-events:none}
+  #kopf .marke{font-size:9px;letter-spacing:.55em;color:#2a4a3a;margin-bottom:10px}
+  #kopf h1{font-size:clamp(20px,4vw,36px);font-weight:100;letter-spacing:.45em;
+           color:#f0d080;text-shadow:0 0 40px rgba(240,208,128,.25)}
+  #kopf .unter{font-size:10px;letter-spacing:.4em;color:#3a5a4a;margin-top:10px}
+
+  #weg{position:fixed;bottom:50%;left:50%;transform:translateX(-50%);
+       z-index:6;pointer-events:none;text-align:center;
+       font-size:11px;letter-spacing:.4em;color:#8cf0d0;line-height:2.4}
+  #weg .schritt{opacity:.35;transition:opacity .6s, color .6s}
+  #weg .schritt.on{opacity:1;color:#f0d080}
+  #weg .pfeil{color:#3a5a4a;margin:0 8px}
+
+  #satz{position:fixed;bottom:80px;left:50%;transform:translateX(-50%);
+        z-index:6;pointer-events:none;text-align:center;
+        font-size:10px;letter-spacing:.35em;color:#3a5a4a;line-height:2.2}
+  #satz b{color:#8cf0d0;font-weight:400}
+
+  #fuss{position:fixed;bottom:20px;right:20px;font-size:9px;
+        letter-spacing:.35em;color:#1e3328;z-index:6}
+  #fuss b{color:#3a5a4a;font-weight:400}
+
+  .ecke{position:fixed;width:14px;height:14px;z-index:998;
+        pointer-events:none;opacity:.28;border-color:#8cf0d0}
+  .ecke.ol{top:12px;left:12px;border-top:1px solid;border-left:1px solid}
+  .ecke.or{top:12px;right:12px;border-top:1px solid;border-right:1px solid}
+  .ecke.ul{bottom:12px;left:12px;border-bottom:1px solid;border-left:1px solid}
+  .ecke.ur{bottom:12px;right:12px;border-bottom:1px solid;border-right:1px solid}
+
+  #sperre{display:none}
+  html[data-gate="gesperrt"] body > *:not(#sperre){display:none !important}
+  html[data-gate="gesperrt"] #sperre{
+    display:flex;position:fixed;inset:0;
+    align-items:center;justify-content:center;flex-direction:column;
+    background:#04070c;z-index:9999;text-align:center;padding:24px}
+  #sperre .wort{font-size:clamp(22px,5vw,44px);font-weight:100;
+                letter-spacing:.45em;color:#8cf0d0;margin-bottom:16px}
+  #sperre .grund{font-size:10px;letter-spacing:.35em;color:#b388ff}
+</style>
+</head>
+<body>
+
+<script>
+  window.__EVO_GATE = { ok:false, grund:'wird geprüft', zeit:Date.now() };
+</script>
+<script src="security.js"></script>
+<script>
+  (function(){
+    if(window.__EVO_WACHE === true){
+      window.__EVO_GATE.ok = true;
+      window.__EVO_GATE.grund = 'wächter aktiv';
+    } else {
+      window.__EVO_GATE.grund = 'security.js fehlt';
+      document.documentElement.setAttribute('data-gate','gesperrt');
+      document.addEventListener('DOMContentLoaded', () => {
+        const g = document.getElementById('sperre-grund');
+        if(g) g.textContent = window.__EVO_GATE.grund;
+      });
+    }
+  })();
+</script>
+
+<canvas id="cv"></canvas>
+
+<div id="kopf">
+  <div class="marke">iki1uc · kader</div>
+  <h1>HACI.ROM</h1>
+  <div class="unter">der eine speicher · wo alle wege ankommen</div>
+</div>
+
+<div id="weg"></div>
+
+<div id="satz">
+  nicht mekka · nicht kirche · nicht tempel<br>
+  <b>ein ort · wo jeder pilger ankommt · egal welcher herkunft</b>
+</div>
+
+<div id="fuss"><b>iki1uc</b> · haci.rom · <span id="zeit">--:--</span></div>
+
+<div id="sperre">
+  <div class="wort">GESPERRT</div>
+  <div class="grund" id="sperre-grund">wächter nicht geladen</div>
+</div>
+
+<div class="ecke ol"></div>
+<div class="ecke or"></div>
+<div class="ecke ul"></div>
+<div class="ecke ur"></div>
+
+<script type="module">
+/* haci.rom · der ort · iki1uc */
+
+if(!window.__EVO_GATE || !window.__EVO_GATE.ok){
+  console.log('haci.rom · gesperrt');
+  throw new Error('gate');
+}
+
+/* Zeit */
+function setZeit(){
+  const j = new Date();
+  document.getElementById('zeit').textContent =
+    String(j.getHours()).padStart(2,'0') + ':' +
+    String(j.getMinutes()).padStart(2,'0');
+}
+setZeit();
+setInterval(setZeit, 30000);
+
+/* Weg-Anzeige */
+const WEG = ['hören', 'gehen', 'sehen', 'tragen', 'ankommen'];
+const wegEl = document.getElementById('weg');
+wegEl.innerHTML = WEG.map((s, i) => {
+  const span = `<span class="schritt" data-i="${i}">${s}</span>`;
+  return i < WEG.length - 1
+    ? span + '<span class="pfeil">→</span>'
+    : span;
+}).join('');
+
+/* Canvas */
+const cv = document.getElementById('cv');
+const ctx = cv.getContext('2d');
+let cx, cy;
+function resize(){
+  const dpr = Math.min(devicePixelRatio, 2);
+  cv.width = innerWidth * dpr;
+  cv.height = innerHeight * dpr;
+  cv.style.width = innerWidth + 'px';
+  cv.style.height = innerHeight + 'px';
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  cx = innerWidth / 2;
+  cy = innerHeight / 2;
+}
+addEventListener('resize', resize);
+resize();
+
+let t = 0;
+function zeichne(){
+  if(!window.__EVO_GATE.ok) return;
+  requestAnimationFrame(zeichne);
+  t += 16;
+
+  ctx.fillStyle = 'rgba(4,7,12,0.2)';
+  ctx.fillRect(0, 0, innerWidth, innerHeight);
+
+  const R = Math.min(innerWidth, innerHeight) * 0.28;
+
+  /* Der eine Ort · die Mitte */
+  const glut = ctx.createRadialGradient(cx, cy, 0, cx, cy, R * 0.5);
+  glut.addColorStop(0, 'rgba(240,208,128,0.25)');
+  glut.addColorStop(0.5, 'rgba(240,208,128,0.08)');
+  glut.addColorStop(1, 'rgba(240,208,128,0)');
+  ctx.beginPath();
+  ctx.arc(cx, cy, R * 0.5, 0, Math.PI * 2);
+  ctx.fillStyle = glut;
+  ctx.fill();
+
+  ctx.beginPath();
+  ctx.arc(cx, cy, 3, 0, Math.PI * 2);
+  ctx.fillStyle = '#f0d080';
+  ctx.fill();
+
+  /* Die fünf Wege · kommen an */
+  WEG.forEach((schritt, i) => {
+    const a0 = (i / WEG.length) * Math.PI * 2 - Math.PI / 2;
+    const jitter = Math.sin(t * 0.001 + i) * 0.05;
+    const a1 = a0 + jitter;
+    const start = R * 1.4;
+    const ende = R * 0.25;
+
+    ctx.beginPath();
+    ctx.moveTo(cx + Math.cos(a1) * start, cy + Math.sin(a1) * start);
+    ctx.lineTo(cx + Math.cos(a1) * ende, cy + Math.sin(a1) * ende);
+    ctx.strokeStyle = `rgba(140,240,208,${0.15 + 0.1 * Math.sin(t * 0.002 + i)})`;
+    ctx.lineWidth = 1;
+    ctx.stroke();
+
+    /* Punkt am Ende · der Pilger */
+    const px = cx + Math.cos(a1) * ende;
+    const py = cy + Math.sin(a1) * ende;
+    const größe = 2 + Math.abs(Math.sin(t * 0.001 + i)) * 2;
+    ctx.beginPath();
+    ctx.arc(px, py, größe, 0, Math.PI * 2);
+    ctx.fillStyle = '#8cf0d0';
+    ctx.fill();
+
+    /* Schritt-Markierung in HTML */
+    const el = wegEl.querySelector(`[data-i="${i}"]`);
+    if(el) el.classList.add('on');
+  });
+
+  /* Ring um die Mitte */
+  ctx.beginPath();
+  ctx.arc(cx, cy, R * 0.5, 0, Math.PI * 2);
+  ctx.strokeStyle = 'rgba(240,208,128,0.1)';
+  ctx.lineWidth = 0.6;
+  ctx.stroke();
+
+  ctx.beginPath();
+  ctx.arc(cx, cy, R, 0, Math.PI * 2);
+  ctx.strokeStyle = 'rgba(140,240,208,0.05)';
+  ctx.lineWidth = 0.6;
+  ctx.stroke();
+}
+zeichne();
+
+console.log('');
+console.log('  haci.rom · iki1uc');
+console.log('  ─────────────────────────────────');
+console.log('  der eine speicher · wo alle wege ankommen');
+console.log('  hören · gehen · sehen · tragen · ankommen');
+console.log('  egal welcher herkunft');
+console.log('');
+</script>
+
+</body>
+</html>
