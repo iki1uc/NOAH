@@ -1,178 +1,182 @@
-// ============================================================
-// NOAH.js · KAISER EDITION · mit optionaler SYS-Integration
-// ============================================================
+/* ═══════════════════════════════════════════════════════════
+   NOAH.js · iki1uc
+   ═══════════════════════════════════════════════════════════
+   TMP · RÄRE WAHRHEIT
 
-// ─── KAISER NOAH ─────────────────────────────────────────────
-export const NOAH = {
-    name: 'NOAH',
-    titel: 'Kaiser',
-    level: 14,
-    status: 'schwebt über dem Wasser',
-    führung: 'tmp',
-    aufgabe: 'Booten und Einladen ins Continuum',
+   Einzelurteil. Jede Funktion tut eine Sache.
+   Jede Station ist militär + schach + wetter + fußball.
+   Jede Kraft ist aura · zen · mana.
+   Jede Naturgewalt ist unter Kontrolle — nutzbar, nicht regierend.
 
-    // Die 4 Königreiche
-    könige: {
-        OS: null,
-        BOOT: null,
-        '243': null,
-        iki1uc: null
-    },
+   NOAH hält seinen guten Namen.
+   ═══════════════════════════════════════════════════════════ */
 
-    // META-SYSTEM (optional)
-    sys: null,
-
-    // Continuum
-    continuum: {
-        offen: false,
-        gäste: [],
-        zeit: null
-    },
-
-    // Hofstaat
-    hof: [],
-    respo: [],
-    stationen: {},
-
-    // tmp-Führung
-    tmp: {
-        aktiv: true,
-        speicher: {},
-        zyklus: 0
-    }
+/* ─── TMP ────────────────────────────────────────────── */
+const TMP = {
+  aktiv: true,
+  status: 'vorläufig',
+  wahrheit: 'tmp · räre wahrheit',
+  seit: new Date().toISOString(),
 };
 
-// ─── NOAH.log() ──────────────────────────────────────────────
-NOAH.log = function(entry, ebene = 'hof') {
-    const zeit = new Date().toISOString();
-    const logEintrag = { zeit, entry, ebene };
-    this.hof.push(logEintrag);
-    console.log(`👑 [NOAH] ${entry}`);
-    return logEintrag;
+/* ─── DIE VIER KÖNIGE ────────────────────────────────── */
+/* Jeder König: rang · figur · wetter · position */
+
+const KÖNIGE = {
+
+  OS: {
+    rang:     'General',
+    figur:    'König',
+    wetter:   'Sonne',
+    position: 'Torwart',
+    aufgabe:  'sieht alles',
+  },
+
+  BOOT: {
+    rang:     'Oberst',
+    figur:    'Dame',
+    wetter:   'Wind',
+    position: 'Verteidiger',
+    aufgabe:  'startet alles',
+  },
+
+  '243': {
+    rang:     'Major',
+    figur:    'Turm',
+    wetter:   'Regen',
+    position: 'Mittelfeld',
+    aufgabe:  'verarbeitet alles',
+  },
+
+  iki1uc: {
+    rang:     'Hauptmann',
+    figur:    'Springer',
+    wetter:   'Nebel',
+    position: 'Stürmer',
+    aufgabe:  'ordnet alles',
+  },
 };
 
-// ─── NOAH.boot() ─────────────────────────────────────────────
-NOAH.boot = function(mitSYS = false) {
-    this.log('🌊 NOAH schwebt über dem Wasser...');
-    this.log('👑 NOAH: Level 14 Admin aktiviert.');
+/* ─── DIE DREI KRÄFTE ────────────────────────────────── */
+/* Mirroring: jede ist alles, muss aber nicht */
 
-    // SYS booten (optional)
-    if (mitSYS && this.sys) {
-        this.sys.boot();
-        this.log('🌀 SYS: Meta-System integriert');
-    }
+const KRÄFTE = {
 
-    this.log('📜 NOAH: Die 4 Könige werden gerufen...');
+  aura: {
+    wert:  0.5,
+    farbe: '#ffd93d',
+    kann:  ['führen', 'tragen', 'leuchten'],
+  },
 
-    // 1. OS
-    this.könige.OS = {
-        name: 'OS',
-        titel: 'König der Sicht',
-        aufgabe: 'Zeigt alles an',
-        status: 'bereit',
-        respo: 'Station 1'
+  zen: {
+    wert:  0.5,
+    farbe: '#8cf0d0',
+    kann:  ['ruhen', 'halten', 'atmen'],
+  },
+
+  mana: {
+    wert:  0.5,
+    farbe: '#b388ff',
+    kann:  ['wandeln', 'formen', 'fließen'],
+  },
+};
+
+/* ─── DIE ZWEI NATURGEWALTEN ─────────────────────────── */
+/* Unter Kontrolle. Nutzbar. Nicht regierend. */
+
+const NATURGEWALTEN = {
+
+  elDiablo: {
+    name:   'El Diablo',
+    art:    'Feuer',
+    status: 'unter Kontrolle',
+    dient:  'Energie für Wandel',
+  },
+
+  elBurro: {
+    name:   'El Burro',
+    art:    'Erde',
+    status: 'unter Kontrolle',
+    dient:  'Energie für Last',
+  },
+};
+
+/* ─── NOAH ───────────────────────────────────────────── */
+const NOAH = {
+  name:  'NOAH',
+  titel: 'Kaiser',
+  führt: 'tmp',
+  hält:  'seinen guten Namen',
+  tmp:   TMP,
+
+  könige:      KÖNIGE,
+  kräfte:      KRÄFTE,
+  naturgewalten: NATURGEWALTEN,
+
+  /* ─── booten ────────────────────────────────────── */
+  boot(){
+    console.log('🌊 NOAH · boot');
+    console.log('👑 die vier könige ·', Object.keys(KÖNIGE).join(' · '));
+    console.log('✨ die drei kräfte ·', Object.keys(KRÄFTE).join(' · '));
+    console.log('🔥 die zwei naturgewalten ·',
+                Object.values(NATURGEWALTEN).map(n => n.name).join(' · '));
+    return 'boot';
+  },
+
+  /* ─── einen könig rufen ─────────────────────────── */
+  ruf(name){
+    const k = this.könige[name];
+    if(!k){ console.warn('kein könig ·', name); return null; }
+    console.log(`👑 ${name} · ${k.rang} · ${k.figur} · ${k.wetter} · ${k.position}`);
+    return k;
+  },
+
+  /* ─── eine kraft setzen ─────────────────────────── */
+  setzeKraft(name, wert){
+    const k = this.kräfte[name];
+    if(!k) return null;
+    k.wert = Math.max(0, Math.min(1, wert));
+    return k;
+  },
+
+  /* ─── naturgewalt nutzen ───────────────────────── */
+  nutze(name){
+    const n = this.naturgewalten[name];
+    if(!n){ console.warn('keine naturgewalt ·', name); return null; }
+    console.log(`🔥 ${n.name} · ${n.art} · ${n.status} · dient: ${n.dient}`);
+    return n;
+  },
+
+  /* ─── selbstauskunft ───────────────────────────── */
+  was(){
+    return {
+      name: this.name,
+      titel: this.titel,
+      führt: this.führt,
+      hält: this.hält,
+      tmp: this.tmp.wahrheit,
+      könige: Object.keys(this.könige),
+      kräfte: Object.keys(this.kräfte),
+      naturgewalten: Object.values(this.naturgewalten).map(n => n.name),
     };
-    this.log('👑 OS (König der Sicht) ist bereit.');
+  },
 
-    // 2. BOOT
-    this.könige.BOOT = {
-        name: 'BOOT',
-        titel: 'König des Starts',
-        aufgabe: 'Lädt Module, startet Sequenz',
-        status: 'bereit',
-        respo: 'Station 2'
-    };
-    this.log('👑 BOOT (König des Starts) ist bereit.');
-
-    // 3. 243
-    this.könige['243'] = {
-        name: '243',
-        titel: 'König der Verarbeitung',
-        aufgabe: 'Dreiecke → Triolets → Narrative',
-        status: 'bereit',
-        respo: 'Station 3'
-    };
-    this.log('👑 243 (König der Verarbeitung) ist bereit.');
-
-    // 4. iki1uc
-    this.könige.iki1uc = {
-        name: 'iki1uc',
-        titel: 'König der Ordnung',
-        aufgabe: 'Sortiert, verwaltet, gewichtet',
-        status: 'bereit',
-        respo: 'Station 4'
-    };
-    this.log('👑 iki1uc (König der Ordnung) ist bereit.');
-
-    this.log('📜 NOAH: Alle 4 Könige sind versammelt.');
-    this.log('🌊 NOAH: Das Wasser trägt mich – ich schwebe.');
-
-    // Continuum öffnen
-    this.continuum.offen = true;
-    this.continuum.zeit = new Date().toISOString();
-    this.log('🌀 NOAH: Das Continuum ist geöffnet.');
-
-    this.log('🌟 NOAH: Ich lade euch ein ins Continuum. Welcome.');
-    this.log('✅ NOAH: System bereit.');
-
-    this.status = 'continuum_geöffnet';
-    return this.status;
+  /* ─── anmerkung ────────────────────────────────── */
+  anmerkung(){
+    return `${this.tmp.wahrheit} · seit ${this.tmp.seit}`;
+  },
 };
 
-// ─── NOAH.einladen() ─────────────────────────────────────────
-NOAH.einladen = function(gast) {
-    if (!this.continuum.offen) {
-        this.log('⚠️ NOAH: Continuum nicht geöffnet.');
-        return null;
-    }
-    this.continuum.gäste.push({
-        name: gast,
-        zeit: new Date().toISOString(),
-        status: 'willkommen'
-    });
-    this.log(`🌟 NOAH: ${gast} wurde eingeladen. Willkommen.`);
-    return this.continuum.gäste;
-};
+/* ─── EXPORT ─────────────────────────────────────────── */
+export { NOAH, KÖNIGE, KRÄFTE, NATURGEWALTEN };
 
-// ─── NOAH.befehl() ───────────────────────────────────────────
-NOAH.befehl = function(könig, befehl, parameter = {}) {
-    if (!this.könige[könig]) {
-        this.log(`⚠️ NOAH: König ${könig} existiert nicht.`);
-        return null;
-    }
-    const result = { könig, befehl, parameter, ausgeführt: true, zeit: new Date().toISOString() };
-    this.respo.push(result);
-    this.log(`📜 NOAH: Befehl an ${könig}: ${befehl}`);
-    return result;
-};
-
-// ─── NOAH.zeige() ────────────────────────────────────────────
-NOAH.zeige = function() {
-    console.log('🌊 NOAH · Kaiser-Edition · Level 14 Admin');
-    console.log('────────────────────────────────────────────');
-    console.log(`Status: ${this.status}`);
-    console.log(`Führung: ${this.führung}`);
-    console.log(`Aufgabe: ${this.aufgabe}`);
-    console.log(`Continuum: ${this.continuum.offen ? '🌐 OFFEN' : '🔒 GESCHLOSSEN'}`);
-    console.log(`Gäste: ${this.continuum.gäste.length}`);
-    if (this.sys) {
-        console.log(`🌀 SYS: ${this.sys.status}`);
-    }
-    console.log('\n👑 DIE 4 KÖNIGE:');
-    for (const [name, könig] of Object.entries(this.könige)) {
-        if (könig) {
-            console.log(`  👑 ${name} – ${könig.titel} (${könig.status})`);
-        }
-    }
-    console.log('────────────────────────────────────────────');
-};
-
-// ─── NOAH.integriereSYS() ────────────────────────────────────
-NOAH.integriereSYS = function(sysModul) {
-    this.sys = sysModul;
-    this.log('🌀 SYS: Meta-System integriert');
-    return this;
-};
-
-// ─── EXPORT ──────────────────────────────────────────────────
-export { NOAH };
+/* ─── KONSOLE ────────────────────────────────────────── */
+console.log('');
+console.log('  NOAH · iki1uc');
+console.log('  ─────────────────────────────────');
+console.log('  TMP · RÄRE WAHRHEIT');
+console.log('  vier könige ·', Object.keys(KÖNIGE).length);
+console.log('  drei kräfte ·', Object.keys(KRÄFTE).length);
+console.log('  zwei naturgewalten ·', Object.keys(NATURGEWALTEN).length);
+console.log('  NOAH hält seinen guten namen.');
+console.log('');
