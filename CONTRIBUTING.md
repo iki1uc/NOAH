@@ -1,5 +1,5 @@
 # CONTRIBUTING  
-Beitragsrichtlinien für MASTER.boot.block · iki1uc
+Beitragsrichtlinien für NOAH · iki1uc
 
 ## Keine Beiträge erlaubt
 
